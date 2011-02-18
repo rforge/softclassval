@@ -1,4 +1,5 @@
 export(arrayhelpers.unittest)
 export(makeNd)
+export(delold)
 export(restoredim)
 export(ta)

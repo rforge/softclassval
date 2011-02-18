@@ -71,20 +71,41 @@ arrayhelpers.unittest <- function (){
     dn <- list (names (a))
   }
    
-  dim (a)        <- c (d,  rep (1,       N - length (d)))
+  dim (a)        <- c (d,  rep (1L,          N - length (d)))
   if (! is.null (dn))
-    dimnames (a) <- c (dn, rep (list (), N - length (dn)))
+    dimnames (a) <- c (dn, rep (list (NULL), N - length (dn)))
+  
+  a
+}
+.appenddimbefore <- function (a, N, d, dn){
+  if (is.null (d)){   # vector
+    d <- length (a)
+    dn <- list (names (a))
+  }
+   
+  dim (a)        <- c (rep (1L,          N - length (d )),  d)
+  if (! is.null (dn))
+    dimnames (a) <- c (rep (list (NULL), N - length (dn)), dn)
   
   a
 }
 
 .collapsedimafter <- function (a, N, d, dn) {
-  dim (a)      <- c (d  [seq_len (N - 1)], prod (d [N : length (d)]))
+  dim (a)        <- c (d  [seq_len (N - 1L)], prod (d [N : length (d)]))
   if (! is.null (dn))
-    dimnames (a) <- c (dn [seq_len (N - 1)], list ())
+    dimnames (a) <- c (dn [seq_len (N - 1L)], list (NULL))
 
   a  
 }
+
+.collapsedimbefore <- function (a, N, d, dn) {
+  dim (a)        <- c (prod (d [seq_len (length (d) - N + 1)]), tail (d,  N - 1L))
+  if (! is.null (dn))
+    dimnames (a) <- c (list (NULL),                             tail (dn, N - 1L))
+
+  a  
+}
+
 
 ## TODO: append/collapse before
 
@@ -103,13 +124,13 @@ arrayhelpers.unittest <- function (){
 ##' @author Claudia Beleites
 ##' @export  
 ##' @examples
-##' v <- 1 : 3
+##' v <- arrayhelpers:::v
 ##' v
 ##' makeNd (v, 1L)
 ##' dim (makeNd (v, 1L))
 ##' dim (makeNd (v, 3L))
 ##' 
-##' m <- matrix (1:6, 2)
+##' m <- arrayhelpers:::m
 ##' m
 ##' makeNd (m, 1L)
 ##' dim (makeNd (m, 1L))
@@ -117,14 +138,16 @@ arrayhelpers.unittest <- function (){
 ##' dim (makeNd (m, 0L))
 ##' makeNd (m, 3L)
 ##' 
-##' a <- array (1 : 24, 4 : 3)
+##' a <- arrayhelpers:::a
 ##' a
 ##' dim (makeNd (a, 1L))
 ##' dim (makeNd (a, 0L))
-##' makeNd (a, 2L)                          # note the row names
+##' makeNd (a,  2L)          
+##' makeNd (a, -2L)
+##' makeNd (a, -4L)
+##' makeNd (a, 3L)
 ##' 
 makeNd <- function (a, N) {
-   stopifnot (N >= 0L)
    if (! all.equal (N, as.integer (N)))
      warning ("N truncated to integer value")
    N <- as.integer (N)
@@ -138,15 +161,15 @@ makeNd <- function (a, N) {
    attr (a, "old.dim")      <- d
  
    if      (N == 0L)        a <- .removedim   (a)
-   else if (length (d) < N && N > 0L) a <- .appenddimafter   (a, N, d, dn)
-   else if (length (d) > N && N > 0L) a <- .collapsedimafter (a, N, d, dn)
-
+   else if (length (d) <  N && N > 0L) a <- .appenddimafter    (a,  N, d, dn)
+   else if (length (d) >  N && N > 0L) a <- .collapsedimafter  (a,  N, d, dn)
+   else if (length (d) < -N && N < 0L) a <- .appenddimbefore   (a, -N, d, dn)
+   else if (length (d) > -N && N < 0L) a <- .collapsedimbefore (a, -N, d, dn)
+    
    a
 }
 
 .test (makeNd) <- function (){
-  checkException (makeNd (v, -1))
-
   checkEqualsNumeric (makeNd (v, 1L), v)
   checkEqualsNumeric (makeNd (v, 2L), v)
   checkEquals (dim (makeNd (v, 1L)),    3L)
@@ -162,7 +185,41 @@ makeNd <- function (a, N) {
   checkEquals (dim (makeNd (a, 2L)), c (4L, 6L))
   checkEquals (dimnames (makeNd (a, 2L)), list (rows = letters [1 : 4], NULL))
 }
-  
+ ##' Strip the attributes keeping track of the former shape
+##'
+##' Convenient for printing
+##' @param a the array
+##' @return \code{a} stripped of the \code{old.*} attributes.
+##' @author Claudia Beleites
+##' @export
+##' @examples
+##'
+##' a <- arrayhelpers:::a
+##' makeNd (a, 2)
+##' delold (makeNd (a, 2))
+##' 
+##' 
+delold <- function (a){
+   attr (a, "old.dim") <- NULL
+   attr (a, "old.dimnames") <- NULL
+   attr (a, "old.names") <- NULL
+
+   a
+}
+.test (delold) <- function (){
+  tmp <- makeNd (a, 0)
+  old <- attributes (tmp)
+  old <- old [grepl ("^old", names (old))]
+  checkIdentical (old, list (old.dimnames = list(
+                               rows = c("a", "b", "c", "d"),
+                               columns = c("A", "B", "C"),
+                               d3 = c("1", "2")),
+                             old.dim = c(4L, 3L, 2L)))
+  tmp <- delold (tmp)
+  checkTrue (is.null (attr (old, "old.dimnames")))
+  checkTrue (is.null (attr (old, "old.dim")))
+}
+ 
 ##' \code{restoredim} restores the shape the array had before \code{makeNd} was called.
 ##'
 ##' Attributes \code{old.dim} and \code{old.dimnames} are used by default. \code{restoredim} is the
@@ -201,11 +258,15 @@ restoredim <- function (a,
 
 ##' @nord
 .test (restoredim) <- function (){
-  checkIdentical (a, restoredim (makeNd (a, 5)))
-  checkIdentical (a, restoredim (makeNd (a, 0)))
+  checkIdentical (a, restoredim (makeNd (a,  5)))
+  checkIdentical (a, restoredim (makeNd (a,  0)))
+  
+  checkIdentical (a, restoredim (makeNd (a, -5)))
+  checkIdentical (a, restoredim (makeNd (a, -2)))
 
-  checkIdentical (v, restoredim (makeNd (v, 0)))
-  checkIdentical (v, restoredim (makeNd (v, 1)))
+  checkIdentical (v, restoredim (makeNd (v,  0)))
+  checkIdentical (v, restoredim (makeNd (v,  1)))
+  checkIdentical (v, restoredim (makeNd (v, -1)))
   
   checkIdentical (dim (restoredim (as.numeric (makeNd (a, 0L)))), NULL)
 }

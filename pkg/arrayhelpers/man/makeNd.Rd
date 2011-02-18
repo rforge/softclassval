@@ -14,13 +14,13 @@ the last dimension.}
 \item{N}{the desired number of dimensions, 0 to remove the \code{dim} and \code{dimnames}
 attributes (i.e. to create a vector).}
 }
-\examples{v <- 1 : 3
+\examples{v <- arrayhelpers:::v
 v
 makeNd (v, 1L)
 dim (makeNd (v, 1L))
 dim (makeNd (v, 3L))
 
-m <- matrix (1:6, 2)
+m <- arrayhelpers:::m
 m
 makeNd (m, 1L)
 dim (makeNd (m, 1L))
@@ -28,9 +28,12 @@ makeNd (m, 0L)
 dim (makeNd (m, 0L))
 makeNd (m, 3L)
 
-a <- array (1 : 24, 4 : 3)
+a <- arrayhelpers:::a
 a
 dim (makeNd (a, 1L))
 dim (makeNd (a, 0L))
-makeNd (a, 2L)                          # note the row names}
+makeNd (a,  2L)          
+makeNd (a, -2L)
+makeNd (a, -4L)
+makeNd (a, 3L)}
 
