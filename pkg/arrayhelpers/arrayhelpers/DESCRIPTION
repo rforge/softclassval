@@ -1,0 +1,12 @@
+Package: arrayhelpers
+Type: Package
+Title: Convenience functions for arrays
+Description: Some convenient functions to work with arrays
+Maintainer: C. Beleites <cbeleites@units.it>
+Author: C. Beleites <cbeleites@units.it>
+Version: 0.75-20110218
+License: GPL
+LazyLoad: yes
+LazyData: yes
+Depends: svUnit, methods
+
