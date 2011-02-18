@@ -1,6 +1,7 @@
 ##' Little helper functions to work with arrays
 ##' @name arrayhelpers-package
 ##' @docType package
+##' 
 {}
 
 ## Installation should be possible without svUnit
@@ -36,7 +37,6 @@ a <- array (1 : 24, 4 : 2,
 ##' @author Claudia Beleites
 ##' @seealso  \link[svUnit]{svUnit} 
 ##' @export 
-##' @callgraph 
 arrayhelpers.unittest <- function (){
   if (! require (svUnit)){
     warning ("svUnit required to run the unit tests.")
@@ -97,25 +97,27 @@ arrayhelpers.unittest <- function (){
 ##' the last dimension.
 ##'
 ##' @param a an array (matrix, vector)
-##' @param n the desired number of dimensions, 0 to remove the \code{dim} and \code{dimnames}
+##' @param N the desired number of dimensions, 0 to remove the \code{dim} and \code{dimnames}
 ##' attributes (i.e. to create a vector). 
 ##' @return N-dimensional array
 ##' @author Claudia Beleites
-##' @export 
-##' @callgraph
+##' @export  
 ##' @examples
+##' v <- 1 : 3
 ##' v
 ##' makeNd (v, 1L)
 ##' dim (makeNd (v, 1L))
 ##' dim (makeNd (v, 3L))
 ##' 
+##' m <- matrix (1:6, 2)
 ##' m
 ##' makeNd (m, 1L)
 ##' dim (makeNd (m, 1L))
-##' makeNd (m, 0L)
+##' makeNd (m, 0L) 
 ##' dim (makeNd (m, 0L))
 ##' makeNd (m, 3L)
 ##' 
+##' a <- array (1 : 24, 4 : 3)
 ##' a
 ##' dim (makeNd (a, 1L))
 ##' dim (makeNd (a, 0L))
@@ -171,13 +173,14 @@ test (makeNd) <- function (){
 ##' computations like \code{as.numeric}, \code{c}, etc..
 ##' @param a an array
 ##' @param old.dim the dimensions that are to be restored
-##' @param old.dimnames the dimnames that should be used again
+##' @param old.dimnames the dimnames that should be  restored
+##' @param old.names  the names that should be restored
 ##' @return an array
 ##' @author Claudia
-##' @rdfile makeNd.Rd
-##' @export 
-##' @callgraph 
+##' @rdname makeNd.Rd
+##' @export
 ##' @examples
+##'
 ##' restoredim (makeNd (a, 0))
 ##' 
 restoredim <- function (a,
@@ -207,13 +210,14 @@ test (restoredim) <- function (){
 ##'
 ##' This function provides transposing of arrays or vectors as swapping their first two dimensions.
 ##' @param x an array 
-##' @return 
+##' @return the array with the first two dimensions swapped.
 ##' @author Claudia Beleites
 ##' @seealso \code{\link[base]{t}}
 ##' @export 
-##' @callgraph
-##'
-##' ## install 
+##' @examples
+##' a <- array (1 : 24, 4:2)
+##' a
+##' ta (a)
 ta <- function (x){
   if (! (is.vector (x) || is.matrix (x) || is.array (x)))
       stop ("x must be array, matrix, or vector.")
