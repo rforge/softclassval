@@ -4,7 +4,7 @@
 ##' predicted and reference memberships in [0, 1]
 ##' @name softperformance-package
 ##' @docType package
-##' @import init.R
+##' @include init.R
 ##' 
 {
   if (!require (svUnit)){
@@ -71,3 +71,5 @@ colnames (.pred) <- letters [1 : 3]
 .pred.array <- array (c (.pred, .ref), dim = c (dim (.ref), 2),
                      dimnames = c (dimnames (.pred), list (1 : 2)))
 }
+
+

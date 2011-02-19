@@ -8,7 +8,6 @@
 ##' @param op the operator (function)
 ##' @return logical indicating the type of operator. \code{NA} if the attribute is missing.
 ##' @author Claudia Beleites
-##' @references \Sexpr{cite ("softperformance")}
 ##' @seealso \code{\link{sens}} \code{\link{post}}
 ##' @export 
 ##'
@@ -22,9 +21,11 @@
 postproc <- function (op)
   attr (op, "postproc")
 
-##' @rdname postproc.Rd
+##' @usage postproc (op) <- value
+##' @rdname postproc
 ##' @param value function (or its name or symbol) to do the post-processing. \code{NULL} deletes the
 ##' postprocessing function.
+##' @export
 `postproc<-` <- function (op, value){
   if (! is.null (value))
     stopifnot (is.function (match.fun (value)))

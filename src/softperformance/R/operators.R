@@ -1,10 +1,10 @@
-##' And (conjunction) operators
+##' @encoding UTF-8
+##' @description And (conjunction) operators
 ##'
-##' \inputencoding{utf8}
 ##' And operators for the soft performance calculation.
 ##'
 ##' The predefined operators are:
-##' \tabular{llll}{
+##' \tabular{lllll}{
 ##' Name         \tab Definition                 \tab \code{\link{dev}}? \tab \code{\link{postproc}}? \tab Explanation                                                  \cr
 ##' \code{gdl}   \tab \code{pmin (r, p)}         \tab FALSE              \tab FALSE                   \tab the \enc{Gödel}{Goedel}-operator (weak conjunction)          \cr
 ##' \code{luk}   \tab \code{pmax (r + p - 1, 0)} \tab FALSE              \tab FALSE                   \tab \enc{Łukasiewicz}{Lukasiewicz}-operator (strong conjunction) \cr
@@ -15,15 +15,18 @@
 ##' \code{wRMSE} \tab \code{r * (r - p)^2}       \tab TRUE               \tab TRUE                    \tab for root weighted mean squared error                                  \cr
 ##' }
 ##'
+##' @aliases luk gdl prd and wMAE wMSE wRMSE operators
 ##' @param p prediction vector, matrix, or array with numeric values in [0, 1]
 ##' @param r reference vector, matrix, or array with numeric values in [0, 1]
 ##' @return numeric of the same size as p
 ##' @author Claudia Beleites
 ##' @seealso Performance measures: \code{\link{sens}}
-##' @references \Sexpr{cite ("softperformance")}
+##' @references see the literature in \code{citation ("softperformance")}
 ##' @rdname operators
 ##' @export
-##' @import softperformance.R
+##' @include softperformance.R
+##' @include dev.R
+##' @include postproc.R
 ##'
 ##' @examples
 ##' ops <- c ("luk", "gdl", "prd", "wMAE", "wMSE", "wRMSE")

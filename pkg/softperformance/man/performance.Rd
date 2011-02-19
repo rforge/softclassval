@@ -15,12 +15,13 @@ classes, and further dimensions are preserved but ignored.
 \value{numeric of size (ngroups x \code{dim (p) [-1L]})}
 \author{Claudia Beleites}
 \seealso{Performance measures: \code{\link{sens}}}
-\references{\Sexpr{cite ("softperformance")}}
+\references{see the literature in \code{citation ("softperformance")}}
 \arguments{\item{...}{ensures that arguments are named}
 \item{r}{vector, matrix, or array with reference.}
 \item{p}{vector, matrix, or array with predictions}
-\item{group}{}
-\item{operator}{the \code{\link{operator}} to be used}
+\item{group}{grouping variable for the averaging by \code{\link[base]{rowsum}}. If \code{NULL},
+all samples (rows) are averaged.}
+\item{operator}{the \code{\link[softperformance]{operators}} to be used}
 \item{dev}{does the operator measure deviation?}
 \item{postproc}{if a post-processing function is needed after averaging, it can be given here. See the example.}
 \item{eps}{limit below which denominator is considered 0}

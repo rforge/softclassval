@@ -12,17 +12,18 @@
 ##' @param ... ensures that arguments are named
 ##' @param r vector, matrix, or array with reference. 
 ##' @param p vector, matrix, or array with predictions
-##' @param group 
-##' @param operator the \code{\link{operator}} to be used 
+##' @param group grouping variable for the averaging by \code{\link[base]{rowsum}}. If \code{NULL},
+##' all samples (rows) are averaged.
+##' @param operator the \code{\link[softperformance]{operators}} to be used 
 ##' @param dev does the operator measure deviation?
 ##' @param postproc if a post-processing function is needed after averaging, it can be given here. See the example.
 ##' @param eps limit below which denominator is considered 0
 ##' @return numeric of size (ngroups x \code{dim (p) [-1L]})
 ##' @author Claudia Beleites
 ##' @seealso Performance measures: \code{\link{sens}}
-##' @references \Sexpr{cite ("softperformance")}
+##' @references see the literature in \code{citation ("softperformance")}
 ##' @export 
-##' @import softperformance
+##' @include softperformance.R
 sens <- function (..., r, p, group = NULL,
                   operator = `prd`, dev = dev (operator), postproc = postproc (operator),
                   eps = 1e-8){
@@ -66,8 +67,8 @@ sens <- function (..., r, p, group = NULL,
     enum  <- colSums ( enum, na.rm = TRUE)
     denom <- colSums (denom, na.rm = TRUE)
   } else {
-    enum  <- rowsums ( enum, group = group, na.rm = TRUE)
-    denom <- rowsums (denom, group = group, na.rm = TRUE)
+    enum  <- rowsum ( enum, group = group, na.rm = TRUE)
+    denom <- rowsum (denom, group = group, na.rm = TRUE)
   }
 
   if (any (denom < enum))

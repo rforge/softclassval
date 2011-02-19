@@ -10,6 +10,6 @@ Version: 0.5-20110218
 License: GPL
 LazyLoad: yes
 LazyData: yes
-Depends: svUnit, methods
-Collate: 'dev.R' 'init.R' 'operators.R' 'performance.R' 'postproc.R'
-    'softperformance.R'
+Depends: svUnit, methods, arrayhelpers
+Collate: 'init.R' 'softperformance.R' 'dev.R' 'postproc.R'
+    'operators.R' 'performance.R'

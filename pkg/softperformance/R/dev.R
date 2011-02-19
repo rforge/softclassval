@@ -6,10 +6,9 @@
 ##' @param op the operator (function)
 ##' @return logical indicating the type of operator. \code{NULL} if the attribute is missing.
 ##' @author Claudia Beleites
-##' @references \Sexpr{cite ("softperformance")}
 ##' @seealso \code{\link{sens}} \code{\link{post}}
 ##' @export
-##' @import softperformance.R
+##' @include softperformance.R
 ##'
 ##' @examples
 ##'
@@ -21,9 +20,11 @@
 dev <- function (op)
   attr (op, "dev")
 
-##' @rdname dev.Rd
+##' @usage dev (op) <- value
+##' @rdname dev
 ##' @param value logical indicating the operator type
-`dev<-` <- function (op, value){
+##' @export
+"dev<-" <- function (op, value){
   stopifnot (is.logical (value), !is.na (value))
 
   attr (op, "dev") <- value

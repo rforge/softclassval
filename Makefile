@@ -12,6 +12,7 @@ src/$(PKG)/R/*.R:
 	touch $@
 
 clean:
+	rm -f src/*/R/#*.R#
 	rm -f src/*/R/*.R~
 	rm -f pkg/*/man/.*.Rd
 	rm -f */*/*/.Rhistory

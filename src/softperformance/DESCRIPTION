@@ -9,5 +9,5 @@ Version: 0.5-20110218
 License: GPL
 LazyLoad: yes
 LazyData: yes
-Depends: svUnit, methods
+Depends: svUnit, methods, arrayhelpers
 
