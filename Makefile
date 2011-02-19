@@ -1,14 +1,14 @@
 all: roxy build check
 
-roxy: clean src/arrayhelpers/DESCRIPTION src/arrayhelpers/R/*.R 
-	rm -f pkg/arrayhelpers/man/*.Rd
-	Rscript -e "library (roxygen); roxygenize ('src/arrayhelpers', 'pkg/arrayhelpers', use.Rd2 = TRUE)" 
-	rsync -av --delete src/arrayhelpers/R/*.R pkg/arrayhelpers/R/
+roxy: clean src/$(PKG)/DESCRIPTION src/$(PKG)/R/*.R 
+	rm -f pkg/$(PKG)/man/*.Rd
+	Rscript -e "library (roxygen); roxygenize (\"src/$(PKG)\", \"pkg/$(PKG)\", use.Rd2 = TRUE)" 
+	rsync -av --delete src/$(PKG)/R/*.R pkg/$(PKG)/R/
 
-src/arrayhelpers/DESCRIPTION:
+src/$(PKG)/DESCRIPTION:
 	touch $@
 
-src/arrayhelpers/R/*.R: 
+src/$(PKG)/R/*.R: 
 	touch $@
 
 clean:
@@ -18,4 +18,4 @@ clean:
 	find -maxdepth 5 -name ".Rhistory" -delete
 
 check: roxy
-	R CMD check pkg/arrayhelpers && rm -rf arrayhelpers.Rcheck
+	R CMD check pkg/$(PKG) && rm -rf $(PKG).Rcheck
