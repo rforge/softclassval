@@ -25,18 +25,22 @@
 ##' @export 
 ##' @include softperformance.R
 sens <- function (..., r, p, group = NULL,
-                  operator = `prd`, dev = dev (operator), postproc = postproc (operator),
+                  operator = "prd", op.dev = dev (operator), op.postproc = postproc (operator),
                   eps = 1e-8){
   ## make sure the arguments are correctly named
   dots <- list (...)
   if (length (dots) > 0L)
     stop ("Unknown arguments:", names (dots))
-
-  if (! (isTRUE (dev) | isTRUE (! dev)))
-    stop ("dev must either be TRUE or FALSE.")
   
-  if (!is.null (postproc))
-    POSTFUN <- match.fun (postproc)
+  operator <- match.fun (operator)
+  force (op.dev)
+  force (op.postproc)
+
+  if (! (isTRUE (op.dev) | isTRUE (! op.dev)))
+    stop ("op.dev must either be TRUE or FALSE.")
+  
+  if (!is.null (op.postproc))
+    POSTFUN <- match.fun (op.postproc)
 
   ## check prediction and reference
   dr <- dim (r);  if (is.null (dr)) dr <- length (r)
@@ -49,37 +53,45 @@ sens <- function (..., r, p, group = NULL,
   
   if (length (dr) > length (dp))
     stop ("r must not have more dimensions than p")
+
+  if (any (dr != dp)){
+    dr <- dr [-(1 : (min (which (dr != dp)) - 1))] # the first dim with differences
+    if (any (dr != 1L))                   # thereafter only length 1 dimensions are allowed
+      stop ("From the first dimension on where r and p differ in length",
+            "r must have length 1 at most.")
+  }
   
-  dr <- dr [-(1 : (min (which (dr != dp)) - 1))] # the first dim with differences
-  if (any (dr != 1L))                   # thereafter only length 1 dimensions are allowed
-    stop ("From the first dimension on where r and p differ in length r must have length 1 at most.")
- 
   p <- makeNd (p, 2L)                   
   r <- makeNd (p, 2L)
   mostattributes (r) <- attributes (p)  # make sure the attributes come from p: r may be the same for
                                         # all columns and further dimensions
 
   ## here's the real calculation
-  operator <- match.fun (operator)
-  enum <- operator (r, p)
+
+  res <- operator (r, p)
 
   if (is.null (group)){                 # almost no gain...
-    enum  <- colSums ( enum, na.rm = TRUE)
-    denom <- colSums (denom, na.rm = TRUE)
+    res  <- colSums (res, na.rm = TRUE)
+    nsmpl <- colSums (r   , na.rm = TRUE)
   } else {
-    enum  <- rowsum ( enum, group = group, na.rm = TRUE)
-    denom <- rowsum (denom, group = group, na.rm = TRUE)
+    res  <- rowsum  (res, group = group, na.rm = TRUE)
+    nsmpl <- rowsum  (r   , group = group, na.rm = TRUE)
   }
 
-  if (any (denom < enum))
+  if (any (nsmpl < res))
     warning ("denominator < enumerator.")
-  denom [denom < eps] <- NA
+  nsmpl [nsmpl < eps] <- NA
 
-  if (! is.null (postproc))             # the root of the wRMSE
-    result <- POSTFUN (result)         
+  res <- res / nsmpl
+  
+  if (! is.null (op.postproc))          # the root of the wRMSE
+    res <- POSTFUN (res)         
       
-  if (dev)                              # for wMAE, wMSE, wRMSE, and the like
-    result <- 1 - result
+  if (op.dev)                           # for wMAE, wMSE, wRMSE, and the like
+    res <- 1 - res
 
+#  restoredim (res,
+#              old.dim = )
+  res
 }
 
