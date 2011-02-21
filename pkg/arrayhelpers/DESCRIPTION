@@ -9,4 +9,6 @@ License: GPL
 LazyLoad: yes
 LazyData: yes
 Depends: svUnit, methods
-Collate: 'arrayhelpers.R'
+Collate: 'apply.R' 'arrayhelpers.R' 'colSums.R' 'countrows.R'
+    'delold.R' 'makeNd.R' 'restoredim.R' 'rowsum.R' 'stack.R' 'ta.R'
+    'validate.R'

@@ -5,7 +5,7 @@
 .onAttach <- function (libname, pkgname){
   ## unlockBinding(".options", asNamespace("softperformance")) 
 
-  desc <- utils::packageDescription("hyperSpec")
+  desc <- utils::packageDescription("softperformance")
   vers <- paste("V. ", desc$Version)
 
   cat ("Package ",  desc$Package, ", version ", desc$Version, "\n\n",

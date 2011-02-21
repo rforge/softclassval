@@ -1,8 +1,8 @@
 \name{performance}
 \alias{sens}
 \title{Performance calculation for soft classification...}
-\usage{sens(..., r, p, group, operator=prd, dev=dev(operator),
-    postproc=postproc(operator), eps=1e-08)
+\usage{sens(..., r, p, group, operator="prd", op.dev=dev(operator),
+    op.postproc=postproc(operator), eps=1e-08)
 }
 \description{Performance calculation for soft classification}
 \details{These performance measures can be used with prediction and reference being continuous class
@@ -22,8 +22,8 @@ classes, and further dimensions are preserved but ignored.
 \item{group}{grouping variable for the averaging by \code{\link[base]{rowsum}}. If \code{NULL},
 all samples (rows) are averaged.}
 \item{operator}{the \code{\link[softperformance]{operators}} to be used}
-\item{dev}{does the operator measure deviation?}
-\item{postproc}{if a post-processing function is needed after averaging, it can be given here. See the example.}
 \item{eps}{limit below which denominator is considered 0}
+\item{op.dev}{does the operator measure deviation?}
+\item{op.postproc}{if a post-processing function is needed after averaging, it can be given here. See the example.}
 }
 

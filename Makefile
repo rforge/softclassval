@@ -20,3 +20,7 @@ clean:
 
 check: roxy
 	R CMD check pkg/$(PKG) && rm -rf $(PKG).Rcheck
+
+build: roxy
+	R CMD build pkg/$(PKG) 
+
