@@ -43,10 +43,8 @@ makeNd <- function (a, N) {
    d  <- dim (a)
    dn <- dimnames (a)
 
-   ## store the old dimensions in attributes
-   attr (a, "old.names") <- names (a)
-   attr (a, "old.dimnames") <- dn
-   attr (a, "old.dim")      <- d
+   ## push the old dimensions to the end of attribute old
+   push (a, "old") <- list (list (names = names (a), dimnames = dn, dim = d))
  
    if      (N == 0L)        a <- .removedim   (a)
    else if (length (d) <  N && N > 0L) a <- .appenddimafter    (a,  N, d, dn)
