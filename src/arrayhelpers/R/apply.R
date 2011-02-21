@@ -8,16 +8,18 @@
 ##' 1. the result dimensions are appended rather than prepended, and
 ##' 2. tries to preserve the shape of the 
 ##' 
-##' @title 
-##' @param X 
-##' @param MARGIN 
-##' @param FUN 
-##' @param ... 
-##' @return 
+##' @param X an array or matrix.
+##' @param MARGIN a vector giving the subscripts which the function will be applied over. E.g., for a
+##' matrix \code{1} indicates rows, \code{2} indicates columns, \code{c(1, 2)} indicates rows and
+##' columns. Where \code{X} has named dimnames, it can be a character vector selecting dimension
+##' names.
+##' @param FUN the function to be applied: see \sQuote{Details}. In the case of functions like
+##' \code{+}, \code{\%*\%}, etc., the  function name must be backquoted or quoted.
+##' @param ... optional arguments to \code{FUN}.
+##' @return array
 ##' @author Claudia Beleites
-##' @seealso 
-##' @export 
-##' @callgraph 
+##' @seealso \code{\link[base]{apply}}
+## ' @export 
 applycons <- function (X, MARGIN, FUN, ...){
     FUN <- match.fun(FUN)
 

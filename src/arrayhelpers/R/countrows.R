@@ -2,10 +2,10 @@
 ##' Count equal rows
 ##'
 ##' for data.frames and matrices
-##' @title 
 ##' @param x the matrix or data.frame
 ##' @return data frame with unique rows and their counts
 ##' @author Claudia Beleites
+##' 
 count.rows <- function(x) { 
   if (is.matrix (x) && (dim (x) [2] == 1))
     x <- as.vector (x) 
