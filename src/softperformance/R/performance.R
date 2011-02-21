@@ -15,18 +15,19 @@
 ##' @param group grouping variable for the averaging by \code{\link[base]{rowsum}}. If \code{NULL},
 ##' all samples (rows) are averaged.
 ##' @param operator the \code{\link[softperformance]{operators}} to be used 
-##' @param dev does the operator measure deviation?
-##' @param postproc if a post-processing function is needed after averaging, it can be given here. See the example.
 ##' @param eps limit below which denominator is considered 0
+##' @param op.dev does the operator measure deviation?
+##' @param op.postproc if a post-processing function is needed after averaging, it can be given here. See the example.
 ##' @return numeric of size (ngroups x \code{dim (p) [-1L]})
 ##' @author Claudia Beleites
 ##' @seealso Performance measures: \code{\link{sens}}
 ##' @references see the literature in \code{citation ("softperformance")}
-##' @export 
+##' @export
 ##' @include softperformance.R
 sens <- function (..., r, p, group = NULL,
                   operator = "prd", op.dev = dev (operator), op.postproc = postproc (operator),
                   eps = 1e-8){
+
   ## make sure the arguments are correctly named
   dots <- list (...)
   if (length (dots) > 0L)
@@ -45,6 +46,9 @@ sens <- function (..., r, p, group = NULL,
   ## check prediction and reference
   dr <- dim (r);  if (is.null (dr)) dr <- length (r)
   dp <- dim (p);  if (is.null (dp)) dp <- length (p)
+
+  rec <- prod (dp [- seq_along (dr)])
+  dp <- dp [seq_along (dr)]
   
   stopifnot (dr [1L] ==  dp [1L])       # rows = samples: must be the same
   
@@ -60,23 +64,18 @@ sens <- function (..., r, p, group = NULL,
       stop ("From the first dimension on where r and p differ in length",
             "r must have length 1 at most.")
   }
+
+  res <- operator (rep (r, rec), p)
   
-  p <- makeNd (p, 2L)                   
-  r <- makeNd (p, 2L)
-  mostattributes (r) <- attributes (p)  # make sure the attributes come from p: r may be the same for
-                                        # all columns and further dimensions
-
-  ## here's the real calculation
-
-  res <- operator (r, p)
-
   if (is.null (group)){                 # almost no gain...
-    res  <- colSums (res, na.rm = TRUE)
-    nsmpl <- colSums (r   , na.rm = TRUE)
+    ## make sure we get the version that allows drop = FALSE
+    res   <- arrayhelpers::colSums (res, na.rm = TRUE, drop = FALSE)
+    nsmpl <- arrayhelpers::colSums (r  , na.rm = TRUE, drop = FALSE)
   } else {
-    res  <- rowsum  (res, group = group, na.rm = TRUE)
-    nsmpl <- rowsum  (r   , group = group, na.rm = TRUE)
+    res   <- arrayhelpers::rowsum  (res, group = group, na.rm = TRUE)
+    nsmpl <- arrayhelpers::rowsum  (r  , group = group, na.rm = TRUE)
   }
+  nsmpl <- rep (nsmpl, rec)
 
   if (any (nsmpl < res))
     warning ("denominator < enumerator.")
@@ -90,8 +89,6 @@ sens <- function (..., r, p, group = NULL,
   if (op.dev)                           # for wMAE, wMSE, wRMSE, and the like
     res <- 1 - res
 
-#  restoredim (res,
-#              old.dim = )
   res
 }
 
