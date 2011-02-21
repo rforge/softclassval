@@ -35,14 +35,14 @@ ta <- function (x){
 
 
   checkIdentical (ta (m), t (m))
-  ## TODO: make sure it is this package's array method!
-  instd <- length (findMethod ("t", "array")) > 0L
 
-  if (instd) removeMethod ("t", "array")
-  checkException (t (a))
-  setMethod ("t", "array", ta)
-  checkIdentical (t (t (a)), a)
+#  instd <- length (findMethod ("t", "array")) > 0L
+
+#  if (instd) removeMethod ("t", "array")
+#  checkException (t (a))
+#  setMethod ("t", "array", ta)
+#  checkIdentical (t (t (a)), a)
   
-  if (!instd) removeMethod ("t", "array")
+#  if (!instd) removeMethod ("t", "array")
 }
 
