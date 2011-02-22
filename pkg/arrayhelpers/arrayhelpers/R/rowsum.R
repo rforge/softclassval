@@ -7,7 +7,7 @@
 
   old$old [[1L]]$dim [1] <- nrow (x)
   old$old [[1L]]$dimnames [1] <- list (rownames (x))
-  browser()
+
   mostattributes (x) <- old
 
   x <- restoredim (x)
@@ -16,7 +16,7 @@
 }
 
 .test (.rowsum) <- function (){
-  
+  rowsum (v, seq_along (v))
 }
 
 ##' rowsum for arrays
@@ -26,7 +26,7 @@
 ##' @param x array to be \code{rowsum}med
 ##' @param group grouping variable (integer or factor) indicating groups of samples in the rows
 ##' @param reorder should the groups be ordered? see \code{\link[base]{rowsum}}
-##' @param na.rm logical indicating treatment of missing values
+##' @param na.rm shoud \code{NA}s be removed?
 ##' @param ... ignored
 ##' @return like \code{\link[base]{rowsum}}, but further dimensions of the array are preserved.
 ##' @author Claudia Beleites

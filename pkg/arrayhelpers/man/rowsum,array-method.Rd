@@ -15,7 +15,7 @@
 \arguments{\item{x}{array to be \code{rowsum}med}
 \item{group}{grouping variable (integer or factor) indicating groups of samples in the rows}
 \item{reorder}{should the groups be ordered? see \code{\link[base]{rowsum}}}
-\item{na.rm}{logical indicating treatment of missing values}
+\item{na.rm}{shoud \code{NA}s be removed?}
 \item{...}{ignored}
 }
 

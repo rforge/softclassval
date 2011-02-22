@@ -1,7 +1,8 @@
 \name{performance}
 \alias{sens}
 \title{Performance calculation for soft classification...}
-\usage{sens(..., r, p, group, operator="prd", op.dev=dev(operator),
+\usage{sens(r=stop("missing reference"), p=stop("missing prediction"), group,
+    operator="prd", op.dev=dev(operator),
     op.postproc=postproc(operator), eps=1e-08)
 }
 \description{Performance calculation for soft classification}
@@ -16,8 +17,7 @@ classes, and further dimensions are preserved but ignored.
 \author{Claudia Beleites}
 \seealso{Performance measures: \code{\link{sens}}}
 \references{see the literature in \code{citation ("softperformance")}}
-\arguments{\item{...}{ensures that arguments are named}
-\item{r}{vector, matrix, or array with reference.}
+\arguments{\item{r}{vector, matrix, or array with reference.}
 \item{p}{vector, matrix, or array with predictions}
 \item{group}{grouping variable for the averaging by \code{\link[base]{rowsum}}. If \code{NULL},
 all samples (rows) are averaged.}

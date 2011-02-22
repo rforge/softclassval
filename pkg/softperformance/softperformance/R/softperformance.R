@@ -52,24 +52,24 @@
   colnames (m) <- LETTERS [1 : 3]
   rownames (m) <- letters [1 : 4]  
   
-.ref <- matrix (c (rep (c( 1  , 0  , 0), 5),
+ref <- matrix (c (rep (c( 1  , 0  , 0), 5),
                    rep (c (0.6, 0.4, 0), 5)),
                 ncol = 3, byrow = TRUE)
-colnames (.ref) <- LETTERS [1 : 3]
+colnames (ref) <- LETTERS [1 : 3]
 
-.pred <- matrix (rep (c (1  , 0  , 0,
+pred <- matrix (rep (c (1  , 0  , 0,
                          0  , 1  , 0,
                          0.6, 0.4, 0,
                          0.6, 0.1, 0.3,
                          0.8, 0.1, 0.1), 2),
                ncol = 3, byrow = TRUE)
-colnames (.pred) <- letters [1 : 3]
+colnames (pred) <- letters [1 : 3]
 
-.ref.array <- array (rep (.ref, 2), dim = c (dim (.ref), 2),
-                     dimnames = c (dimnames (.ref), list (1 : 2)))
+ref.array <- array (rep (ref, 2), dim = c (dim (ref), 2),
+                     dimnames = c (dimnames (ref), list (1 : 2)))
   
-.pred.array <- array (c (.pred, .ref), dim = c (dim (.ref), 2),
-                     dimnames = c (dimnames (.pred), list (1 : 2)))
+pred.array <- array (c (pred, ref), dim = c (dim (ref), 2),
+                     dimnames = c (dimnames (pred), list (1 : 2)))
 }
 
 

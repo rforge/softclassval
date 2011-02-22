@@ -12,4 +12,4 @@ LazyLoad: yes
 LazyData: yes
 Depends: svUnit, methods, arrayhelpers
 Collate: 'init.R' 'softperformance.R' 'dev.R' 'postproc.R'
-    'operators.R' 'performance.R'
+    'operators.R' 'performance.R' 'validate.R'
