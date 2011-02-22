@@ -2,7 +2,7 @@ all: roxy build check
 
 roxy: clean src/$(PKG)/DESCRIPTION src/$(PKG)/R/*.R 
 	rm -f pkg/$(PKG)/man/*.Rd
-	Rscript -e "library (roxygen); roxygenize (\"src/$(PKG)\", \"pkg/$(PKG)\", use.Rd2 = TRUE)" 
+	Rscript -e "library (roxygen); roxygenize (\"src/$(PKG)\", \"pkg/$(PKG)\", use.Rd2 = TRUE)" --vanilla
 	rsync -av --delete src/$(PKG)/R/*.R pkg/$(PKG)/R/
 
 src/$(PKG)/DESCRIPTION:
