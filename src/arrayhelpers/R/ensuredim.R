@@ -16,6 +16,7 @@ ensuredim <- function (x){
 
 .test (ensuredim) <- function (){
   checkEquals (ensuredim (v), structure(1:3, .Dim = 3L, .Dimnames = list(c("a", "b", "c"))))
+  checkEquals (ensuredim (as.numeric (v)), structure(1:3, .Dim = 3L))
   checkEquals (ensuredim (m), m)
   checkEquals (ensuredim (a), a)
 }
