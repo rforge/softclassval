@@ -286,7 +286,7 @@ setMethod ("rowMeans", signature = c (x = "AsIs"), function (x, ...) {rowMeans (
 ##' @export
 setMethod ("rowMeans", signature = c (x = "array"), .rowMeans)
 
-.testasis <- function (){
+testAsIs <- function (){
   methods <- c("colSums", "colMeans", "rowSums", "rowMeans")
   for (fn in methods){
     f <- get (fn)
