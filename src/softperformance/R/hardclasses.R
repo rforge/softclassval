@@ -28,7 +28,9 @@ hardclasses <- function (x, classdim = 2L, soft.name = NA, tol = 1e-5, drop = TR
   if (any (abs(1 - rowSums (x)) > tol))
     warning ("Found samples with total membership != 1")
   
-  classes <- colnames (x)
+  if (is.null (classes <- colnames (x)))
+      classes <- paste ("class", seq_len (ncol (x)), sep = "")
+  
   x <- x >= 1 - tol                     # looses attributes!
   cl <- apply (x, 1, function (x) match (TRUE, x))
   if (! is.na (soft.name)){
@@ -37,10 +39,9 @@ hardclasses <- function (x, classdim = 2L, soft.name = NA, tol = 1e-5, drop = TR
   }
 
   cl <- structure (cl,
-                   .Label = classes, , class = "factor",
+                   .Label = classes, class = "factor",
                    .Dim = head (olddims$dim, -1L),
                    .Dimnames = listornull (head (olddims$dimnames, -1L)))
-
   drop1d (cl, drop = drop)
 }
 
@@ -49,4 +50,18 @@ hardclasses <- function (x, classdim = 2L, soft.name = NA, tol = 1e-5, drop = TR
                factor (rep (letters [c (1, 2, NA, NA, NA)], 2), levels = letters [1 : 3]))
 
   checkEquals (hardclasses (pred, drop = FALSE), ensuredim (hardclasses (pred)))
+
+  tmp <- pred
+  dim (tmp) <- c (5, 2, 3)
+  checkEquals (hardclasses (tmp, 3L),
+         structure (c (1L, 2L, NA, NA, NA, 1L, 2L, NA, NA, NA), .Dim = c(5L, 2L),
+                    .Label = c("class1", "class2", "class3"), class = "factor"))
+  
+  ## vectors
+  warn <- options(warn = 2)$warn
+  on.exit (options (warn = warn))
+  checkException (hardclasses (pred [,1]))
+  options(warn = 1)
+  checkEquals (hardclasses (pred [, 1]),
+               factor (rep (c ("1", "0", NA, NA, NA), 2), levels = c ("1", "0")))
 }
