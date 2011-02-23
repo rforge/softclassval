@@ -1,19 +1,19 @@
 ##' Convert character or logical indices to numeric
 ##' @param x the object that is to be indexed
 ##' @param n names of the object
-##' @param indices the indices to be converted
+##' @param i the indices to be converted
 ##' @return numeric indices
 ##' @author Claudia Beleites
 ##' @export 
-numericindex <- function (x, indices, n = names (x)){
-  if (is.character (indices))
-    match (indices, n)
-  else if (is.logical (indices))
-    seq_along (x) [indices]
-  else if (is.numeric (indices))
-    indices
+numericindex <- function (x, i, n = names (x)){
+  if (is.character (i))
+    match (i, n)
+  else if (is.logical (i))
+    seq_along (x) [i]
+  else if (is.numeric (i))
+    i
    else
-    stop ("indices must be numeric, logical, or character")
+    stop ("i must be numeric, logical, or character")
 }
 .test (numericindex) <- function (){
   checkEquals (numericindex (v, c("b", "a", "x")), c (2L, 1L, NA))
