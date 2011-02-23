@@ -20,6 +20,8 @@ ensuredim <- function (x){
   checkEquals (ensuredim (m), m)
   checkEquals (ensuredim (a), a)
 }
+
+##' @rdname ensuredim
 ##' @param drop if \code{TRUE}, 1d arrays are converted into vectors
 ##' @return \code{drop1d} vector, if \code{x} had only 1 dimension
 ##' @author Claudia Beleites
