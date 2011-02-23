@@ -1,29 +1,24 @@
 #  From base/R/colSums.R
 .colSums <- function (x, na.rm = FALSE, dims = 1L, drop = TRUE) {
+  if (length (dim (x)) < 2L)
+    x <- as.matrix (x)
   d  <- dim (x)
-  nd <- length (d)
-  dn <- dimnames (x)
-  
-  if (is.null (d) || nd < 2L)
-    d <- c (length (x), 1)
 
-  if(dims < 1L || dims > nd - 1L)
-    stop("invalid 'dims'")
+  if (dims < 1L || dims > length (d) - 1L) stop("invalid 'dims'")
 
-  nrow <- prod (d [1L : dims])
-  ncol <- prod (d [(dims + 1L) : nd])
+  nrow <- prod (head (d,  dims))
+  ncol <- prod (tail (d, -dims))
   
   z <- if (is.complex (x))
            .Internal (colSums (Re (x), nrow, ncol, na.rm)) +
       1i * .Internal (colSums (Im (x), nrow, ncol, na.rm))
   else     .Internal (colSums (    x,  nrow, ncol, na.rm))
 
-  d  <- tail (d,  -dims)
-  dn <- tail (dn, -dims)
+  d  <- tail (d,            -dims)
+  dn <- tail (dimnames (x), -dims)
   if (drop){
     z <- structure (z, .Dim      =      d,
                        .Dimnames = lon (dn))
-
     z <- drop1d (z)
   } else {                              # ! drop
     z <- structure (z,
