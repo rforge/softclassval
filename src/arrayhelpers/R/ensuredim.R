@@ -1,6 +1,7 @@
-##' Ensure dim attribute
+##' Enforce array and convert to vector if appropriate
 ##'
-##' Turns vectors into 1d-arrays, and leaves arrays unchanged.
+##' \code{ensuredim} turns vectors into 1d-arrays, and leaves arrays unchanged. \code{drop1d} is the
+##' inverse: it converts 1d arrays into vectors.
 ##' @param x vector (or array)
 ##' @return \code{esuredim} array of at least one dimension
 ##' @author Claudia Beleites
@@ -34,3 +35,4 @@ drop1d <- function (x, drop = TRUE){
   checkEquals (drop1d (ensuredim (v)), v)
   checkEquals (drop1d (ensuredim (v), drop = FALSE), ensuredim (v))
 }
+
