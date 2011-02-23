@@ -3,7 +3,7 @@
 ##' Converts the soft class labels in \code{x} into a factor with hard class memberships and
 ##' \code{NA} for soft samples. 
 ##' @param x matrix or array holding the class memberships
-##' @param classdim 
+##' @param classdim dimension that holds the classes, default columns
 ##' @param soft.name level for soft samples 
 ##' @param tol tolerance: samples with membership >= 1 - tol are considered to be hard samples of the
 ##' respective class.
@@ -37,9 +37,9 @@ hardclasses <- function (x, classdim = 2L, soft.name = NA, tol = 1e-5, drop = TR
   }
 
   cl <- structure (cl,
-                   .Label = classes, class = "factor",
-                   .Dim = head (olddims$dim, -1L),
-                   .Dimnames = listornull (head (olddims$dimnames, -1L)))
+                   .Label    = classes, class = "factor",
+                   .Dim      =      head (olddims$dim,      -1L),
+                   .Dimnames = lon (head (olddims$dimnames, -1L)))
   drop1d (cl, drop = drop)
 }
 
