@@ -1,5 +1,6 @@
 #  From base/R/colSums.R
 .colSums <- function (x, na.rm = FALSE, dims = 1L, drop = TRUE) {
+  print ("arrayhelpers")
   atr <- attributes (x)
 
   dn <- dim (x)
@@ -29,8 +30,9 @@
     }
   } else {                              # ! drop
     atr$dim      [seq_len (dims)] <- 1L
-    for (d in seq_len (dims))
-      atr$dimnames[[d]] <- list ()
+    if (! is.null (atr$dimnames))
+      for (d in seq_len (dims))
+        atr$dimnames[[d]] <- list ()
   }
   attributes (z) <- atr
 
@@ -38,7 +40,8 @@
 }
 
 test (.colSums) <- function (){
-  a <- array (1:24, 4:2)
+  ao <- array (1:24, 4:2)
+  
   for (d in 1 : 2){
     default <- base::colSums (a, dims = d)
     drop <- colSums (a, dims = d, drop = TRUE)
@@ -53,11 +56,14 @@ test (.colSums) <- function (){
     checkTrue (all (sapply (dimnames (nodrop) [1L : d], is.null)))
     checkEquals (dimnames (nodrop) [(d + 1L) : ndim (nodrop)],
                  dimnames (a)      [(d + 1L) : ndim (a)     ])
-    
+    nodrop <- colSums (ao, dims = d, drop = FALSE)
+    checkEquals (dimnames (nodrop) [(d + 1L) : ndim (nodrop)],
+                 dimnames (ao)     [(d + 1L) : ndim (ao)    ])
   }
 }
 
 ## TODO: Rest wie colSums
+## TODO: Tests for AsIs, matrix
 .colMeans <- function(x, na.rm = FALSE, dims = 1L, drop = TRUE)
 {
     if(is.data.frame(x)) x <- as.matrix(x)
@@ -188,6 +194,14 @@ test (.colMeans) <- function (){
   }
 }
 
+##' @nord
+setGeneric ("colSums")
+##' @nord
+setGeneric ("colMeans")
+##' @nord
+setGeneric ("rowSums")
+##' @nord
+setGeneric ("rowMeans")
 
 ##' Row and column sums and means for numeric arrays. 
 ##'
@@ -225,10 +239,12 @@ test (.colMeans) <- function (){
 ##' 
 ##' colSums (a, dim = 2)
 ##' colSums (a, dim = 2, drop = FALSE)
-##' 
-#colSums.matrix <- .colSums
-#colSums.array <- .colSums
+##'
 setMethod ("colSums", signature = c ("matrix"), .colSums)
+
+##' @rdname colSums
+##' @export
+setMethod ("colSums", signature = c (x = "AsIs"), function (x, ...) {colSums (unclass (x), ...)})
 
 ##' @rdname colSums
 ##' @export
@@ -240,11 +256,19 @@ setMethod ("colMeans", signature = c (x = "matrix"), .colMeans)
 
 ##' @rdname colSums
 ##' @export
+setMethod ("colMeans", signature = c (x = "AsIs"), function (x, ...) {colMeans (unclass (x), ...)})
+
+##' @rdname colSums
+##' @export
 setMethod ("colMeans", signature = c (x = "array"), .colMeans)
 
 ##' @rdname colSums
 ##' @export
 setMethod ("rowSums", signature = c (x = "matrix"), .rowSums)
+
+##' @rdname colSums
+##' @export
+setMethod ("rowSums", signature = c (x = "AsIs"), function (x, ...) {rowSums (unclass (x), ...)})
 
 ##' @rdname colSums
 ##' @export
@@ -256,5 +280,17 @@ setMethod ("rowMeans", signature = c (x = "matrix"), .rowMeans)
 
 ##' @rdname colSums
 ##' @export
+setMethod ("rowMeans", signature = c (x = "AsIs"), function (x, ...) {rowMeans (unclass (x), ...)})
+
+##' @rdname colSums
+##' @export
 setMethod ("rowMeans", signature = c (x = "array"), .rowMeans)
 
+.testasis <- function (){
+  methods <- c("colSums", "colMeans", "rowSums", "rowMeans")
+  for (fn in methods){
+    f <- get (fn)
+    for (d in 1L : 2L)
+      checkEquals (f (a, dims = d), f (I (a), dims = d), msg = sprintf ("AsIs: %s, dims = %i", fn, d))
+  }
+}
