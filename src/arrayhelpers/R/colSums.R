@@ -1,6 +1,5 @@
 #  From base/R/colSums.R
 .colSums <- function (x, na.rm = FALSE, dims = 1L, drop = TRUE) {
-  print ("arrayhelpers")
   atr <- attributes (x)
 
   dn <- dim (x)
