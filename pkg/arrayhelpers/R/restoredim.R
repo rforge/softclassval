@@ -6,10 +6,19 @@
 ##' Note that missing attributes as well as \code{old.dim = NULL} produce a (dimensionless)
 ##' vector. This is also the case if \code{a} lost the \code{old.*} attributes during 
 ##' computations like \code{as.numeric}, \code{c}, etc..
+##'
+##' \code{fromend} together with numeric \code{usedim} specifies dimensions counting from the
+##' end. E.g. \code{fromend = TRUE} and \code{usedim = 1 : 3} for an array to be restored to 10d
+##' means restoring dimensions 8 : 10. \code{fromend = TRUE} and \code{usedim = -(1 : 3)} restores
+##' dimensions 1 to 7.
 ##' @param a an array
 ##' @param old list containing a list with (possibly) elements \code{dim}, \code{dimnames}, and
-##' \code{names}. The last element of this list is used.
+##' \code{names}. The nth last element of this list is used.
 ##' @param n how many makeNdim steps to go back?
+##' @param ... ignored
+##' @param usedim use only the specified dimensions
+##' @param fromend if \code{TRUE}, numeric \code{usedim} are counted from the end, see details.
+##' @param drop should 1d arrays drop to vectors?
 ##' @return an array
 ##' @author Claudia
 ##' @rdname makeNd.Rd
@@ -23,15 +32,26 @@
 ##' x <- makeNd (a, 0)
 ##' attr (x, "old")
 ##' 
-restoredim <- function (a, old = attr (a, "old"), n = 1L){
-  old <- peek (a, "old", n = n)
-  a <- pop (a, "old", n = n)
- 
-  dim (a) <- old$dim
-  dimnames (a) <- old$dimnames
-  names (a) <- old$names
+restoredim <- function (a, old = NULL, n = 1L, ...,
+                        usedim = TRUE, fromend = FALSE, drop = FALSE){
 
-  a
+  if (is.null (old)){
+    old <- peek (a, "old", n = n)
+    a <- pop (a, "old", n = n)
+  } else if (all (names (old [[n]]) %in% c("dim", "dimnames", "names")))
+      old <- old [[n]]
+  ## else assume a list with dim, dimnames and names
+  
+  if (fromend && is.numeric (usedim))
+    usedim <- sort (rev (seq_along (old$dim)) [usedim])
+  else
+    usedim <- sort (numericindex (x = old$dim, i = usedim, n = names (old$dimnames)))
+
+  a <- structure (a, .Dim = old$dim [usedim],
+                  .Dimnames =  lon (old$dimnames [usedim]),
+                  .Names =  old$names)
+
+  drop1d (a, drop = drop)
 }
 
 ##' @nord
@@ -56,5 +76,7 @@ restoredim <- function (a, old = attr (a, "old"), n = 1L){
   warn <- options(warn = 2)$warn
   on.exit (options (warn = warn))
   checkException (restoredim (makeNd (makeNd (a,  5), 0), n = 3L))
+
+  ## TODO: test drop and usedim
 }
 

@@ -23,7 +23,7 @@ values, or a numeric data frame.}
 \item{dims}{integer: Which dimensions are regarded as \sQuote{rows} or \sQuote{columns} to sum
 over.  For \code{row*}, the sum or mean is  over dimensions \code{dims + 1, \dots}; for \code{col*}
 it is over  dimensions \code{1 : dims}.}
-\item{...}{ignored}
+\item{...}{the \code{signature = "AsIs"} methods hand on all parameters}
 \item{drop}{If \code{FALSE}, the number of dimensions is retained: the length of the dimensions
 that are summed or averaged is set to  1. \code{TRUE} yield the same behaviour as
 \code{\link[base]{colSums}}}
@@ -41,11 +41,6 @@ colSums (a, dim = 2)
 colSums (a, dim = 2, drop = FALSE)}
 \alias{colSums,AsIs-method}
 \alias{colSums}
-\usage{\S4method{colSums}{AsIs}(x, ...)
-\S4method{colMeans}{AsIs}(x, ...)
-\S4method{rowSums}{AsIs}(x, ...)
-\S4method{rowMeans}{AsIs}(x, ...)
-}
 \alias{colSums,array-method}
 \alias{colSums}
 \alias{colMeans,matrix-method}

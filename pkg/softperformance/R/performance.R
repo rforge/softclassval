@@ -6,7 +6,11 @@
 ##' The rows of \code{r} and \code{p} are considered the samples, columns will usually hold the
 ##' classes, and further dimensions are preserved but ignored.
 ##'
-##' \code{r} must have the same number of rows as \code{p}, all other dimensions may be filled by recycling. If the c
+##' \code{r} must have the same number of rows as \code{p}, all other dimensions may be filled by
+##' recycling.
+##'
+##' \code{spec}, \code{ppv}, and \code{npv} use the symmetry between the performance measures as
+##' described in the article and call \code{sens}.
 ##'
 ##' @rdname performance
 ##' @param r vector, matrix, or array with reference. 
@@ -17,7 +21,7 @@
 ##' @param eps limit below which denominator is considered 0
 ##' @param op.dev does the operator measure deviation?
 ##' @param op.postproc if a post-processing function is needed after averaging, it can be given here. See the example.
-##' @return numeric of size (ngroups x \code{dim (p) [-1L]})
+##' @return numeric of size (ngroups x \code{dim (p) [-1L]}) with the respective performance measure
 ##' @author Claudia Beleites
 ##' @seealso Performance measures: \code{\link{sens}}
 ##' @references see the literature in \code{citation ("softperformance")}
@@ -171,3 +175,21 @@ sens <- function (r = stop ("missing reference"), p = stop ("missing prediction"
   sens (r = ref, p = p, operator="prd", group = rep (1L : 5, 2))             
 }
 
+##' @param ... handed to \code{sens}
+##' @rdname performance
+##' @export 
+spec <- function (r = stop ("missing reference"), p = stop ("missing prediction"), ...){
+  sens (r = 1 - r, p = 1 - p)
+}
+
+##' @rdname performance
+##' @export 
+ppv <- function (r = stop ("missing reference"), p = stop ("missing prediction"), ...){
+  sens (r = p, p = r)
+}
+
+##' @rdname performance
+##' @export 
+npv <- function (r = stop ("missing reference"), p = stop ("missing prediction"), ...){
+  sens (r = 1 - p, p = 1 - r)
+}

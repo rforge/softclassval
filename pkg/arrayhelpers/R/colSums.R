@@ -1,42 +1,36 @@
 #  From base/R/colSums.R
 .colSums <- function (x, na.rm = FALSE, dims = 1L, drop = TRUE) {
-  print ("arrayhelpers")
-  atr <- attributes (x)
+  if (length (dim (x)) < 2L)
+    x <- as.matrix (x)
+  d  <- dim (x)
 
-  dn <- dim (x)
-  if (is.null (dn) || length (dn) < 2L)
-    dn <- c (length (x), 1)
+  if (dims < 1L || dims > length (d) - 1L) stop("invalid 'dims'")
 
-  if(dims < 1L || dims > length (dn) - 1L)
-    stop("invalid 'dims'")
-
-  nrow <- prod (dn [1L : dims])
-  ncol <- prod (dn [(dims + 1L) : length (dn)])
+  nrow <- prod (head (d,  dims))
+  ncol <- prod (tail (d, -dims))
   
-  z <- if(is.complex(x))
-           .Internal (colSums (Re(x), nrow, ncol, na.rm)) +
-      1i * .Internal (colSums (Im(x), nrow, ncol, na.rm))
-  else     .Internal (colSums (x, nrow, ncol, na.rm))
+  z <- if (is.complex (x))
+           .Internal (colSums (Re (x), nrow, ncol, na.rm)) +
+      1i * .Internal (colSums (Im (x), nrow, ncol, na.rm))
+  else     .Internal (colSums (    x,  nrow, ncol, na.rm))
 
+  d  <- tail (d,            -dims)
+  dn <- tail (dimnames (x), -dims)
   if (drop){
-    if (length (atr$dim) > dims + 1L){
-      atr$dim      <- atr$dim      [-seq_len (dims)]
-      atr$dimnames <- atr$dimnames [-seq_len (dims)]
-      atr$names    <- NULL      
-    } else {
-      atr$dim <- NULL
-      atr$names <- atr$dimnames [[dims + 1L]]
-      atr$dimnames    <- NULL      
-    }
+    z <- structure (z, .Dim      =      d,
+                       .Dimnames = lon (dn))
+    z <- drop1d (z)
   } else {                              # ! drop
-    atr$dim      [seq_len (dims)] <- 1L
-    if (! is.null (atr$dimnames))
-      for (d in seq_len (dims))
-        atr$dimnames[[d]] <- list ()
+    z <- structure (z,
+                    .Dim      =      c (rep (1L,          dims), d),
+                    .Dimnames = lon (c (rep (list (NULL), dims), dn)))
   }
-  attributes (z) <- atr
 
   z
+}
+
+.unclasscolSums <- function (x, ...) {
+  colSums (unclass (x), ...)
 }
 
 test (.colSums) <- function (){
@@ -89,6 +83,9 @@ test (.colSums) <- function (){
     }
     z
 }
+.unclasscolMeans <- function (x, ...) {
+  colMeans (unclass (x), ...)
+}
 
 .rowSums <- function(x, na.rm = FALSE, dims = 1L, drop = TRUE)
 {
@@ -117,6 +114,9 @@ test (.colSums) <- function (){
     }
     z
 }
+.unclassrowSums <- function (x, ...) {
+  rowSums (unclass (x), ...)
+}
 
 .rowMeans <- function(x, na.rm = FALSE, dims = 1L, drop = TRUE)
 {
@@ -144,6 +144,9 @@ test (.colSums) <- function (){
       dimnames(z) <- dimnames(x)
     }
     z
+}
+.unclassrowMeans <- function (x, ...) {
+  rowMeans (unclass (x), ...)
 }
 
 test (.rowSums) <- function (){
@@ -214,7 +217,7 @@ setGeneric ("rowMeans")
 ##' @param dims integer: Which dimensions are regarded as \sQuote{rows} or \sQuote{columns} to sum
 ##' over.  For \code{row*}, the sum or mean is  over dimensions \code{dims + 1, \dots}; for \code{col*}
 ##' it is over  dimensions \code{1 : dims}.
-##' @param ... ignored
+##' @param ... the \code{signature = "AsIs"} methods hand on all parameters
 ##' @param drop If \code{FALSE}, the number of dimensions is retained: the length of the dimensions
 ##' that are summed or averaged is set to  1. \code{TRUE} yield the same behaviour as
 ##' \code{\link[base]{colSums}}
@@ -244,7 +247,7 @@ setMethod ("colSums", signature = c ("matrix"), .colSums)
 
 ##' @rdname colSums
 ##' @export
-setMethod ("colSums", signature = c (x = "AsIs"), function (x, ...) {colSums (unclass (x), ...)})
+setMethod ("colSums", signature = c (x = "AsIs"), .unclasscolSums)
 
 ##' @rdname colSums
 ##' @export
@@ -256,7 +259,7 @@ setMethod ("colMeans", signature = c (x = "matrix"), .colMeans)
 
 ##' @rdname colSums
 ##' @export
-setMethod ("colMeans", signature = c (x = "AsIs"), function (x, ...) {colMeans (unclass (x), ...)})
+setMethod ("colMeans", signature = c (x = "AsIs"), .unclasscolMeans)
 
 ##' @rdname colSums
 ##' @export
@@ -268,7 +271,7 @@ setMethod ("rowSums", signature = c (x = "matrix"), .rowSums)
 
 ##' @rdname colSums
 ##' @export
-setMethod ("rowSums", signature = c (x = "AsIs"), function (x, ...) {rowSums (unclass (x), ...)})
+setMethod ("rowSums", signature = c (x = "AsIs"), .unclassrowSums)
 
 ##' @rdname colSums
 ##' @export
@@ -280,13 +283,13 @@ setMethod ("rowMeans", signature = c (x = "matrix"), .rowMeans)
 
 ##' @rdname colSums
 ##' @export
-setMethod ("rowMeans", signature = c (x = "AsIs"), function (x, ...) {rowMeans (unclass (x), ...)})
+setMethod ("rowMeans", signature = c (x = "AsIs"), .unclassrowMeans)
 
 ##' @rdname colSums
 ##' @export
 setMethod ("rowMeans", signature = c (x = "array"), .rowMeans)
 
-.testasis <- function (){
+testAsIs <- function (){
   methods <- c("colSums", "colMeans", "rowSums", "rowMeans")
   for (fn in methods){
     f <- get (fn)

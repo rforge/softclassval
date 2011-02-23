@@ -10,5 +10,6 @@ LazyLoad: yes
 LazyData: yes
 Depends: svUnit, methods
 Collate: 'apply.R' 'arrayhelpers.R' 'colSums.R' 'countrows.R'
-    'delold.R' 'ensuredim.R' 'makeNd.R' 'ndim.R' 'restoredim.R'
-    'rowsum.R' 'stack.R' 'ta.R' 'validate.R'
+    'delold.R' 'dropdimnames.R' 'ensuredim.R' 'makeNd.R' 'ndim.R'
+    'numericindices.R' 'restoredim.R' 'rowsum.R' 'stack.R' 'ta.R'
+    'validate.R'
