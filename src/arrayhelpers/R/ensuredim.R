@@ -9,7 +9,7 @@
 ensuredim <- function (x){
   if (is.null (dim (x)))
     x <- structure (x, .Dim = length (x),
-                    .Dimnames =  listornull (list (names (x))),
+                    .Dimnames =  lon (list (names (x))),
                     .Names = NULL)
   x
 }

@@ -5,15 +5,15 @@
 ##' @author Claudia Beleites
 ##' @export 
 dropdimnames <- function (x){
-  dimnames (x) <- listornull (dimnames (x))
+  dimnames (x) <- lon (dimnames (x))
 
   x
 }
 ##' @rdname dropdimnames
 ##' @param l list
-##' @return \code{listornull}: \code{NULL} if all elements of \code{dn} are \code{NULL}, otherwise \code{dn}
+##' @return \code{lon}: \code{NULL} if all elements of \code{dn} are \code{NULL}, otherwise \code{dn}
 ##' @export 
-listornull <- function (l){
+lon <- function (l){
   if (all (sapply (l, is.null)))
     NULL
   else

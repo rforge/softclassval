@@ -1,39 +1,35 @@
 #  From base/R/colSums.R
 .colSums <- function (x, na.rm = FALSE, dims = 1L, drop = TRUE) {
-  atr <- attributes (x)
+  d  <- dim (x)
+  nd <- length (d)
+  dn <- dimnames (x)
+  
+  if (is.null (d) || nd < 2L)
+    d <- c (length (x), 1)
 
-  dn <- dim (x)
-  if (is.null (dn) || length (dn) < 2L)
-    dn <- c (length (x), 1)
-
-  if(dims < 1L || dims > length (dn) - 1L)
+  if(dims < 1L || dims > nd - 1L)
     stop("invalid 'dims'")
 
-  nrow <- prod (dn [1L : dims])
-  ncol <- prod (dn [(dims + 1L) : length (dn)])
+  nrow <- prod (d [1L : dims])
+  ncol <- prod (d [(dims + 1L) : nd])
   
-  z <- if(is.complex(x))
-           .Internal (colSums (Re(x), nrow, ncol, na.rm)) +
-      1i * .Internal (colSums (Im(x), nrow, ncol, na.rm))
-  else     .Internal (colSums (x, nrow, ncol, na.rm))
+  z <- if (is.complex (x))
+           .Internal (colSums (Re (x), nrow, ncol, na.rm)) +
+      1i * .Internal (colSums (Im (x), nrow, ncol, na.rm))
+  else     .Internal (colSums (    x,  nrow, ncol, na.rm))
 
+  d  <- tail (d,  -dims)
+  dn <- tail (dn, -dims)
   if (drop){
-    if (length (atr$dim) > dims + 1L){
-      atr$dim      <- atr$dim      [-seq_len (dims)]
-      atr$dimnames <- atr$dimnames [-seq_len (dims)]
-      atr$names    <- NULL      
-    } else {
-      atr$dim <- NULL
-      atr$names <- atr$dimnames [[dims + 1L]]
-      atr$dimnames    <- NULL      
-    }
+    z <- structure (z, .Dim      =      d,
+                       .Dimnames = lon (dn))
+
+    z <- drop1d (z)
   } else {                              # ! drop
-    atr$dim      [seq_len (dims)] <- 1L
-    if (! is.null (atr$dimnames))
-      for (d in seq_len (dims))
-        atr$dimnames[[d]] <- list ()
+    z <- structure (z,
+                    .Dim      =      c (rep (1L,          dims), d),
+                    .Dimnames = lon (c (rep (list (NULL), dims), dn)))
   }
-  attributes (z) <- atr
 
   z
 }

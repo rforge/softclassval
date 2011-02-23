@@ -48,7 +48,7 @@ restoredim <- function (a, old = NULL, n = 1L, ...,
     usedim <- sort (numericindex (x = old$dim, i = usedim, n = names (old$dimnames)))
 
   a <- structure (a, .Dim = old$dim [usedim],
-                  .Dimnames =  listornull (old$dimnames [usedim]),
+                  .Dimnames =  lon (old$dimnames [usedim]),
                   .Names =  old$names)
 
   drop1d (a, drop = drop)
