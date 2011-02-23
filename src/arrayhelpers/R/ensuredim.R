@@ -1,21 +1,36 @@
 ##' Ensure dim attribute
 ##'
 ##' Turns vectors into 1d-arrays, and leaves arrays unchanged.
-##' @param v vector (or array)
-##' @return vectors are turned in "arrays" of one dimension
+##' @param x vector (or array)
+##' @return \code{esuredim} array of at least one dimension
 ##' @author Claudia Beleites
 ##' @export 
-ensuredim <- function (v){
-  if (is.null (dim (v))){
-    dim (v) <- length (v)
-    dimnames (v) <- names (v)
-  }
-
-  v
+ensuredim <- function (x){
+  if (is.null (dim (x)))
+    x <- structure (x, .Dim = length (x), .Dimnames =  list (names (x)), .Names = NULL)
+  x
 }
 
 .test (ensuredim) <- function (){
-  checkEquals (ensuredim (v), structure(1:3, .Dim = 3L))
+  checkEquals (ensuredim (v), structure(1:3, .Dim = 3L, .Dimnames = list(c("a", "b", "c"))))
   checkEquals (ensuredim (m), m)
   checkEquals (ensuredim (a), a)
+}
+##' @param drop if \code{TRUE}, 1d arrays are converted into vectors
+##' @return \code{drop1d} vector, if \code{x} had only 1 dimension
+##' @author Claudia Beleites
+##' @export 
+drop1d <- function (x, drop = TRUE){
+  if (drop && ndim (x) == 1L)
+    x <- structure (x, .Dim = NULL, .Dimnames = NULL, .Names = dimnames (x)[[1]])
+
+  x
+}
+
+.test (drop1d) <- function () {
+  checkEquals (drop1d (a), a)
+  checkEquals (drop1d (m), m)
+  checkEquals (drop1d (v), v)
+  checkEquals (drop1d (ensuredim (v)), v)
+  checkEquals (drop1d (ensuredim (v), drop = FALSE), ensuredim (v))
 }
