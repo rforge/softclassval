@@ -39,6 +39,10 @@
   z
 }
 
+.unclasscolSums <- function (x, ...) {
+  colSums (unclass (x), ...)
+}
+
 test (.colSums) <- function (){
   ao <- array (1:24, 4:2)
   
@@ -89,6 +93,9 @@ test (.colSums) <- function (){
     }
     z
 }
+.unclasscolMeans <- function (x, ...) {
+  colMeans (unclass (x), ...)
+}
 
 .rowSums <- function(x, na.rm = FALSE, dims = 1L, drop = TRUE)
 {
@@ -117,6 +124,9 @@ test (.colSums) <- function (){
     }
     z
 }
+.unclassrowSums <- function (x, ...) {
+  rowSums (unclass (x), ...)
+}
 
 .rowMeans <- function(x, na.rm = FALSE, dims = 1L, drop = TRUE)
 {
@@ -144,6 +154,9 @@ test (.colSums) <- function (){
       dimnames(z) <- dimnames(x)
     }
     z
+}
+.unclassrowMeans <- function (x, ...) {
+  rowMeans (unclass (x), ...)
 }
 
 test (.rowSums) <- function (){
@@ -214,7 +227,7 @@ setGeneric ("rowMeans")
 ##' @param dims integer: Which dimensions are regarded as \sQuote{rows} or \sQuote{columns} to sum
 ##' over.  For \code{row*}, the sum or mean is  over dimensions \code{dims + 1, \dots}; for \code{col*}
 ##' it is over  dimensions \code{1 : dims}.
-##' @param ... ignored
+##' @param ... the \code{signature = "AsIs"} methods hand on all parameters
 ##' @param drop If \code{FALSE}, the number of dimensions is retained: the length of the dimensions
 ##' that are summed or averaged is set to  1. \code{TRUE} yield the same behaviour as
 ##' \code{\link[base]{colSums}}
@@ -244,7 +257,7 @@ setMethod ("colSums", signature = c ("matrix"), .colSums)
 
 ##' @rdname colSums
 ##' @export
-setMethod ("colSums", signature = c (x = "AsIs"), function (x, ...) {colSums (unclass (x), ...)})
+setMethod ("colSums", signature = c (x = "AsIs"), .unclasscolSums)
 
 ##' @rdname colSums
 ##' @export
@@ -256,7 +269,7 @@ setMethod ("colMeans", signature = c (x = "matrix"), .colMeans)
 
 ##' @rdname colSums
 ##' @export
-setMethod ("colMeans", signature = c (x = "AsIs"), function (x, ...) {colMeans (unclass (x), ...)})
+setMethod ("colMeans", signature = c (x = "AsIs"), .unclasscolMeans)
 
 ##' @rdname colSums
 ##' @export
@@ -268,7 +281,7 @@ setMethod ("rowSums", signature = c (x = "matrix"), .rowSums)
 
 ##' @rdname colSums
 ##' @export
-setMethod ("rowSums", signature = c (x = "AsIs"), function (x, ...) {rowSums (unclass (x), ...)})
+setMethod ("rowSums", signature = c (x = "AsIs"), .unclassrowSums)
 
 ##' @rdname colSums
 ##' @export
@@ -280,7 +293,7 @@ setMethod ("rowMeans", signature = c (x = "matrix"), .rowMeans)
 
 ##' @rdname colSums
 ##' @export
-setMethod ("rowMeans", signature = c (x = "AsIs"), function (x, ...) {rowMeans (unclass (x), ...)})
+setMethod ("rowMeans", signature = c (x = "AsIs"), .unclassrowMeans)
 
 ##' @rdname colSums
 ##' @export
