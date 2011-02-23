@@ -8,11 +8,9 @@
 ##' @param tol tolerance: samples with membership >= 1 - tol are considered to be hard samples of the
 ##' respective class.
 ##' @param drop see \code{\link[arrayhelpers]{drop1d}}
-##' @param sampledim the dimension that contains the samples
 ##' @return factor array of shape \code{dim (x) [-classdim]}
 ##' @author Claudia Beleites
 ##' @export 
-##' @callgraph 
 hardclasses <- function (x, classdim = 2L, soft.name = NA, tol = 1e-5, drop = TRUE){
   if (ndim (x) == 0L) {                 # vector
     warning ("Using hardclasses (cbind (x, 1 - x)) instead.")
