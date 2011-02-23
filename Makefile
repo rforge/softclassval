@@ -20,6 +20,7 @@ clean:
 
 check: roxy
 	R CMD check pkg/$(PKG) && rm -rf $(PKG).Rcheck
+	Rscript --vanilla -e "library ($(PKG)); $(PKG).unittest()"
 
 build: roxy
 	R CMD build pkg/$(PKG) 
