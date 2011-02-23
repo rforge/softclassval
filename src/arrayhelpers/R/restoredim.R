@@ -23,14 +23,23 @@
 ##' x <- makeNd (a, 0)
 ##' attr (x, "old")
 ##' 
-restoredim <- function (a, old = attr (a, "old"), n = 1L){
+restoredim <- function (a, old = attr (a, "old"), n = 1L, usedim = TRUE, drop = FALSE){
   old <- peek (a, "old", n = n)
   a <- pop (a, "old", n = n)
- 
-  dim (a) <- old$dim
-  dimnames (a) <- old$dimnames
-  names (a) <- old$names
 
+  dim <-  old$dim [usedim]
+  dimnames <-  old$dimnames [usedim]
+  names <-  old$names [usedim]
+
+  if (length (dim) == 1L && drop){
+    dim (a) <- NULL
+    dimnames (a) <- NULL
+    names (a) <- dimnames
+  } else {
+    dim (a) <- dim
+    dimnames (a) <- dimnames
+    names (a) <- NULL
+  }
   a
 }
 
