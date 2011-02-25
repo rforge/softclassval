@@ -66,16 +66,16 @@ restoredim <- function (a, old = NULL, n = 1L, ...,
   checkIdentical (v, restoredim (makeNd (v,  1)))
   checkIdentical (v, restoredim (makeNd (v, -1)))
   
-  checkIdentical (dim (restoredim (as.numeric (makeNd (a, 0L)))), NULL)
+  checkIdentical (dim (restoredim (as.numeric (makeNd (a, 0)))), NULL)
 
   checkIdentical (a, restoredim (restoredim (makeNd (makeNd (a,  5), 0))))
-  checkIdentical (a, restoredim (makeNd (makeNd (a,  5), 0), n = 2L))
+  checkIdentical (a, restoredim (makeNd (makeNd (a,  5), 0), n = 2))
 
-  checkIdentical (a, restoredim (makeNd (makeNd (a,  5), 0), n = 3L)) # OK
+  checkIdentical (a, restoredim (makeNd (makeNd (a,  5), 0), n = 3)) # OK
 
   warn <- options(warn = 2)$warn
   on.exit (options (warn = warn))
-  checkException (restoredim (makeNd (makeNd (a,  5), 0), n = 3L))
+  checkException (restoredim (makeNd (makeNd (a,  5), 0), n = 3))
 
   ## TODO: test drop and usedim
 }
