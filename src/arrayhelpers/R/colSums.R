@@ -1,10 +1,10 @@
 #  From base/R/colSums.R
 .colSums <- function (x, na.rm = FALSE, dims = 1L, drop = TRUE) {
-  if (length (dim (x)) < 2L)
+  if (length (dim (x)) < 2)
     x <- as.matrix (x)
   d  <- dim (x)
 
-  if (dims < 1L || dims > length (d) - 1L) stop("invalid 'dims'")
+  if (dims < 1 || dims > length (d) - 1) stop("invalid 'dims'")
 
   nrow <- prod (head (d,  dims))
   ncol <- prod (tail (d, -dims))
@@ -22,7 +22,7 @@
     z <- drop1d (z)
   } else {                              # ! drop
     z <- structure (z,
-                    .Dim      =      c (rep (1L,          dims), d),
+                    .Dim      =      c (rep (1,           dims), d),
                     .Dimnames = lon (c (rep (list (NULL), dims), dn)))
   }
 
@@ -46,13 +46,13 @@ test (.colSums) <- function (){
 
     dd <- dim (default)
     if (is.null (dd)) dd <- length (default)
-    checkEquals (dim (nodrop) [-(1L : d)], dd, sprintf ("result dimensions, d = %i", d))
-    checkTrue (all (sapply (dimnames (nodrop) [1L : d], is.null)))
-    checkEquals (dimnames (nodrop) [(d + 1L) : ndim (nodrop)],
-                 dimnames (a)      [(d + 1L) : ndim (a)     ])
+    checkEquals (dim (nodrop) [-(1 : d)], dd, sprintf ("result dimensions, d = %i", d))
+    checkTrue (all (sapply (dimnames (nodrop) [1 : d], is.null)))
+    checkEquals (dimnames (nodrop) [(d + 1) : ndim (nodrop)],
+                 dimnames (a)      [(d + 1) : ndim (a)     ])
     nodrop <- colSums (ao, dims = d, drop = FALSE)
-    checkEquals (dimnames (nodrop) [(d + 1L) : ndim (nodrop)],
-                 dimnames (ao)     [(d + 1L) : ndim (ao)    ])
+    checkEquals (dimnames (nodrop) [(d + 1) : ndim (nodrop)],
+                 dimnames (ao)     [(d + 1) : ndim (ao)    ])
   }
 }
 
