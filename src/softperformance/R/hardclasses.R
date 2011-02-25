@@ -30,7 +30,9 @@ hardclasses <- function (x, classdim = 2L, soft.name = NA, tol = 1e-5, drop = TR
       classes <- paste ("class", seq_len (ncol (x)), sep = "")
   
   x <- x >= 1 - tol                     # looses attributes!
+
   cl <- apply (x, 1, function (x) match (TRUE, x))
+  
   if (! is.na (soft.name)){
     classes <- c (classes, soft.name)
     cl [is.na (cl)] <- length (classes)

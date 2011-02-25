@@ -203,12 +203,12 @@ testoperators <- svTest (function (){
 
   for (o in ops){
     op <- get (o)
-    checkEqualAttributes (op (runif (nrow (m)), makeNd (m, 3L)),
-                          makeNd (m, 3L),
+    checkEqualAttributes (op (runif (nrow (m)), makeNd (m, 3)),
+                          makeNd (m, 3),
                           msg = sprintf ("preserve shape of p: %s", o))
 
-    checkEqualsNumeric (op (m [, 1L], m),
-                        op (m [, rep (1L, ncol(m))], m),
+    checkEqualsNumeric (op (m [, 1], m),
+                        op (m [, rep (1, ncol(m))], m),
                         msg = sprintf ("recycling: %s", o))
   }
   
