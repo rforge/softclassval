@@ -1,12 +1,12 @@
 .rowsum <- function(x, group, reorder=TRUE, na.rm = FALSE, ...) {
 
-  x <- makeNd (x, 2L)
+  x <- makeNd (x, 2)
   old <- attributes (x)
 
   x <- base:::rowsum (x, group = group, reorder = reorder, na.rm = na.rm)
 
-  old$old [[1L]]$dim [1] <- nrow (x)
-  old$old [[1L]]$dimnames [1] <- list (rownames (x))
+  old$old [[1]]$dim [1] <- nrow (x)
+  old$old [[1]]$dimnames [1] <- list (rownames (x))
 
   mostattributes (x) <- old
 
@@ -43,7 +43,7 @@ setMethod ("rowsum", signature = c (x = "array"), .rowsum)
   ## permute the group dimension to the beginning
   x <- aperm (x, c (dim, seq_len (ndim (x)) [-dim]))
 
-  x <- makeNd (x, 2L)
+  x <- makeNd (x, 2)
   old <- attributes (x)
 
   if (is.null (group)){                 # almost no gain...
@@ -54,8 +54,8 @@ setMethod ("rowsum", signature = c (x = "array"), .rowsum)
     stop ("grouping factors of size dim (p) not yet implemented.")
   }
 
-  old$old [[1L]]$dim [1] <- nrow (x)
-  old$old [[1L]]$dimnames [1] <- list (rownames (x))
+  old$old [[1]]$dim [1] <- nrow (x)
+  old$old [[1]]$dimnames [1] <- list (rownames (x))
 
   mostattributes (x) <- old
 
