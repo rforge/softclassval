@@ -12,7 +12,7 @@
 ##' @author Claudia Beleites
 ##' @export 
 hardclasses <- function (x, classdim = 2L, soft.name = NA, tol = 1e-5, drop = TRUE){
-  if (ndim (x) == 0L) {                 # vector
+  if (ndim (x) == 0) {                 # vector
     warning ("Using hardclasses (cbind (x, 1 - x)) instead.")
     x <- cbind (x, 1 - x)
     colnames (x) <- 1 : 0
@@ -20,8 +20,8 @@ hardclasses <- function (x, classdim = 2L, soft.name = NA, tol = 1e-5, drop = TR
   
   classdim <- numericindex (x = dim (x), i = classdim, n = names (dimnames (x)))
   x <- aperm (x, c(seq_len (ndim (x))[-classdim], classdim))
-  x <- makeNd (x, -2L)
-  olddims <- attr (x, "old")[[1L]]
+  x <- makeNd (x, -2)
+  olddims <- attr (x, "old")[[1]]
   
   if (any (abs(1 - rowSums (x)) > tol))
     warning ("Found samples with total membership != 1")
@@ -38,8 +38,8 @@ hardclasses <- function (x, classdim = 2L, soft.name = NA, tol = 1e-5, drop = TR
 
   cl <- structure (cl,
                    .Label    = classes, class = "factor",
-                   .Dim      =      head (olddims$dim,      -1L),
-                   .Dimnames = lon (head (olddims$dimnames, -1L)))
+                   .Dim      =      head (olddims$dim,      -1),
+                   .Dimnames = lon (head (olddims$dimnames, -1)))
   drop1d (cl, drop = drop)
 }
 
@@ -51,7 +51,7 @@ hardclasses <- function (x, classdim = 2L, soft.name = NA, tol = 1e-5, drop = TR
 
   tmp <- pred
   dim (tmp) <- c (5, 2, 3)
-  checkEquals (hardclasses (tmp, 3L),
+  checkEquals (hardclasses (tmp, 3),
          structure (c (1L, 2L, NA, NA, NA, 1L, 2L, NA, NA, NA), .Dim = c(5L, 2L),
                     .Label = c("class1", "class2", "class3"), class = "factor"))
   
