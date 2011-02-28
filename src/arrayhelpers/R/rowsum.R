@@ -24,7 +24,7 @@
 ##' This function extends the base function \code{\link[base]{rowsum}}.
 ##' @usage \S4method{rowsum}{array}(x, group, reorder=TRUE, na.rm = FALSE, ...) 
 ##' @param x array to be \code{rowsum}med
-##' @param group grouping variable (integer or factor) indicating groups of samples in the rows
+##' @param group grouping variable (integer or factor) indicating groups of samples. \code{}
 ##' @param reorder should the groups be ordered? see \code{\link[base]{rowsum}}
 ##' @param na.rm shoud \code{NA}s be removed?
 ##' @param ... ignored
@@ -37,7 +37,11 @@
 setMethod ("rowsum", signature = c (x = "array"), .rowsum)
 
 
-.groupsum <- function(x, group = NULL, dim = 1L, reorder=TRUE, na.rm = FALSE, ...) {
+##' \code{groupsum} extends \code{rowsum}: it allows \code{group} to be an array of the same shape
+##' as \code{x}. 
+##' @rdname rowsum
+##' @export
+groupsum <- function(x, group = NULL, dim = 1L, reorder=TRUE, na.rm = FALSE, ...) {
   x <- ensuredim (x)
 
   ## permute the group dimension to the beginning
@@ -63,3 +67,6 @@ setMethod ("rowsum", signature = c (x = "array"), .rowsum)
 
   aperm (x, order (c (dim, seq_len (ndim (x)) [-dim])))
 }
+##' @rdname rowsum
+##' @export
+setGeneric ("groupsum")
