@@ -2,7 +2,7 @@ all: roxy build check test
 
 roxy: clean src/$(PKG)/DESCRIPTION src/$(PKG)/R/*.R 
 	rm -f pkg/$(PKG)/man/*.Rd
-	Rscript -e "library (roxygen); roxygenize (\"src/$(PKG)\", \"pkg/$(PKG)\", use.Rd2 = TRUE)" --vanilla
+	Rscript --vanilla -e "library (roxygen); roxygenize (\"src/$(PKG)\", \"pkg/$(PKG)\", use.Rd2 = TRUE)" 
 	rsync -av --delete src/$(PKG)/R/*.R pkg/$(PKG)/R/
 	rm -rf pkg/$(PKG)/$(PKG)
 	rm -rf pkg/$(PKG)/inst
@@ -21,11 +21,11 @@ clean:
 	find -maxdepth 5 -name ".Rhistory" -delete
 
 check: 
-	R CMD check pkg/$(PKG) && rm -rf $(PKG).Rcheck
+	R --vanilla CMD check pkg/$(PKG) && rm -rf $(PKG).Rcheck
 
 test: 
 	Rscript --vanilla -e "library ($(PKG)); $(PKG).unittest()"
 
 build: roxy
-	R CMD build pkg/$(PKG) 
+	R --vanilla CMD build pkg/$(PKG) 
 
