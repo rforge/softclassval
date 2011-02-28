@@ -1,15 +1,17 @@
 \name{performance}
-\alias{sens}
+\alias{confusion}
 \title{Performance calculation for soft classification...}
-\usage{sens(r=stop("missing reference"), p=stop("missing prediction"), group,
-    operator="prd", op.dev=dev(operator),
-    op.postproc=postproc(operator), eps=1e-08)
+\usage{confusion(r=stop("missing reference"), p=stop("missing prediction"), group,
+    operator="prd", drop=FALSE, .checked=FALSE)
+sens(r=stop("missing reference"), p=stop("missing prediction"), group,
+    operator="prd", op.dev=dev(match.fun(operator)),
+    op.postproc=postproc(match.fun(operator)), eps=1e-08, drop=FALSE)
 spec(r=stop("missing reference"), p=stop("missing prediction"), ...)
 ppv(r=stop("missing reference"), p=stop("missing prediction"), ...)
 npv(r=stop("missing reference"), p=stop("missing prediction"), ...)
 }
 \description{Performance calculation for soft classification}
-\details{\code{sens}: These performance measures can be used with prediction and reference being continuous class
+\details{\code{confusion}: These performance measures can be used with prediction and reference being continuous class
 memberships in [0, 1].
 
 The rows of \code{r} and \code{p} are considered the samples, columns will usually hold the
@@ -22,7 +24,7 @@ recycling.
 described in the article and call \code{sens}.
 
 }
-\value{\code{sens}: numeric of size (ngroups x \code{dim (p) [-1L]}) with the respective performance measure
+\value{\code{confusion}: numeric of size (ngroups x \code{dim (p) [-1]}) with the respective performance measure
 
 }
 \author{Claudia Beleites}
@@ -33,11 +35,18 @@ described in the article and call \code{sens}.
 \item{group}{grouping variable for the averaging by \code{\link[base]{rowsum}}. If \code{NULL},
 all samples (rows) are averaged.}
 \item{operator}{the \code{\link[softperformance]{operators}} to be used}
+\item{drop}{should the results possibly be returned as vector instead of 1d array? (Note that
+levels of \code{groups} are never dropped, you need to do that e.g. by
+\code{\link[base]{factor}}.)}
+\item{.checked}{for internal use: the inputs are guaranteed to be of same size and shape. If
+\code{TRUE}, \code{confusion} omits input checking}
 \item{eps}{limit below which denominator is considered 0}
 \item{op.dev}{does the operator measure deviation?}
-\item{op.postproc}{if a post-processing function is needed after averaging, it can be given here. See the example.}
+\item{op.postproc}{if a post-processing function is needed after averaging, it can be given
+here. See the example.}
 \item{...}{handed to \code{sens}}
 }
+\alias{sens}
 \alias{spec}
 \alias{ppv}
 \alias{npv}

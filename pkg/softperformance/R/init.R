@@ -1,5 +1,5 @@
 .onLoad <- function (libname, pkgname){
-  require (arrayhelpers)
+#  stopifnot (require (arrayhelpers))
 }
 
 .onAttach <- function (libname, pkgname){
