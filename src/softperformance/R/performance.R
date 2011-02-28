@@ -139,15 +139,15 @@ sens <- function (r = stop ("missing reference"), p = stop ("missing prediction"
 
     ## matrix
     tmp <- sens (r = v [1 : 4], p = m, operator = o)
-    checkEquals (dim (tmp), c(1L, ncol (m)))
-    checkEquals (dimnames (tmp), list (NULL, colnames (m)))
-    checkTrue (is.null (names (tmp)))
+    checkEquals (dim (tmp), c(1L, ncol (m)), msg = "matrix")
+    checkEquals (dimnames (tmp), list (NULL, colnames (m)), msg = "matrix")
+    checkTrue (is.null (names (tmp)), msg = "matrix")
     
     ## array
     tmp <- sens (r = rep (v [1 : 5], 2), p = pred.array, operator = o)
-    checkEquals (dim (tmp), c (1, dim (pred.array) [-1]))
-    checkEquals (dimnames (tmp), c (list (NULL), dimnames (pred.array) [-1]))
-    checkTrue (is.null (names (tmp)))
+    checkEquals (dim (tmp), c (1, dim (pred.array) [-1]), msg = "array")
+    checkEquals (dimnames (tmp), c (list (NULL), dimnames (pred.array) [-1]), msg = "array")
+    checkTrue (is.null (names (tmp)), msg = "array")
   }
   
   checkEquals (sens(r = ref, p = ref),
