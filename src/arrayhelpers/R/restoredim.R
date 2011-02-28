@@ -38,7 +38,9 @@ restoredim <- function (a, old = NULL, n = 1L, ...,
   if (is.null (old)){
     old <- peek (a, "old", n = n)
     a <- pop (a, "old", n = n)
-  } else if (all (names (old [[n]]) %in% c("dim", "dimnames", "names")))
+  } else if (!is.null (names (old [[n]])) &&  all (names (old [[n]]) %in% c("dim", "dimnames", "names")) &&
+             (is.null (names (old      )) || !all (names (old      ) %in% c("dim", "dimnames", "names")))
+             )
       old <- old [[n]]
   ## else assume a list with dim, dimnames and names
   
@@ -76,6 +78,12 @@ restoredim <- function (a, old = NULL, n = 1L, ...,
   warn <- options(warn = 2)$warn
   on.exit (options (warn = warn))
   checkException (restoredim (makeNd (makeNd (a,  5), 0), n = 3))
+
+  tmp <- makeNd (v, 5)
+  old <- attr (tmp, "old")
+  tmp <- pop (tmp, "old")
+  checkIdentical (v, restoredim (tmp, old = old [[1]]))
+  checkIdentical (v, restoredim (tmp, old = old))
 
   ## TODO: test drop and usedim
 }

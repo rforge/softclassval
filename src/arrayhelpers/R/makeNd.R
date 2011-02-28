@@ -44,7 +44,9 @@ makeNd <- function (a, N) {
    dn <- dimnames (a)
 
    ## push the old dimensions to the end of attribute old
-   push (a, "old") <- list (list (names = names (a), dimnames = dn, dim = d))
+   push (a, "old") <- list (list (names = attributes (a)$names, dimnames = dn, dim = d))
+                                        # careful: names (a) and attr (a, "names") return dimnames
+                                        # [[1]] for 1d arrays! --  We don't want that!
  
    if      (N == 0)        a <- .removedim   (a)
    else if (length (d) <  N && N > 0) a <- .appenddimafter    (a,  N, d, dn)
@@ -70,6 +72,9 @@ makeNd <- function (a, N) {
   checkTrue (is.null (dim (makeNd (a, 0))))
   checkEquals (dim (makeNd (a, 2)), c (4L, 6L))
   checkEquals (dimnames (makeNd (a, 2)), list (rows = letters [1 : 4], NULL))
+
+  checkTrue (is.null (attr (makeNd (ensuredim (v), 2), "old")[[1]]$names),
+             msg = "names attribute for 1d arrays")
 }
 
 .removedim <- function (a){

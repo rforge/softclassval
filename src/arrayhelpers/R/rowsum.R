@@ -36,37 +36,4 @@
 ##' @export
 setMethod ("rowsum", signature = c (x = "array"), .rowsum)
 
-
-##' \code{groupsum} extends \code{rowsum}: it allows \code{group} to be an array of the same shape
-##' as \code{x}. 
-##' @rdname rowsum
-##' @export
-groupsum <- function(x, group = NULL, dim = 1L, reorder=TRUE, na.rm = FALSE, ...) {
-  x <- ensuredim (x)
-
-  ## permute the group dimension to the beginning
-  x <- aperm (x, c (dim, seq_len (ndim (x)) [-dim]))
-
-  x <- makeNd (x, 2)
-  old <- attributes (x)
-
-  if (is.null (group)){                 # almost no gain...
-    x   <- colSums (x, na.rm = TRUE, drop = FALSE)
-  } else if (length (group) == nrow (x)) {
-    x   <- rowsum  (x, group = group, na.rm = TRUE)
-  } else if (all (dim (group) == dim (x))) {
-    stop ("grouping factors of size dim (p) not yet implemented.")
-  }
-
-  old$old [[1]]$dim [1] <- nrow (x)
-  old$old [[1]]$dimnames [1] <- list (rownames (x))
-
-  mostattributes (x) <- old
-
-  x <- restoredim (x)
-
-  aperm (x, order (c (dim, seq_len (ndim (x)) [-dim])))
-}
-##' @rdname rowsum
-##' @export
-setGeneric ("groupsum")
+#TODO: test
