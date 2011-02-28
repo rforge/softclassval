@@ -145,8 +145,8 @@ sens <- function (r = stop ("missing reference"), p = stop ("missing prediction"
     
     ## array
     tmp <- sens (r = rep (v [1 : 5], 2), p = pred.array, operator = o)
-    checkEquals (dim (tmp), c(1L, ncol (m)))
-    checkEquals (dimnames (tmp), list (NULL, colnames (m)))
+    checkEquals (dim (tmp), c (1, dim (pred.array) [-1]))
+    checkEquals (dimnames (tmp), c (list (NULL), dimnames (pred.array) [-1]))
     checkTrue (is.null (names (tmp)))
   }
   
@@ -191,7 +191,8 @@ sens <- function (r = stop ("missing reference"), p = stop ("missing prediction"
                structure(c(1, 1, NA), .Dim = c(1L, 3L),
                          .Dimnames = list(NULL, c("A", "B", "C"))))
   
-  checkEqualsNumeric (sens (r = ref, p = ref, group = rep (c ("H", "S"), each = 5), operator="wRMSE"),
+  checkEqualsNumeric (sens (r = ref, p = ref, group = rep (c ("H", "S"), each = 5),
+                            operator="wRMSE"),
                       c (1,  1,
                          NA, 1,
                          NA, NA))
@@ -199,10 +200,8 @@ sens <- function (r = stop ("missing reference"), p = stop ("missing prediction"
 
   tmp <- pred
   tmp [which (ref == 0)] <- NA          # which keeps the attributes
-  
-  checkEqualsNumeric (sens (r = ref, p = pred, operator="prd", group = 1:10), tmp) 
-  sens (r = ref, p = pred, operator="prd", group = rep (1 : 2, each = 5))
-  sens (r = ref, p = pred, operator="prd", group = rep (1 : 5, 2))             
+
+            
 }
 
 ##' @param ... handed to \code{sens}
