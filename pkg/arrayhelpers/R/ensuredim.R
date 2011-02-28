@@ -27,7 +27,7 @@ ensuredim <- function (x){
 ##' @author Claudia Beleites
 ##' @export 
 drop1d <- function (x, drop = TRUE){
-  if (drop && ndim (x) == 1L)
+  if (drop && ndim (x) == 1)
     x <- structure (x, .Dim = NULL, .Dimnames = NULL, .Names = dimnames (x)[[1]])
 
   x

@@ -13,7 +13,7 @@
 ##' @rdname stack
 peek <- function (x, an, n = 1L){
   stack <- attr (x, an)
-  if (length (stack) == 0L) return (NULL)
+  if (length (stack) == 0) return (NULL)
 
   if (length (stack) < n){
     n <- length (stack)
@@ -26,7 +26,7 @@ peek <- function (x, an, n = 1L){
 ##' @rdname stack
 pop <- function (x, an, n = 1L){
   stack <- attr (x, an)
-  if (length (stack) == 0L) return (x)
+  if (length (stack) == 0) return (x)
 
   if (length (stack) < n){
     n <- length (stack)

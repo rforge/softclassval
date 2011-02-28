@@ -14,26 +14,26 @@
 ##' @examples
 ##' v <- arrayhelpers:::v
 ##' v
-##' makeNd (v, 1L)
-##' dim (makeNd (v, 1L))
-##' dim (makeNd (v, 3L))
+##' makeNd (v, 1)
+##' dim (makeNd (v, 1))
+##' dim (makeNd (v, 3))
 ##' 
 ##' m <- arrayhelpers:::m
 ##' m
-##' makeNd (m, 1L)
-##' dim (makeNd (m, 1L))
-##' makeNd (m, 0L) 
-##' dim (makeNd (m, 0L))
-##' makeNd (m, 3L)
+##' makeNd (m, 1)
+##' dim (makeNd (m, 1))
+##' makeNd (m, 0) 
+##' dim (makeNd (m, 0))
+##' makeNd (m, 3)
 ##' 
 ##' a <- arrayhelpers:::a
 ##' a
-##' dim (makeNd (a, 1L))
-##' dim (makeNd (a, 0L))
-##' makeNd (a,  2L)          
-##' makeNd (a, -2L)
-##' makeNd (a, -4L)
-##' makeNd (a, 3L)
+##' dim (makeNd (a, 1))
+##' dim (makeNd (a, 0))
+##' makeNd (a,  2)          
+##' makeNd (a, -2)
+##' makeNd (a, -4)
+##' makeNd (a, 3)
 ##' 
 makeNd <- function (a, N) {
    if (! all.equal (N, as.integer (N)))
@@ -44,32 +44,37 @@ makeNd <- function (a, N) {
    dn <- dimnames (a)
 
    ## push the old dimensions to the end of attribute old
-   push (a, "old") <- list (list (names = names (a), dimnames = dn, dim = d))
+   push (a, "old") <- list (list (names = attributes (a)$names, dimnames = dn, dim = d))
+                                        # careful: names (a) and attr (a, "names") return dimnames
+                                        # [[1]] for 1d arrays! --  We don't want that!
  
-   if      (N == 0L)        a <- .removedim   (a)
-   else if (length (d) <  N && N > 0L) a <- .appenddimafter    (a,  N, d, dn)
-   else if (length (d) >  N && N > 0L) a <- .collapsedimafter  (a,  N, d, dn)
-   else if (length (d) < -N && N < 0L) a <- .appenddimbefore   (a, -N, d, dn)
-   else if (length (d) > -N && N < 0L) a <- .collapsedimbefore (a, -N, d, dn)
+   if      (N == 0)        a <- .removedim   (a)
+   else if (length (d) <  N && N > 0) a <- .appenddimafter    (a,  N, d, dn)
+   else if (length (d) >  N && N > 0) a <- .collapsedimafter  (a,  N, d, dn)
+   else if (length (d) < -N && N < 0) a <- .appenddimbefore   (a, -N, d, dn)
+   else if (length (d) > -N && N < 0) a <- .collapsedimbefore (a, -N, d, dn)
     
    a
 }
 
 .test (makeNd) <- function (){
-  checkEqualsNumeric (makeNd (v, 1L), v)
-  checkEqualsNumeric (makeNd (v, 2L), v)
-  checkEquals (dim (makeNd (v, 1L)),    3L)
-  checkEquals (dim (makeNd (v, 2L)), c (3L, 1L))
-  checkEquals (dimnames (makeNd (v, 1L)) [[1]], names (v))
+  checkEqualsNumeric (makeNd (v, 1), v)
+  checkEqualsNumeric (makeNd (v, 2), v)
+  checkEquals (dim (makeNd (v, 1)), 3L)
+  checkEquals (dim (makeNd (v, 2)), c (3L, 1L))
+  checkEquals (dimnames (makeNd (v, 1)) [[1]], names (v))
 
-  checkEqualsNumeric (makeNd (m, 3L), m)
-  checkEquals (dim (makeNd (m, 3L)), c(2L, 3L, 1L))
-  checkEquals (dimnames (makeNd (m, 3L)), c(dimnames (m), list (NULL)))
+  checkEqualsNumeric (makeNd (m, 3), m)
+  checkEquals (dim (makeNd (m, 3)), c(2L, 3L, 1L))
+  checkEquals (dimnames (makeNd (m, 3)), c(dimnames (m), list (NULL)))
   
-  checkEqualsNumeric (makeNd (a, 0L), a)
-  checkTrue (is.null (dim (makeNd (a, 0L))))
-  checkEquals (dim (makeNd (a, 2L)), c (4L, 6L))
-  checkEquals (dimnames (makeNd (a, 2L)), list (rows = letters [1 : 4], NULL))
+  checkEqualsNumeric (makeNd (a, 0), a)
+  checkTrue (is.null (dim (makeNd (a, 0))))
+  checkEquals (dim (makeNd (a, 2)), c (4L, 6L))
+  checkEquals (dimnames (makeNd (a, 2)), list (rows = letters [1 : 4], NULL))
+
+  checkTrue (is.null (attr (makeNd (ensuredim (v), 2), "old")[[1]]$names),
+             msg = "names attribute for 1d arrays")
 }
 
 .removedim <- function (a){
@@ -85,7 +90,7 @@ makeNd <- function (a, N) {
     dn <- list (names (a))
   }
    
-  dim (a)        <- c (d,  rep (1L,          N - length (d)))
+  dim (a)        <- c (d,  rep (1,           N - length (d)))
   if (! is.null (dn))
     dimnames (a) <- c (dn, rep (list (NULL), N - length (dn)))
   
@@ -97,7 +102,7 @@ makeNd <- function (a, N) {
     dn <- list (names (a))
   }
    
-  dim (a)        <- c (rep (1L,          N - length (d )),  d)
+  dim (a)        <- c (rep (1,           N - length (d )),  d)
   if (! is.null (dn))
     dimnames (a) <- c (rep (list (NULL), N - length (dn)), dn)
   
@@ -105,17 +110,17 @@ makeNd <- function (a, N) {
 }
 
 .collapsedimafter <- function (a, N, d, dn) {
-  dim (a)        <- c (d  [seq_len (N - 1L)], prod (d [N : length (d)]))
+  dim (a)        <- c (d  [seq_len (N - 1)], prod (d [N : length (d)]))
   if (! is.null (dn))
-    dimnames (a) <- c (dn [seq_len (N - 1L)], list (NULL))
+    dimnames (a) <- c (dn [seq_len (N - 1)], list (NULL))
 
   a  
 }
 
 .collapsedimbefore <- function (a, N, d, dn) {
-  dim (a)        <- c (prod (d [seq_len (length (d) - N + 1)]), tail (d,  N - 1L))
+  dim (a)        <- c (prod (d [seq_len (length (d) - N + 1)]), tail (d,  N - 1))
   if (! is.null (dn))
-    dimnames (a) <- c (list (NULL),                             tail (dn, N - 1L))
+    dimnames (a) <- c (list (NULL),                             tail (dn, N - 1))
 
   a  
 }

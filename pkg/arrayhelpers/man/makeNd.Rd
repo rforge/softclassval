@@ -16,24 +16,24 @@ attributes (i.e. to create a vector).}
 }
 \examples{v <- arrayhelpers:::v
 v
-makeNd (v, 1L)
-dim (makeNd (v, 1L))
-dim (makeNd (v, 3L))
+makeNd (v, 1)
+dim (makeNd (v, 1))
+dim (makeNd (v, 3))
 
 m <- arrayhelpers:::m
 m
-makeNd (m, 1L)
-dim (makeNd (m, 1L))
-makeNd (m, 0L) 
-dim (makeNd (m, 0L))
-makeNd (m, 3L)
+makeNd (m, 1)
+dim (makeNd (m, 1))
+makeNd (m, 0) 
+dim (makeNd (m, 0))
+makeNd (m, 3)
 
 a <- arrayhelpers:::a
 a
-dim (makeNd (a, 1L))
-dim (makeNd (a, 0L))
-makeNd (a,  2L)          
-makeNd (a, -2L)
-makeNd (a, -4L)
-makeNd (a, 3L)}
+dim (makeNd (a, 1))
+dim (makeNd (a, 0))
+makeNd (a,  2)          
+makeNd (a, -2)
+makeNd (a, -4)
+makeNd (a, 3)}
 

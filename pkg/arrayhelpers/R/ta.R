@@ -20,7 +20,7 @@ ta <- function (x){
   if (! (is.vector (x) || is.matrix (x) || is.array (x)))
       stop ("x must be array, matrix, or vector.")
       
-  a <- makeNd (x, 2L)                 # ensure at least 2 dimensions
+  a <- makeNd (x, 2)                 # ensure at least 2 dimensions
 
   d <- seq_along (dim (x))
   d [1 : 2] <- 2 : 1                    # swap first 2 dimensins
@@ -36,7 +36,7 @@ ta <- function (x){
 
   checkIdentical (ta (m), t (m))
 
-#  instd <- length (findMethod ("t", "array")) > 0L
+#  instd <- length (findMethod ("t", "array")) > 0
 
 #  if (instd) removeMethod ("t", "array")
 #  checkException (t (a))
