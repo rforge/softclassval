@@ -16,16 +16,17 @@ src/$(PKG)/R/*.R:
 clean:
 	rm -f src/*/R/#*.R#
 	rm -f src/*/R/*.R~
+	cd pkg && rm -rf *.R~	
 	rm -f pkg/*/man/.*.Rd
 	rm -f */*/*/.Rhistory
 	find -maxdepth 5 -name ".Rhistory" -delete
 
 check: 
-	R --vanilla CMD check pkg/$(PKG) && rm -rf $(PKG).Rcheck
+	R CMD check pkg/$(PKG) --vanilla && rm -rf $(PKG).Rcheck 
 
 test: 
 	Rscript --vanilla -e "library ($(PKG)); $(PKG).unittest()"
 
 build: roxy
-	R --vanilla CMD build pkg/$(PKG) 
+	R CMD build pkg/$(PKG) --vanilla
 
