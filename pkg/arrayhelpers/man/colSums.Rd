@@ -39,26 +39,22 @@ colSums (a, drop = FALSE)
 
 colSums (a, dim = 2)
 colSums (a, dim = 2, drop = FALSE)}
-\alias{colSums,AsIs-method}
-\alias{colSums}
+\alias{colSums.AsIs}
 \alias{colSums,array-method}
 \alias{colSums}
 \alias{colMeans,matrix-method}
 \alias{colMeans}
-\alias{colMeans,AsIs-method}
-\alias{colMeans}
+\alias{colMeans.AsIs}
 \alias{colMeans,array-method}
 \alias{colMeans}
 \alias{rowSums,matrix-method}
 \alias{rowSums}
-\alias{rowSums,AsIs-method}
-\alias{rowSums}
+\alias{rowSums.AsIs}
 \alias{rowSums,array-method}
 \alias{rowSums}
 \alias{rowMeans,matrix-method}
 \alias{rowMeans}
-\alias{rowMeans,AsIs-method}
-\alias{rowMeans}
+\alias{rowMeans.AsIs}
 \alias{rowMeans,array-method}
 \alias{rowMeans}
 

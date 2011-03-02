@@ -197,7 +197,7 @@ test (.colMeans) <- function (){
   }
 }
 
-##' @nord
+# ##' @nord
 setGeneric ("colSums")
 ##' @nord
 setGeneric ("colMeans")
@@ -243,11 +243,13 @@ setGeneric ("rowMeans")
 ##' colSums (a, dim = 2)
 ##' colSums (a, dim = 2, drop = FALSE)
 ##'
-setMethod ("colSums", signature = c ("matrix"), .colSums)
+setMethod ("colSums", signature = c ("matrix"), .colSums) 
+# colSums.matrix <- .colSums              # I still get base::colSums :-(
 
 ##' @rdname colSums
 ##' @export
-setMethod ("colSums", signature = c (x = "AsIs"), .unclasscolSums)
+colSums.AsIs <- .unclasscolSums
+# setMethod ("colSums", signature = c (x = "AsIs"), .unclasscolSums)
 
 ##' @rdname colSums
 ##' @export
@@ -259,7 +261,8 @@ setMethod ("colMeans", signature = c (x = "matrix"), .colMeans)
 
 ##' @rdname colSums
 ##' @export
-setMethod ("colMeans", signature = c (x = "AsIs"), .unclasscolMeans)
+colMeans.AsIs <- .unclasscolMeans
+##setMethod ("colMeans", signature = c (x = "AsIs"), .unclasscolMeans)
 
 ##' @rdname colSums
 ##' @export
@@ -271,7 +274,8 @@ setMethod ("rowSums", signature = c (x = "matrix"), .rowSums)
 
 ##' @rdname colSums
 ##' @export
-setMethod ("rowSums", signature = c (x = "AsIs"), .unclassrowSums)
+rowSums.AsIs <- .unclassrowSums
+#setMethod ("rowSums", signature = c (x = "AsIs"), .unclassrowSums)
 
 ##' @rdname colSums
 ##' @export
@@ -283,7 +287,8 @@ setMethod ("rowMeans", signature = c (x = "matrix"), .rowMeans)
 
 ##' @rdname colSums
 ##' @export
-setMethod ("rowMeans", signature = c (x = "AsIs"), .unclassrowMeans)
+rowMeans.AsIs <- .unclassrowMeans
+##setMethod ("rowMeans", signature = c (x = "AsIs"), .unclassrowMeans)
 
 ##' @rdname colSums
 ##' @export
