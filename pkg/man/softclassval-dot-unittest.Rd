@@ -1,5 +1,5 @@
-\name{softperformance.unittest}
-\alias{softperformance.unittest}
+\name{softclassval.unittest}
+\alias{softclassval.unittest}
 \title{Run the unit tests...}
 \description{Run the unit tests}
 \details{Run the unit tests attached to the functions via \link[svUnit]{svUnit}}

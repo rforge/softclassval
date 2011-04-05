@@ -38,7 +38,7 @@ Name         \tab Definition                 \tab \code{\link{dev}}? \tab \code{
 }
 \author{Claudia Beleites}
 \seealso{Performance measures: \code{\link{sens}}}
-\references{see the literature in \code{citation ("softperformance")}}
+\references{see the literature in \code{citation ("softclassval")}}
 \arguments{\item{p}{prediction vector, matrix, or array with numeric values in [0, 1]}
 \item{r}{reference vector, matrix, or array with numeric values in [0, 1]}
 }
@@ -52,7 +52,7 @@ x
 }))
 
 
-x <- softperformance:::v
+x <- softclassval:::v
 x
 
 luk (0.7, 0.8)

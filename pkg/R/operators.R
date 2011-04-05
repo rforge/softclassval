@@ -21,10 +21,10 @@
 ##' @return numeric of the same size as p
 ##' @author Claudia Beleites
 ##' @seealso Performance measures: \code{\link{sens}}
-##' @references see the literature in \code{citation ("softperformance")}
+##' @references see the literature in \code{citation ("softclassval")}
 ##' @rdname operators
 ##' @export
-##' @include softperformance.R
+##' @include softclassval.R
 ##' @include dev.R
 ##' @include postproc.R
 ##'
@@ -39,7 +39,7 @@
 ##' }))
 ##' 
 ##' 
-##' x <- softperformance:::v
+##' x <- softclassval:::v
 ##' x
 ##' 
 ##' luk (0.7, 0.8)

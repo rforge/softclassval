@@ -1,4 +1,4 @@
-Package: softperformance
+Package: softclassval
 Type: Package
 Title: Soft classification performance measures
 Description: Extension of sensitivity, specificity, positive and negative predictive value to

@@ -3,9 +3,9 @@
 }
 
 .onAttach <- function (libname, pkgname){
-  ## unlockBinding(".options", asNamespace("softperformance")) 
+  ## unlockBinding(".options", asNamespace("softclassval")) 
 
-  desc <- utils::packageDescription("softperformance")
+  desc <- utils::packageDescription("softclassval")
   vers <- paste("V. ", desc$Version)
 
   cat ("Package ",  desc$Package, ", version ", desc$Version, "\n\n",

@@ -59,7 +59,7 @@
 ##' @param p vector, matrix, or array with predictions
 ##' @param group grouping variable for the averaging by \code{\link[base]{rowsum}}. If \code{NULL},
 ##' all samples (rows) are averaged.
-##' @param operator the \code{\link[softperformance]{operators}} to be used 
+##' @param operator the \code{\link[softclassval]{operators}} to be used 
 ##' @param drop should the results possibly be returned as vector instead of 1d array? (Note that
 ##' levels of \code{groups} are never dropped, you need to do that e.g. by
 ##' \code{\link[base]{factor}}.)
@@ -68,9 +68,9 @@
 ##' @return numeric of size (ngroups x \code{dim (p) [-1]}) with the respective performance measure
 ##' @author Claudia Beleites
 ##' @seealso Performance measures: \code{\link{sens}}
-##' @references see the literature in \code{citation ("softperformance")}
+##' @references see the literature in \code{citation ("softclassval")}
 ##' @export
-##' @include softperformance.R
+##' @include softclassval.R
 confusion <- function (r = stop ("missing reference"), p = stop ("missing prediction"),
                        group = NULL,
                        operator = "prd",

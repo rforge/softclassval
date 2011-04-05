@@ -8,7 +8,7 @@
 ##' @author Claudia Beleites
 ##' @seealso \code{\link{sens}} \code{\link{post}}
 ##' @export
-##' @include softperformance.R
+##' @include softclassval.R
 ##'
 ##' @examples
 ##'

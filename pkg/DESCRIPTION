@@ -1,4 +1,4 @@
-Package: softperformance
+Package: softclassval
 Type: Package
 Title: Soft classification performance measures
 Description: Extension of sensitivity, specificity, positive and
@@ -11,5 +11,5 @@ License: GPL
 LazyLoad: yes
 LazyData: yes
 Depends: svUnit, methods, arrayhelpers
-Collate: 'init.R' 'softperformance.R' 'dev.R' 'hardclasses.R'
-    'postproc.R' 'operators.R' 'performance.R' 'validate.R'
+Collate: 'init.R' 'softclassval.R' 'dev.R' 'hardclasses.R' 'postproc.R'
+    'operators.R' 'performance.R' 'validate.R'

@@ -2,7 +2,7 @@
 ##'
 ##' Extension of sensitivity, specificity, positive and negative predictive value to continuous
 ##' predicted and reference memberships in [0, 1]
-##' @name softperformance-package
+##' @name softclassval-package
 ##' @docType package
 ##' @include init.R
 ##' 

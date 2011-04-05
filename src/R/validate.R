@@ -6,16 +6,16 @@
 ##' @author Claudia Beleites
 ##' @seealso  \link[svUnit]{svUnit} 
 ##' @export 
-softperformance.unittest <- function (){
+softclassval.unittest <- function (){
   if (! require (svUnit)){
     warning ("svUnit required to run the unit tests.")
     return (NA)
   }
 
-  tests <- unlist (eapply (env = getNamespace ("softperformance"), FUN = is.test, all.names = TRUE))
+  tests <- unlist (eapply (env = getNamespace ("softclassval"), FUN = is.test, all.names = TRUE))
   tests <- names (tests [tests])
 
-  tests <- sapply (tests, get, envir = getNamespace ("softperformance"))
+  tests <- sapply (tests, get, envir = getNamespace ("softclassval"))
 
   clearLog ()
   for (t in seq_along (tests))

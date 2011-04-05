@@ -29,12 +29,12 @@ described in the article and call \code{sens}.
 }
 \author{Claudia Beleites}
 \seealso{Performance measures: \code{\link{sens}}}
-\references{see the literature in \code{citation ("softperformance")}}
+\references{see the literature in \code{citation ("softclassval")}}
 \arguments{\item{r}{vector, matrix, or array with reference.}
 \item{p}{vector, matrix, or array with predictions}
 \item{group}{grouping variable for the averaging by \code{\link[base]{rowsum}}. If \code{NULL},
 all samples (rows) are averaged.}
-\item{operator}{the \code{\link[softperformance]{operators}} to be used}
+\item{operator}{the \code{\link[softclassval]{operators}} to be used}
 \item{drop}{should the results possibly be returned as vector instead of 1d array? (Note that
 levels of \code{groups} are never dropped, you need to do that e.g. by
 \code{\link[base]{factor}}.)}
