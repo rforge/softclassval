@@ -6,7 +6,7 @@ Description: Extension of sensitivity, specificity, positive and
     memberships in [0, 1]
 Maintainer: C. Beleites <cbeleites@units.it>
 Author: C. Beleites <cbeleites@units.it>
-Version: 0.5-20110218
+Version: 0.5-20110406
 License: GPL
 LazyLoad: yes
 LazyData: yes
