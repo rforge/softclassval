@@ -7,7 +7,7 @@
 ##' @return logical indicating the type of operator. \code{NULL} if the attribute is missing.
 ##' @author Claudia Beleites
 ##' @seealso \code{\link{sens}} \code{\link{post}}
-##' @export
+##' @export 
 ##' @include softclassval.R
 ##'
 ##' @examples
@@ -23,7 +23,7 @@ dev <- function (op)
 ##' @usage dev (op) <- value
 ##' @rdname dev
 ##' @param value logical indicating the operator type
-##' @export
+##' @export "dev<-"
 "dev<-" <- function (op, value){
   stopifnot (is.logical (value), !is.na (value))
 

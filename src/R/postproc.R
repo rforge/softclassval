@@ -25,7 +25,7 @@ postproc <- function (op)
 ##' @rdname postproc
 ##' @param value function (or its name or symbol) to do the post-processing. \code{NULL} deletes the
 ##' postprocessing function.
-##' @export
+##' @export "postproc<-"
 `postproc<-` <- function (op, value){
   if (! is.null (value))
     stopifnot (is.function (match.fun (value)))
