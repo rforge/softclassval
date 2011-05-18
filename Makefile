@@ -25,8 +25,10 @@ clean:
 check: 
 	R CMD check pkg --vanilla && rm -rf pkg.Rcheck 
 
-test: 
-	R CMD INSTALL pkg	
+install:
+		sudo R CMD INSTALL pkg	
+
+test: install
 	Rscript --vanilla -e "library (softclassval); softclassval.unittest ()"
 
 build: roxy
