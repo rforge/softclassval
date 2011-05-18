@@ -1,15 +1,17 @@
 Package: softclassval
-Type: Package
+Maintainer: C. Beleites <cbeleites@units.it>
+License: GPL
 Title: Soft classification performance measures
+LazyData: yes
+Type: Package
+LazyLoad: yes
+Author: C. Beleites <cbeleites@units.it>
 Description: Extension of sensitivity, specificity, positive and
     negative predictive value to continuous predicted and reference
     memberships in [0, 1]
-Maintainer: C. Beleites <cbeleites@units.it>
-Author: C. Beleites <cbeleites@units.it>
-Version: 0.5-20110406
-License: GPL
-LazyLoad: yes
-LazyData: yes
+Version: 0.5-20110518
+URL: http://softclassval.r-forge.r-project.org/
+Date: 2011-05-18
 Depends: svUnit, methods, arrayhelpers
 Collate: 'init.R' 'softclassval.R' 'dev.R' 'hardclasses.R' 'postproc.R'
     'operators.R' 'performance.R' 'validate.R'

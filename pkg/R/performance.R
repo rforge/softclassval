@@ -85,6 +85,7 @@ confusion <- function (r = stop ("missing reference"), p = stop ("missing predic
 }
 
 ##TODO tests
+##TODO test grouping
 
 ##' @param eps limit below which denominator is considered 0
 ##' @param op.dev does the operator measure deviation?
@@ -208,17 +209,17 @@ sens <- function (r = stop ("missing reference"), p = stop ("missing prediction"
 ##' @rdname performance
 ##' @export 
 spec <- function (r = stop ("missing reference"), p = stop ("missing prediction"), ...){
-  sens (r = 1 - r, p = 1 - p)
+  sens (r = 1 - r, p = 1 - p, ...)
 }
 
 ##' @rdname performance
 ##' @export 
 ppv <- function (r = stop ("missing reference"), p = stop ("missing prediction"), ...){
-  sens (r = p, p = r)
+  sens (r = p, p = r, ...)
 }
 
 ##' @rdname performance
 ##' @export 
 npv <- function (r = stop ("missing reference"), p = stop ("missing prediction"), ...){
-  sens (r = 1 - p, p = 1 - r)
+  sens (r = 1 - p, p = 1 - r, ...)
 }

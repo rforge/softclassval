@@ -8,7 +8,6 @@ and(r, p)
 wMAE(r, p)
 wMSE(r, p)
 }
-\encoding{UTF-8}
 \description{And (conjunction) operators}
 \details{\code{luk}: And operators for the soft performance calculation.
 
