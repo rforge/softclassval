@@ -1,10 +1,12 @@
 ##' Input checks for performance calculation
 ##'
-##' Checks whether r and p are valid reference and predictions, and recycles r to the size and shape
-##' of p
+##' Checks whether \code{r} and \code{p} are valid reference and predictions. If \code{p} is a
+##' multiple of \code{r}, recycles \code{r} to the size and shape of \code{p}. If \code{r} has
+##' additional length 1 dimensions (usually because dimensions were dropped from \code{p}), it is
+##' shortend to the shape of \code{p}.
 ##' @param r reference
 ##' @param p prediction
-##' @return recycled r
+##' @return \code{r}, possibly recycled to length of \code{p} or with dimensions shortened to \code{p}.
 ##' @author Claudia Beleites
 ##' @nord
 .checkrp <- function (r, p){
@@ -13,32 +15,57 @@
 
   recycle <- prod (dp) > prod (dr)
   
+  if (prod (dr) > prod (dp))
+    stop ("r must not be larger than p")
+
   dp <- dp [seq_along (dr)]
   
-  if (dr [1] !=  dp [1])       # rows = samples: must be the same
+  if (dr [1] !=  dp [1])       
     stop ("numer of samples (nrow) of reference and prediction must be the same.")
   
-  if (! is.na (dr [2]) && dr [2] != dp [2]) # cols usually = classes, but may be something else: warn only
-    warning ("p and r do not have the same number of columns (classes).")
-  
-  if (length (dr) > length (dp))
-    stop ("r must not have more dimensions than p")
+  if (! is.na (dr [2]) && dr [2] != dp [2]) 
+    stop ("p and r do not have the same number of columns (classes).")
 
-  if (any (dr != dp)){
-    dr <- dr [-(1 : (min (which (dr != dp)) - 1))] # the first dim with differences
-    if (any (dr != 1))                   # thereafter only length 1 dimensions are allowed
-      stop ("From the first dimension on where r and p differ in length",
-            "r must have length 1 at most.")
+  if (any (is.na (dp)) || any (dr != dp)) { # NA: p is shorter than r
+   
+    equaldims <- seq_len (min (which (is.na (dp) | dr != dp)) - 1) # first equal dims
+
+    ## thereafter only length 1 dimensions are allowed
+    if (any (dr [- equaldims] != 1)) 
+      stop ("Dimension mismatch between r and p.")
+
+    ## if p is shorter than r: shorten r
+    if (any (is.na (dp))){
+      a <- attributes (r)
+      a$dim <- a$dim [equaldims]
+      a$dimnames <- a$dimnames  [equaldims]
+      mostattributes (r) <- a
+    }
   }
 
   if (recycle) {
+    a <- attributes (r)
     r <- rep (r, length.out = length (p))
-    dim (r) <- dim (p)
+    mostattributes (r) <- attributes (p)
+    dimnames (r) [seq_along (a$dimnames)] <- a$dimnames
   }
+  
   r
 }
+.test (.checkrp) <- function (){
+  checkEquals (.checkrp (ref,       pred                    ), ref      )
+  checkEquals (.checkrp (ref.array, pred.array              ), ref.array)
+  checkEquals (.checkrp (ref      , pred.array              ), ref.array, msg = "recycling r")
+  checkEquals (.checkrp (ref.array [,,1, drop = FALSE], pred), ref      , msg = "shortening r")
 
-## TODO: test fun
+  checkException (.checkrp (ref.array, pred                 )           , msg = "length (dim (r)) > length (dim (p))")
+  checkException (.checkrp (1 : 2,     1                    )           , msg = "nrow (r) != nrow (p)")
+  checkException (.checkrp (ref,       pred [, 1 : 2]       )           , msg = "ncol (r) != ncol (p)")
+  
+  tmp <- ref.array
+  dim (tmp) <- c (dim(ref.array) [1 : 2], 1, dim (ref.array) [3])
+  checkException (.checkrp (tmp,       pred.array           )           , msg = "Dimension mismatch")
+}
 
 ##' Performance calculation for soft classification
 ##'
@@ -48,8 +75,8 @@
 ##' The rows of \code{r} and \code{p} are considered the samples, columns will usually hold the
 ##' classes, and further dimensions are preserved but ignored.
 ##'
-##' \code{r} must have the same number of rows as \code{p}, all other dimensions may be filled by
-##' recycling.
+##' \code{r} must have the same number of rows and columns as \code{p}, all other dimensions may be
+##' filled by recycling.
 ##'
 ##' \code{spec}, \code{ppv}, and \code{npv} use the symmetry between the performance measures as
 ##' described in the article and call \code{sens}.
@@ -83,7 +110,9 @@ confusion <- function (r = stop ("missing reference"), p = stop ("missing predic
 
   drop1d (res, drop = drop)
 }
-
+.test (confusion) <- function (){
+  
+}
 ##TODO tests
 ##TODO test grouping
 
@@ -119,7 +148,7 @@ sens <- function (r = stop ("missing reference"), p = stop ("missing prediction"
 
   res <- res / nsmpl
   
-  if (! is.null (op.postproc))          # the root of the wRMSE
+  if (! is.null (op.postproc))          # e.g. root for wRMSE
     res <- POSTFUN (res)         
       
   if (op.dev)                           # for wMAE, wMSE, wRMSE, and the like
@@ -162,17 +191,17 @@ sens <- function (r = stop ("missing reference"), p = stop ("missing prediction"
                structure(c(1, 1, NA), .Dim = c(1L, 3L),
                          .Dimnames = list(NULL, c("A", "B", "C"))))
 
-  checkEquals (sens (r = ref, p = ref, group = rep (c ("H", "S"), each = 5), operator="gdl"),
+  checkEquals (sens (r = ref, p = ref, group =ref.groups , operator="gdl"),
                structure (c (1, 1, NA, 1, NA, NA), .Dim = 2:3,
-                          .Dimnames = list(c ("H", "S"), c("A", "B", "C"))))
+                          .Dimnames = list (as.character (ref.groups), LETTERS [1 : 3])))
 
 
   checkEquals (sens (r = ref, p = ref, operator="luk"),
                structure (c (0.75, 0, NA), .Dim = c(1L, 3L),
                           .Dimnames = list(NULL, c("A", "B", "C"))))
-  checkEquals (sens (r = ref, p = ref, group = rep (c ("H", "S"), each = 5), operator="luk"),
+  checkEquals (sens (r = ref, p = ref, group = ref.groups, operator="luk"),
                structure (c (1, 0.333333333333333, NA, 0, NA, NA), .Dim = 2:3,
-                          .Dimnames = list (c ("H", "S"), c("A", "B", "C"))))
+                          .Dimnames = list (c ("", "S"), c("A", "B", "C"))))
 
   checkEquals (sens (r = ref, p = ref, operator="wMAE"),
                structure(c(1, 1, NA), .Dim = c(1L, 3L),
