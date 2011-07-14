@@ -5,6 +5,7 @@
 ##' @name softclassval-package
 ##' @docType package
 ##' @include init.R
+##' @include hardclasses.R
 ##' 
 {
   if (!require (svUnit)){
