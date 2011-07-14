@@ -5,19 +5,18 @@
 ##'
 ##' The predefined operators are:
 ##' \tabular{lllll}{
-##' Name         \tab Definition                 \tab \code{\link{dev}}? \tab \code{\link{postproc}}? \tab Explanation                                                  \cr
-##' \code{gdl}   \tab \code{pmin (r, p)}         \tab FALSE              \tab FALSE                   \tab the \enc{Gödel}{Goedel}-operator (weak conjunction)          \cr
-##' \code{luk}   \tab \code{pmax (r + p - 1, 0)} \tab FALSE              \tab FALSE                   \tab \enc{Łukasiewicz}{Lukasiewicz}-operator (strong conjunction) \cr
-##' \code{prd}   \tab \code{r * p}               \tab FALSE              \tab FALSE                   \tab product operator                                             \cr
+##' Name         \tab Definition                 \tab \code{\link{dev}}? \tab \code{\link{postproc}}? \tab Explanation                                                           \cr
+##' \code{gdl}   \tab \code{pmin (r, p)}         \tab FALSE              \tab FALSE                   \tab the \enc{Gödel}{Goedel}-operator (weak conjunction)                   \cr
+##' \code{luk}   \tab \code{pmax (r + p - 1, 0)} \tab FALSE              \tab FALSE                   \tab \enc{Łukasiewicz}{Lukasiewicz}-operator (strong conjunction)          \cr
+##' \code{prd}   \tab \code{r * p}               \tab FALSE              \tab FALSE                   \tab product operator                                                      \cr
 ##' \code{and}   \tab \code{r * p}               \tab FALSE              \tab FALSE                   \tab Boolean conjunction: accepts only 0 or 1, otherwise yields \code{NA}  \cr
-##' \code{wMAE}  \tab \code{r * abs (r - p)}     \tab TRUE               \tab FALSE                   \tab for weighted mean absolute error                                 \cr
-##' \code{wMSE}  \tab \code{r * (r - p)^2}       \tab TRUE               \tab FALSE                   \tab for weighted mean squared error                                  \cr
+##' \code{wMAE}  \tab \code{r * abs (r - p)}     \tab TRUE               \tab FALSE                   \tab for weighted mean absolute error                                      \cr
+##' \code{wMSE}  \tab \code{r * (r - p)^2}       \tab TRUE               \tab FALSE                   \tab for weighted mean squared error                                       \cr
 ##' \code{wRMSE} \tab \code{r * (r - p)^2}       \tab TRUE               \tab TRUE                    \tab for root weighted mean squared error                                  \cr
 ##' }
 ##'
-##' @aliases luk gdl prd and wMAE wMSE wRMSE operators
-##' @param p prediction vector, matrix, or array with numeric values in [0, 1]
-##' @param r reference vector, matrix, or array with numeric values in [0, 1]
+##' @param p prediction vector, matrix, or array with numeric values in [0, 1], for \code{and} in \{0, 1\}
+##' @param r reference vector, matrix, or array with numeric values in [0, 1], for \code{and} in \{0, 1\}
 ##' @return numeric of the same size as p
 ##' @author Claudia Beleites
 ##' @seealso Performance measures: \code{\link{sens}}
@@ -29,14 +28,21 @@
 ##' @include postproc.R
 ##'
 ##' @examples
-##' ops <- c ("luk", "gdl", "prd", "wMAE", "wMSE", "wRMSE")
+##' ops <- c ("luk", "gdl", "prd", "and", "wMAE", "wMSE", "wRMSE")
 ##' 
 ##' ## make a nice table
-##' t (sapply (ops, function (x){
-##'   x <- c (attributes (get (x)) [c ("source", "dev", "postproc")])
-##'   names (x) <- c ("source", "dev", "postproc")
-##'   x
-##' }))
+##'
+##' 
+##' lastline <- function (f){
+##'   body <- deparse (body (get (f))) ## function body
+##'   body <- body [!grepl ("^[ \t]*[}][ \t]*$", body)]
+##'   gsub ("^[ \t]+([^ \t].*[^ \t])[ \t]*$", "\\1", tail (body, 1))
+##' }
+##' 
+##' data.frame (source = sapply (ops, lastline),
+##'             dev = sapply (ops, function (f) dev (get (f))),
+##'             postproc = I (lapply (ops, function (f) postproc (get (f))))
+##'             )
 ##' 
 ##' 
 ##' x <- softclassval:::v
@@ -68,9 +74,9 @@
 ##' )
 ##' 
 ##' 
-luk <- function (r, p) pmax (r + p - 1, 0)
+luk <- function (r, p)
+  pmax (r + p - 1, 0)
 dev (luk) <- FALSE
-
 
 .test (luk) <- function(){
   checkEqualsNumeric (luk (v, v),       c (a = 0,  b = 0,   c = 0.4, d = 1,   e = NA))
@@ -81,7 +87,6 @@ dev (luk) <- FALSE
 ##' @export 
 gdl <- function (r, p)
   pmin (p, r)                           # Note: takes attributes from p only
-  
 dev (gdl) <- FALSE
  
 .test (gdl) <- function(){
@@ -99,6 +104,7 @@ dev (prd) <- FALSE
   checkEqualsNumeric (prd (v, rev (v)), c (a = NA, b = 0.3, c = 0.49, d = 0.3, e = NA))
 }
 
+## helper for "and" operator: sets all values NA that are not within +- tol from 0 or 1.
 .make01 <- function (x, tol = 1e-6){
   tmp <- rep (NA_real_, length (x))
   tmp [x >    -tol & x <     tol] <- 0
@@ -116,7 +122,7 @@ dev (prd) <- FALSE
 
 ##' @rdname operators
 ##' @export 
-and <- function (r, p){
+and <- function (r, p){ # the boolean and: accepts only hard r and p
   mostattributes (r) <- attributes (p)  
   p <- .make01 (p)
   r <- .make01 (r)
@@ -148,9 +154,9 @@ dev (wMAE) <- TRUE
 
 ##' @rdname operators
 ##' @export 
-wMSE <- function (r, p){
+wMSE <- function (r, p)
   r * (p - r)^2
-}
+
 dev (wMSE) <- TRUE
 
 ##' @rdname operators
@@ -175,7 +181,6 @@ testoperators <- svTest (function (){
   for (o in c ("luk", "gdl", "prd", "and", "wMAE", "wMSE"))
     checkTrue (is.null (postproc (get (o))),
                msg = sprintf ("postproc: %s", o))
-  
   checkEquals (postproc (wRMSE), "sqrt")
 
   checkEquals (sapply (ops, function (x) get (x) (1, v)),
