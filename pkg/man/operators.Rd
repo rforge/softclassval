@@ -12,15 +12,15 @@ wMSE(r, p)
 \details{\code{luk}: And operators for the soft performance calculation.
 
 The predefined operators are:
-\tabular{lllll}{
-Name         \tab Definition                 \tab \code{\link{dev}}? \tab \code{\link{postproc}}? \tab Explanation                                                           \cr
-\code{gdl}   \tab \code{pmin (r, p)}         \tab FALSE              \tab FALSE                   \tab the \enc{Gödel}{Goedel}-operator (weak conjunction)                   \cr
-\code{luk}   \tab \code{pmax (r + p - 1, 0)} \tab FALSE              \tab FALSE                   \tab \enc{Łukasiewicz}{Lukasiewicz}-operator (strong conjunction)          \cr
-\code{prd}   \tab \code{r * p}               \tab FALSE              \tab FALSE                   \tab product operator                                                      \cr
-\code{and}   \tab \code{r * p}               \tab FALSE              \tab FALSE                   \tab Boolean conjunction: accepts only 0 or 1, otherwise yields \code{NA}  \cr
-\code{wMAE}  \tab \code{r * abs (r - p)}     \tab TRUE               \tab FALSE                   \tab for weighted mean absolute error                                      \cr
-\code{wMSE}  \tab \code{r * (r - p)^2}       \tab TRUE               \tab FALSE                   \tab for weighted mean squared error                                       \cr
-\code{wRMSE} \tab \code{r * (r - p)^2}       \tab TRUE               \tab TRUE                    \tab for root weighted mean squared error                                  \cr
+\tabular{llllll}{
+Name         \tab Definition                 \tab \code{\link{dev}}? \tab \code{\link{postproc}}?  \tab \code{\link{hard}}? \tab Explanation                                                           \cr
+\code{gdl}   \tab \code{pmin (r, p)}         \tab FALSE              \tab FALSE                    \tab FALSE               \tab the \enc{Gödel}{Goedel}-operator (weak conjunction)                   \cr
+\code{luk}   \tab \code{pmax (r + p - 1, 0)} \tab FALSE              \tab FALSE                    \tab FALSE               \tab \enc{Łukasiewicz}{Lukasiewicz}-operator (strong conjunction)          \cr
+\code{prd}   \tab \code{r * p}               \tab FALSE              \tab FALSE                    \tab FALSE               \tab product operator                                                      \cr
+\code{and}   \tab \code{r * p}               \tab FALSE              \tab FALSE                    \tab TRUE                \tab Boolean conjunction: accepts only 0 or 1, otherwise yields \code{NA}  \cr
+\code{wMAE}  \tab \code{r * abs (r - p)}     \tab TRUE               \tab FALSE                    \tab FALSE               \tab for weighted mean absolute error                                      \cr
+\code{wMSE}  \tab \code{r * (r - p)^2}       \tab TRUE               \tab FALSE                    \tab FALSE               \tab for weighted mean squared error                                       \cr
+\code{wRMSE} \tab \code{r * (r - p)^2}       \tab TRUE               \tab TRUE                     \tab FALSE               \tab for root weighted mean squared error                                  \cr
 }
 
 }
@@ -46,9 +46,9 @@ gsub ("^[ \t]+([^ \t].*[^ \t])[ \t]*$", "\\1", tail (body, 1))
 
 data.frame (source = sapply (ops, lastline),
 dev = sapply (ops, function (f) dev (get (f))),
+hard = sapply (ops, function (f) hard (get (f))),
 postproc = I (lapply (ops, function (f) postproc (get (f))))
 )
-
 
 x <- softclassval:::v
 x

@@ -1,9 +1,9 @@
 \name{performance}
 \alias{confusion}
 \title{Performance calculation for soft classification...}
-\usage{confusion(r=stop("missing reference"), p=stop("missing prediction"), group,
+\usage{confusion(r=stop("missing reference"), p=stop("missing prediction"), groups,
     operator="prd", drop=FALSE, .checked=FALSE)
-sens(r=stop("missing reference"), p=stop("missing prediction"), group,
+sens(r=stop("missing reference"), p=stop("missing prediction"), groups,
     operator="prd", op.dev=dev(match.fun(operator)),
     op.postproc=postproc(match.fun(operator)), eps=1e-08, drop=FALSE)
 spec(r=stop("missing reference"), p=stop("missing prediction"), ...)
@@ -32,7 +32,7 @@ described in the article and call \code{sens}.
 \references{see the literature in \code{citation ("softclassval")}}
 \arguments{\item{r}{vector, matrix, or array with reference.}
 \item{p}{vector, matrix, or array with predictions}
-\item{group}{grouping variable for the averaging by \code{\link[base]{rowsum}}. If \code{NULL},
+\item{groups}{grouping variable for the averaging by \code{\link[base]{rowsum}}. If \code{NULL},
 all samples (rows) are averaged.}
 \item{operator}{the \code{\link[softclassval]{operators}} to be used}
 \item{drop}{should the results possibly be returned as vector instead of 1d array? (Note that

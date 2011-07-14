@@ -84,7 +84,7 @@ test (.checkrp) <- function (){
 ##' @rdname performance
 ##' @param r vector, matrix, or array with reference. 
 ##' @param p vector, matrix, or array with predictions
-##' @param group grouping variable for the averaging by \code{\link[base]{rowsum}}. If \code{NULL},
+##' @param groups grouping variable for the averaging by \code{\link[base]{rowsum}}. If \code{NULL},
 ##' all samples (rows) are averaged.
 ##' @param operator the \code{\link[softclassval]{operators}} to be used 
 ##' @param drop should the results possibly be returned as vector instead of 1d array? (Note that
@@ -99,14 +99,14 @@ test (.checkrp) <- function (){
 ##' @export
 ##' @include softclassval.R
 confusion <- function (r = stop ("missing reference"), p = stop ("missing prediction"),
-                       group = NULL,
+                       groups = NULL,
                        operator = "prd",
                        drop = FALSE, .checked = FALSE){
   operator <- match.fun (operator)
   if (! .checked)
     r <- .checkrp (r, p)
   res <- operator (r = r, p = p)
-  res <- groupsum (res, group = group, dim = 1, reorder = FALSE, na.rm = TRUE)
+  res <- groupsum (res, group = groups, dim = 1, reorder = FALSE, na.rm = TRUE)
 
   drop1d (res, drop = drop)
 }
@@ -122,7 +122,7 @@ test (confusion) <- function (){
 ##' here. See the example.
 ##' @rdname performance
 ##' @export
-sens <- function (r = stop ("missing reference"), p = stop ("missing prediction"), group = NULL,
+sens <- function (r = stop ("missing reference"), p = stop ("missing prediction"), groups = NULL,
                   operator = "prd",
                   op.dev = dev (match.fun (operator)),
                   op.postproc = postproc (match.fun (operator)),
@@ -139,8 +139,8 @@ sens <- function (r = stop ("missing reference"), p = stop ("missing prediction"
 
   r <- .checkrp (r, p)                     # do the input checks.
   
-  res <- confusion (r = r, p = p, group = group, operator = operator, drop = FALSE)
-  nsmpl <- groupsum (r, group = group, dim = 1, reorder = FALSE, na.rm = TRUE)
+  res <- confusion (r = r, p = p, groups = groups, operator = operator, drop = FALSE)
+  nsmpl <- nsamples (r = r, groups = groups, operator = operator)
 
   if (any (nsmpl < res))
     warning ("denominator < enumerator.")
@@ -180,58 +180,55 @@ test (sens) <- function (){
     checkTrue (is.null (names (tmp)), msg = "array")
   }
   
-  checkEquals (sens(r = ref, p = ref),
-               structure (c (0.85, 0.4, NA), .Dim = c(1L, 3L),
-                          .Dimnames = list(NULL, c("A", "B", "C"))))
-  checkEquals (sens (r = ref, p = ref, group = rep (c ("H", "S"), each = 5)),
-               structure(c(1, 0.6, NA, 0.4, NA, NA), .Dim = 2:3,
-                         .Dimnames = list(c("H", "S"), c("A", "B", "C"))))
-
-  checkEquals (sens (r = ref, p = ref, operator="gdl"),
-               structure(c(1, 1, NA), .Dim = c(1L, 3L),
-                         .Dimnames = list(NULL, c("A", "B", "C"))))
-
-  checkEquals (sens (r = ref, p = ref, group =ref.groups , operator="gdl"),
-               structure (c (1, 1, NA, 1, NA, NA), .Dim = 2:3,
-                          .Dimnames = list (as.character (ref.groups), LETTERS [1 : 3])))
-
-
-  checkEquals (sens (r = ref, p = ref, operator="luk"),
-               structure (c (0.75, 0, NA), .Dim = c(1L, 3L),
-                          .Dimnames = list(NULL, c("A", "B", "C"))))
-  checkEquals (sens (r = ref, p = ref, group = ref.groups, operator="luk"),
-               structure (c (1, 0.333333333333333, NA, 0, NA, NA), .Dim = 2:3,
-                          .Dimnames = list (c ("", "S"), c("A", "B", "C"))))
-
-  checkEquals (sens (r = ref, p = ref, operator="wMAE"),
-               structure(c(1, 1, NA), .Dim = c(1L, 3L),
-                         .Dimnames = list(NULL, c("A", "B", "C"))))
-  checkEquals (sens (r = ref, p = ref, group = rep (c ("H", "S"), each = 5), operator="wMAE"),
-               structure (c (1, 1, NA, 1, NA, NA), .Dim = 2:3,
-                          .Dimnames = list(c ("H", "S"), c("A", "B", "C"))))
-
-  checkEquals (sens (r = ref, p = ref, operator="wMSE"),
-               structure(c(1, 1, NA), .Dim = c(1L, 3L),
-                         .Dimnames = list(NULL, c("A", "B", "C"))))
-  checkEquals (sens (r = ref, p = ref, group = rep (c ("H", "S"), each = 5), operator="wMSE"),
-               structure (c (1, 1, NA, 1, NA, NA), .Dim = 2:3,
-                          .Dimnames = list(c ("H", "S"), c("A", "B", "C"))))
-
-  checkEquals (sens (r = ref, p = ref, operator="wRMSE"),
-               structure(c(1, 1, NA), .Dim = c(1L, 3L),
-                         .Dimnames = list(NULL, c("A", "B", "C"))))
+  checkEqualsNumeric (sens (r = ref.array, p = pred.array),
+                      c (0.6, 0.32, NA, 0.85, 0.4, NA))
   
-  checkEqualsNumeric (sens (r = ref, p = ref, group = rep (c ("H", "S"), each = 5),
-                            operator="wRMSE"),
-                      c (1,  1,
-                         NA, 1,
-                         NA, NA))
+  checkEqualsNumeric (sens (r = ref.array, p = pred.array, operator = "gdl"),
+                      c (0.675, 0.5, NA, 1, 1, NA))
+
+  checkEqualsNumeric (sens (r = ref.array, p = pred.array, operator = "luk"),
+                      c (0.55, 0.2, NA, 0.75, 0, NA))
+  
+  checkEqualsNumeric (sens (r = ref.array, p = pred.array, operator = "prd"),
+                      c (0.6, 0.32, NA, 0.85, 0.4, NA))
+  
+  checkEqualsNumeric (sens (r = ref.array, p = pred.array, operator = "and"),
+                      c (0.2, NA, NA, 1, NA, NA))
+  
+  checkEqualsNumeric (sens (r = ref.array, p = pred.array, operator = "wMAE"),
+                      c (0.66, 0.68, NA, 1, 1, NA))
+  
+  checkEqualsNumeric (sens (r = ref.array, p = pred.array, operator = "wMSE"),
+                      c (0.788, 0.86, NA, 1, 1, NA))
+
+  checkEqualsNumeric (sens (r = ref.array, p = pred.array, operator = "wRMSE"),
+                      c (1 - sqrt (1.696/8), 1 - sqrt (.28/2), NA, 1, 1, NA))
 
 
-  tmp <- pred
-  tmp [which (ref == 0)] <- NA          # which keeps the attributes
+  checkEqualsNumeric (sens (r = ref.array, p = pred.array, groups = ref.groups),
+                      c (0.6, 0.6, NA, 0.32, NA, NA, 1, 0.6, NA, 0.4, NA, NA))
 
-            
+  checkEqualsNumeric (sens (r = ref.array, p = pred.array, groups = ref.groups, operator = "gdl"),
+                      c (0.6, 0.8, NA, 0.5, NA, NA, 1, 1, NA, 1, NA, NA))
+
+  checkEqualsNumeric (sens (r = ref.array, p = pred.array, groups = ref.groups, operator = "luk"),
+                      c (0.6, 1.4/3, NA, 0.2, NA, NA, 1, 1/3, NA, 0, NA, NA))
+
+  checkEqualsNumeric (sens (r = ref.array, p = pred.array, groups = ref.groups, operator = "prd"),
+                      c (0.6, 0.6, NA, 0.32, NA, NA, 1, 0.6, NA, 0.4, NA, NA))
+
+  checkEqualsNumeric (sens (r = ref.array, p = pred.array, groups = ref.groups, operator = "and"),
+                      c (0.2, NA, NA, NA, NA, NA, 1, NA, NA, NA, NA, NA))
+
+  checkEqualsNumeric (sens (r = ref.array, p = pred.array, groups = ref.groups, operator = "wMAE"),
+                      c (0.6, 0.76, NA, 0.68, NA, NA, 1, 1, NA, 1, NA, NA))
+
+  checkEqualsNumeric (sens (r = ref.array, p = pred.array, groups = ref.groups, operator = "wMSE"),
+                      c (0.728, 0.888, NA, 0.86, NA, NA, 1, 1, NA, 1, NA, NA))
+
+  checkEqualsNumeric (sens (r = ref.array, p = pred.array, groups = ref.groups, operator = "wRMSE"),
+                      1 - sqrt (1 - c (0.728, 0.888, NA, 0.86, NA, NA, 1, 1, NA, 1, NA, NA)))
+
 }
 
 ##' @param ... handed to \code{sens}

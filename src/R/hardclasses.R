@@ -83,13 +83,13 @@ test (.make01) <- function (){
 
 ##' Mark operator as hard measure
 ##'
-##' The operators may work only for hard classes (see \code{\link[operators]{and}}). \code{hard (op)
+##' The operators may work only for hard classes (see \code{\link[softclassval:operators]{and}}). \code{hard (op)
 ##' == TRUE} marks hard operators.
 ##' 
 ##' @param op the operator (function)
 ##' @return logical indicating the type of operator. \code{NULL} if the attribute is missing.
 ##' @author Claudia Beleites
-##' @seealso \code{\link{sens}} \code{\link[operators]{and}}
+##' @seealso \code{\link{sens}} \code{\link[softclassval:operators]{and}}
 ##' @export 
 ##' @include softclassval.R
 ##'

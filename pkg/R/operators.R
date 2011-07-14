@@ -1,18 +1,18 @@
-##' @encoding UTF-8
+##' @encoding UTF8
 ##' @description And (conjunction) operators
 ##'
 ##' And operators for the soft performance calculation.
 ##'
 ##' The predefined operators are:
-##' \tabular{lllll}{
-##' Name         \tab Definition                 \tab \code{\link{dev}}? \tab \code{\link{postproc}}? \tab Explanation                                                           \cr
-##' \code{gdl}   \tab \code{pmin (r, p)}         \tab FALSE              \tab FALSE                   \tab the \enc{Gödel}{Goedel}-operator (weak conjunction)                   \cr
-##' \code{luk}   \tab \code{pmax (r + p - 1, 0)} \tab FALSE              \tab FALSE                   \tab \enc{Łukasiewicz}{Lukasiewicz}-operator (strong conjunction)          \cr
-##' \code{prd}   \tab \code{r * p}               \tab FALSE              \tab FALSE                   \tab product operator                                                      \cr
-##' \code{and}   \tab \code{r * p}               \tab FALSE              \tab FALSE                   \tab Boolean conjunction: accepts only 0 or 1, otherwise yields \code{NA}  \cr
-##' \code{wMAE}  \tab \code{r * abs (r - p)}     \tab TRUE               \tab FALSE                   \tab for weighted mean absolute error                                      \cr
-##' \code{wMSE}  \tab \code{r * (r - p)^2}       \tab TRUE               \tab FALSE                   \tab for weighted mean squared error                                       \cr
-##' \code{wRMSE} \tab \code{r * (r - p)^2}       \tab TRUE               \tab TRUE                    \tab for root weighted mean squared error                                  \cr
+##' \tabular{llllll}{
+##' Name         \tab Definition                 \tab \code{\link{dev}}? \tab \code{\link{postproc}}?  \tab \code{\link{hard}}? \tab Explanation                                                           \cr
+##' \code{gdl}   \tab \code{pmin (r, p)}         \tab FALSE              \tab FALSE                    \tab FALSE               \tab the \enc{Gödel}{Goedel}-operator (weak conjunction)                   \cr
+##' \code{luk}   \tab \code{pmax (r + p - 1, 0)} \tab FALSE              \tab FALSE                    \tab FALSE               \tab \enc{Łukasiewicz}{Lukasiewicz}-operator (strong conjunction)          \cr
+##' \code{prd}   \tab \code{r * p}               \tab FALSE              \tab FALSE                    \tab FALSE               \tab product operator                                                      \cr
+##' \code{and}   \tab \code{r * p}               \tab FALSE              \tab FALSE                    \tab TRUE                \tab Boolean conjunction: accepts only 0 or 1, otherwise yields \code{NA}  \cr
+##' \code{wMAE}  \tab \code{r * abs (r - p)}     \tab TRUE               \tab FALSE                    \tab FALSE               \tab for weighted mean absolute error                                      \cr
+##' \code{wMSE}  \tab \code{r * (r - p)^2}       \tab TRUE               \tab FALSE                    \tab FALSE               \tab for weighted mean squared error                                       \cr
+##' \code{wRMSE} \tab \code{r * (r - p)^2}       \tab TRUE               \tab TRUE                     \tab FALSE               \tab for root weighted mean squared error                                  \cr
 ##' }
 ##'
 ##' @param p prediction vector, matrix, or array with numeric values in [0, 1], for \code{and} in \{0, 1\}
@@ -41,9 +41,9 @@
 ##' 
 ##' data.frame (source = sapply (ops, lastline),
 ##'             dev = sapply (ops, function (f) dev (get (f))),
+##'             hard = sapply (ops, function (f) hard (get (f))),
 ##'             postproc = I (lapply (ops, function (f) postproc (get (f))))
 ##'             )
-##' 
 ##' 
 ##' x <- softclassval:::v
 ##' x
@@ -77,6 +77,7 @@
 luk <- function (r, p)
   pmax (r + p - 1, 0)
 dev (luk) <- FALSE
+hard (luk) <- FALSE
 
 test (luk) <- function(){
   checkEqualsNumeric (luk (v, v),       c (a = 0,  b = 0,   c = 0.4, d = 1,   e = NA))
@@ -88,7 +89,8 @@ test (luk) <- function(){
 gdl <- function (r, p)
   pmin (p, r)                           # Note: takes attributes from p only
 dev (gdl) <- FALSE
- 
+hard (gdl) <- FALSE
+
 test (gdl) <- function(){
   checkEqualsNumeric (gdl (v, v),       v)
   checkEqualsNumeric (gdl (v, rev (v)), c (a = NA, b = 0.3, c = 0.7, d = 0.3, e = NA))
@@ -98,6 +100,7 @@ test (gdl) <- function(){
 ##' @export 
 prd <- function (r, p)  r * p
 dev (prd) <- FALSE
+hard (prd) <- FALSE
 
 test (prd) <- function(){
   checkEqualsNumeric (prd (v, v),       v^2)
@@ -114,6 +117,7 @@ and <- function (r, p){ # the boolean and: accepts only hard r and p
   r * p ## fastest
 }
 dev (and) <- FALSE
+hard (and) <- TRUE
 
 test (and) <- function(){
   checkEqualsNumeric (and (v, v),       c (a = 0 , b = NA, c = NA, d =  1, e = NA))
@@ -127,8 +131,8 @@ wMAE <- function (r, p) {
   mostattributes (r) <- attributes (p)
   r * abs (p - r)
 }
-
 dev (wMAE) <- TRUE
+hard (wMAE) <- FALSE
 
 test (wMAE) <- function(){
   checkEqualsNumeric (wMAE (v, v),       c (a = 0 , b = 0,    c = 0, d = 0,   e = NA))
@@ -142,6 +146,7 @@ wMSE <- function (r, p)
   r * (p - r)^2
 
 dev (wMSE) <- TRUE
+hard (wMSE) <- FALSE
 
 ##' @rdname operators
 ##' @export 
@@ -154,19 +159,26 @@ testoperators <- svTest (function (){
   ops <- c ("luk", "gdl", "prd", "and", "wMAE", "wMSE", "wRMSE")
 
   ## dev
-  for (o in c ("luk", "gdl", "prd", "and"))
+  for (o in setdiff (ops, c ("wMAE", "wMSE", "wRMSE")))
     checkTrue (! dev (get (o)),
                msg = sprintf ("dev: %s", o))
   for (o in c ("wMAE", "wMSE", "wRMSE"))
-      checkTrue (dev (get (o)),
+    checkTrue (dev (get (o)),
                msg = sprintf ("dev: %s", o))
+  ## hard
+  for (o in setdiff (ops, "and"))
+    checkTrue (! hard (get (o)),
+               msg = sprintf ("hard: %s", o))
+  checkTrue (hard (and),
+             msg = sprintf ("hard: and"))
 
   ## postproc
-  for (o in c ("luk", "gdl", "prd", "and", "wMAE", "wMSE"))
+  for (o in setdiff (ops, "wRMSE"))
     checkTrue (is.null (postproc (get (o))),
                msg = sprintf ("postproc: %s", o))
   checkEquals (postproc (wRMSE), "sqrt")
 
+  ## against 1
   checkEquals (sapply (ops, function (x) get (x) (1, v)),
                matrix (c (0,   0,   0,   0,   1,   1,    1,
                           0.3, 0.3, 0.3, NA,  0.7, 0.49, 0.49, 
@@ -176,6 +188,7 @@ testoperators <- svTest (function (){
                        dimnames = list (names (v), ops))
                )
 
+  ## against 0
   checkEquals (sapply (ops, function (x) get (x) (0, v)),
                matrix (c (0,   0,   0,   0,   0,   0,    0,
                           0,   0,   0,   NA,  0,   0,    0,
