@@ -140,6 +140,7 @@ sens <- function (r = stop ("missing reference"), p = stop ("missing prediction"
   r <- .checkrp (r, p)                     # do the input checks.
   
   res <- confusion (r = r, p = p, group = group, operator = operator, drop = FALSE)
+
   nsmpl <- groupsum (r, group = group, dim = 1, reorder = FALSE, na.rm = TRUE)
 
   if (any (nsmpl < res))
@@ -182,46 +183,59 @@ test (sens) <- function (){
   
   checkEquals (sens(r = ref, p = ref),
                structure (c (0.85, 0.4, NA), .Dim = c(1L, 3L),
-                          .Dimnames = list(NULL, c("A", "B", "C"))))
-  checkEquals (sens (r = ref, p = ref, group = rep (c ("H", "S"), each = 5)),
+                          .Dimnames = list (NULL, colnames (ref))))
+  checkEquals (sens (r = ref, p = ref, group = ref.groups),
                structure(c(1, 0.6, NA, 0.4, NA, NA), .Dim = 2:3,
-                         .Dimnames = list(c("H", "S"), c("A", "B", "C"))))
+                         .Dimnames = list (levels (ref.groups), colnames (ref))))
 
   checkEquals (sens (r = ref, p = ref, operator="gdl"),
                structure(c(1, 1, NA), .Dim = c(1L, 3L),
-                         .Dimnames = list(NULL, c("A", "B", "C"))))
-
-  checkEquals (sens (r = ref, p = ref, group =ref.groups , operator="gdl"),
+                         .Dimnames = list (NULL, colnames (ref))))
+  checkEquals (sens (r = ref, p = ref, group = ref.groups, operator="gdl"),
                structure (c (1, 1, NA, 1, NA, NA), .Dim = 2:3,
-                          .Dimnames = list (as.character (ref.groups), LETTERS [1 : 3])))
+                          .Dimnames = list (levels (ref.groups), colnames (ref))))
 
 
   checkEquals (sens (r = ref, p = ref, operator="luk"),
                structure (c (0.75, 0, NA), .Dim = c(1L, 3L),
-                          .Dimnames = list(NULL, c("A", "B", "C"))))
+                          .Dimnames = list (NULL, colnames (ref))))
   checkEquals (sens (r = ref, p = ref, group = ref.groups, operator="luk"),
-               structure (c (1, 0.333333333333333, NA, 0, NA, NA), .Dim = 2:3,
-                          .Dimnames = list (c ("", "S"), c("A", "B", "C"))))
+               structure (c (1, 1/3, NA, 0, NA, NA), .Dim = 2:3,
+                          .Dimnames = list (levels (ref.groups), colnames (ref))))
+
+  checkEquals (sens(r = ref, p = ref, operator="prd"),
+               structure (c (0.85, 0.4, NA), .Dim = c(1L, 3L),
+                          .Dimnames = list (NULL, colnames (ref))))
+  checkEquals (sens (r = ref, p = ref, group = ref.groups, operator="prd"),
+               structure(c(1, 0.6, NA, 0.4, NA, NA), .Dim = 2:3,
+                         .Dimnames = list (levels (ref.groups), colnames (ref))))
+
+  checkEquals (sens(r = ref, p = ref, operator="and"),
+               structure (c (0.85, 0.4, NA), .Dim = c(1L, 3L),
+                          .Dimnames = list (NULL, colnames (ref))))
+  checkEquals (sens (r = ref, p = ref, group = ref.groups, operator="prd"),
+               structure(c(1, 0.6, NA, 0.4, NA, NA), .Dim = 2:3,
+                         .Dimnames = list (levels (ref.groups), colnames (ref))))
 
   checkEquals (sens (r = ref, p = ref, operator="wMAE"),
                structure(c(1, 1, NA), .Dim = c(1L, 3L),
-                         .Dimnames = list(NULL, c("A", "B", "C"))))
-  checkEquals (sens (r = ref, p = ref, group = rep (c ("H", "S"), each = 5), operator="wMAE"),
+                         .Dimnames = list (NULL, colnames (ref))))
+  checkEquals (sens (r = ref, p = ref, group = ref.groups, operator="wMAE"),
                structure (c (1, 1, NA, 1, NA, NA), .Dim = 2:3,
-                          .Dimnames = list(c ("H", "S"), c("A", "B", "C"))))
+                          .Dimnames = list (levels (ref.groups), colnames (ref))))
 
   checkEquals (sens (r = ref, p = ref, operator="wMSE"),
                structure(c(1, 1, NA), .Dim = c(1L, 3L),
-                         .Dimnames = list(NULL, c("A", "B", "C"))))
-  checkEquals (sens (r = ref, p = ref, group = rep (c ("H", "S"), each = 5), operator="wMSE"),
+                         .Dimnames = list (NULL, colnames (ref))))
+  checkEquals (sens (r = ref, p = ref, group = ref.groups, operator="wMSE"),
                structure (c (1, 1, NA, 1, NA, NA), .Dim = 2:3,
-                          .Dimnames = list(c ("H", "S"), c("A", "B", "C"))))
+                          .Dimnames = list (levels (ref.groups), colnames (ref))))
 
   checkEquals (sens (r = ref, p = ref, operator="wRMSE"),
                structure(c(1, 1, NA), .Dim = c(1L, 3L),
-                         .Dimnames = list(NULL, c("A", "B", "C"))))
+                         .Dimnames = list (NULL, colnames (ref))))
   
-  checkEqualsNumeric (sens (r = ref, p = ref, group = rep (c ("H", "S"), each = 5),
+  checkEqualsNumeric (sens (r = ref, p = ref, group = ref.groups,
                             operator="wRMSE"),
                       c (1,  1,
                          NA, 1,

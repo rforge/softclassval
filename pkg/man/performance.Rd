@@ -17,8 +17,8 @@ memberships in [0, 1].
 The rows of \code{r} and \code{p} are considered the samples, columns will usually hold the
 classes, and further dimensions are preserved but ignored.
 
-\code{r} must have the same number of rows as \code{p}, all other dimensions may be filled by
-recycling.
+\code{r} must have the same number of rows and columns as \code{p}, all other dimensions may be
+filled by recycling.
 
 \code{spec}, \code{ppv}, and \code{npv} use the symmetry between the performance measures as
 described in the article and call \code{sens}.

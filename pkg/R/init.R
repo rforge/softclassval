@@ -1,7 +1,3 @@
-## .onLoad <- function (libname, pkgname){
-##   stopifnot (require (arrayhelpers))
-## }
-
 .onAttach <- function (libname, pkgname){
   ## unlockBinding(".options", asNamespace("softclassval")) 
 

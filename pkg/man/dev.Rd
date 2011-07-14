@@ -1,9 +1,9 @@
 \name{dev}
 \alias{dev}
-\title{Mark operator as "deviation" measure...}
+\title{Mark operator as deviation measure...}
 \usage{dev(op)
 dev (op) <- value}
-\description{Mark operator as "deviation" measure}
+\description{Mark operator as deviation measure}
 \details{\code{dev}: The operators measure either a performance (i.e. accordance between reference and prediction) or
 a deviation. \code{dev (op) == TRUE} marks operators measuring deviation.
 

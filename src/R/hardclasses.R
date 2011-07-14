@@ -81,3 +81,47 @@ test (.make01) <- function (){
   checkIdentical (attributes (.make01 (m)), attributes (m))
 }
 
+##' Mark operator as hard measure
+##'
+##' The operators may work only for hard classes (see \code{\link[operators]{and}}). \code{hard (op)
+##' == TRUE} marks hard operators.
+##' 
+##' @param op the operator (function)
+##' @return logical indicating the type of operator. \code{NULL} if the attribute is missing.
+##' @author Claudia Beleites
+##' @seealso \code{\link{sens}} \code{\link[operators]{and}}
+##' @export 
+##' @include softclassval.R
+##'
+##' @examples
+##'
+##' hard (and)
+##' myop <- function (r, p) p * (r == 1)
+##' hard (myop) <- TRUE
+##' 
+
+hard <- function (op)
+  attr (op, "hard")
+
+##' @usage hard (op) <- value
+##' @rdname hard
+##' @param value logical indicating the operator type
+##' @export "hard<-"
+"hard<-" <- function (op, value){
+  stopifnot (is.logical (value), !is.na (value))
+
+  attr (op, "hard") <- value
+
+  op
+}
+
+test (hard) <- function (){
+  myop <- function (){}
+  checkTrue (is.null (hard (myop)))
+  hard (myop) <- TRUE
+  checkTrue (hard (myop))
+  hard (myop) <- FALSE
+  checkTrue (!hard (myop))
+  checkException (hard (myop) <- NULL)
+  checkException (hard (myop) <- NA)
+}
