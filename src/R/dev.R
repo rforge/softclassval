@@ -1,4 +1,4 @@
-##' Mark operator as "deviation" measure
+##' Mark operator as deviation measure
 ##'
 ##' The operators measure either a performance (i.e. accordance between reference and prediction) or
 ##' a deviation. \code{dev (op) == TRUE} marks operators measuring deviation.
