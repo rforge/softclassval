@@ -45,7 +45,7 @@ hardclasses <- function (x, classdim = 2L, soft.name = NA, tol = 1e-5, drop = TR
   drop1d (cl, drop = drop)
 }
 
-.test (hardclasses) <- function (){
+test (hardclasses) <- function (){
   checkEquals (hardclasses (pred),
                factor (rep (letters [c (1, 2, NA, NA, NA)], 2), levels = letters [1 : 3]))
 

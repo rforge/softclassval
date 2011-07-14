@@ -35,7 +35,7 @@ postproc <- function (op)
   op
 }
 
-.test (postproc) <- function (){
+test (postproc) <- function (){
   myop <- function (){}
   checkTrue (is.null (postproc (myop)))
   postproc (myop) <- `sqrt`

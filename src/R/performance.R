@@ -52,7 +52,7 @@
   
   r
 }
-.test (.checkrp) <- function (){
+test (.checkrp) <- function (){
   checkEquals (.checkrp (ref,       pred                    ), ref      )
   checkEquals (.checkrp (ref.array, pred.array              ), ref.array)
   checkEquals (.checkrp (ref      , pred.array              ), ref.array, msg = "recycling r")
@@ -110,7 +110,7 @@ confusion <- function (r = stop ("missing reference"), p = stop ("missing predic
 
   drop1d (res, drop = drop)
 }
-.test (confusion) <- function (){
+test (confusion) <- function (){
   
 }
 ##TODO tests
@@ -156,7 +156,7 @@ sens <- function (r = stop ("missing reference"), p = stop ("missing prediction"
 
   res
 }
-.test (sens) <- function (){
+test (sens) <- function (){
   ops <- c ("luk", "gdl", "prd", "and", "wMAE", "wMSE", "wRMSE")
 
   ## shape & names

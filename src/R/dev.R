@@ -32,7 +32,7 @@ dev <- function (op)
   op
 }
 
-.test (dev) <- function (){
+test (dev) <- function (){
   myop <- function (){}
   checkTrue (is.null (dev (myop)))
   dev (myop) <- TRUE

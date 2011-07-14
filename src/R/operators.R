@@ -78,7 +78,7 @@ luk <- function (r, p)
   pmax (r + p - 1, 0)
 dev (luk) <- FALSE
 
-.test (luk) <- function(){
+test (luk) <- function(){
   checkEqualsNumeric (luk (v, v),       c (a = 0,  b = 0,   c = 0.4, d = 1,   e = NA))
   checkEqualsNumeric (luk (v, rev (v)), c (a = NA, b = 0.3, c = 0.4, d = 0.3, e = NA))
 }
@@ -89,7 +89,7 @@ gdl <- function (r, p)
   pmin (p, r)                           # Note: takes attributes from p only
 dev (gdl) <- FALSE
  
-.test (gdl) <- function(){
+test (gdl) <- function(){
   checkEqualsNumeric (gdl (v, v),       v)
   checkEqualsNumeric (gdl (v, rev (v)), c (a = NA, b = 0.3, c = 0.7, d = 0.3, e = NA))
 }
@@ -99,7 +99,7 @@ dev (gdl) <- FALSE
 prd <- function (r, p)  r * p
 dev (prd) <- FALSE
 
-.test (prd) <- function(){
+test (prd) <- function(){
   checkEqualsNumeric (prd (v, v),       v^2)
   checkEqualsNumeric (prd (v, rev (v)), c (a = NA, b = 0.3, c = 0.49, d = 0.3, e = NA))
 }
@@ -114,7 +114,7 @@ dev (prd) <- FALSE
 
   tmp
 }
-.test (.make01) <- function (){
+test (.make01) <- function (){
   checkIdentical (.make01 (v), c( a = 0, b = NA, c = NA, d = 1, e = NA))
   checkIdentical (attributes (.make01 (m)), attributes (m))
 }
@@ -131,7 +131,7 @@ and <- function (r, p){ # the boolean and: accepts only hard r and p
 }
 dev (and) <- FALSE
 
-.test (and) <- function(){
+test (and) <- function(){
   checkEqualsNumeric (and (v, v),       c (a = 0 , b = NA, c = NA, d =  1, e = NA))
   checkEqualsNumeric (and (v, rev (v)), c (a = NA_real_, b = NA, c = NA, d = NA, e = NA))
   checkEqualsNumeric (and (0, 1), 0)
@@ -146,7 +146,7 @@ wMAE <- function (r, p) {
 
 dev (wMAE) <- TRUE
 
-.test (wMAE) <- function(){
+test (wMAE) <- function(){
   checkEqualsNumeric (wMAE (v, v),       c (a = 0 , b = 0,    c = 0, d = 0,   e = NA))
   checkEqualsNumeric (wMAE (v, rev (v)), c (a = NA, b = 0.21, c = 0, d = 0.7, e = NA))
 }
