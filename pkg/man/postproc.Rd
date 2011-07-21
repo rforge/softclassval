@@ -2,7 +2,9 @@
 \alias{postproc}
 \title{Attach postprocessing function to operator...}
 \usage{postproc(op)
-postproc (op) <- value}
+
+postproc (op) <- value
+}
 \description{Attach postprocessing function to operator}
 \details{\code{postproc}: The postprocessing function is applied during performance calculation after averaging but before
 \code{\link{dev}} is applied. This is the place where the root is taken of root mean squared errors.
@@ -19,8 +21,10 @@ postproc (op) <- value}
 \item{value}{function (or its name or symbol) to do the post-processing. \code{NULL} deletes the
 postprocessing function.}
 }
-\examples{postproc (wRMSE)
+\examples{
+postproc (wRMSE)
 myop <- function (r, p) p * (r == 1)
-postproc (myop) <- `sqrt`}
+postproc (myop) <- `sqrt`
+}
 \alias{postproc<-}
 

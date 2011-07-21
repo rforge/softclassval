@@ -2,12 +2,23 @@
 \alias{luk}
 \title{And (conjunction) operators...}
 \usage{luk(r, p)
+
 gdl(r, p)
+
+
 prd(r, p)
+
+
 and(r, p)
+
+
 wMAE(r, p)
+
+
 wMSE(r, p)
+
 }
+\encoding{UTF8}
 \description{And (conjunction) operators}
 \details{\code{luk}: And operators for the soft performance calculation.
 
@@ -33,7 +44,8 @@ Name         \tab Definition                 \tab \code{\link{dev}}? \tab \code{
 \arguments{\item{p}{prediction vector, matrix, or array with numeric values in [0, 1], for \code{and} in \{0, 1\}}
 \item{r}{reference vector, matrix, or array with numeric values in [0, 1], for \code{and} in \{0, 1\}}
 }
-\examples{ops <- c ("luk", "gdl", "prd", "and", "wMAE", "wMSE", "wRMSE")
+\examples{
+ops <- c ("luk", "gdl", "prd", "and", "wMAE", "wMSE", "wRMSE")
 
 ## make a nice table
 
@@ -76,7 +88,8 @@ cbind (sapply (c ("luk", "gdl", "prd", "wMAE", "wMSE", "wRMSE"),
 function (op, x) get (op) (1, x), x)) -
 cbind (sapply (c ("luk", "gdl", "prd", "wMAE", "wMSE", "wRMSE"),
 function (op, x) get (op) (x, 1), x)) 
-)}
+)
+}
 \alias{gdl}
 \alias{prd}
 \alias{and}

@@ -1,7 +1,7 @@
 \name{nsamples}
 \alias{nsamples}
 \title{Number of samples}
-\usage{nsamples(r=r, groups, operator="prd", hard.operator)
+\usage{nsamples(r=r, groups=NULL, operator="prd", hard.operator)
 }
 \description{Count number of samples}
 \details{Basically, the reference is summed up. For hard operators, the reference is hardened first: soft
@@ -15,8 +15,10 @@ all samples (rows) are averaged.}
 \item{operator}{the \code{\link[softclassval:operators]{operator}} to be used}
 \item{hard.operator}{optional: a logical determining whether only hard samples should be counted}
 }
-\examples{ref <- softclassval:::ref
+\examples{
+ref <- softclassval:::ref
 ref
 nsamples (ref)
-nsamples (ref, hard.operator = TRUE)}
+nsamples (ref, hard.operator = TRUE)
+}
 

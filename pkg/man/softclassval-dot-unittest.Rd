@@ -1,4 +1,4 @@
-\name{softclassval.unittest}
+\name{softclassval-dot-unittest}
 \alias{softclassval.unittest}
 \title{Run the unit tests...}
 \description{Run the unit tests}

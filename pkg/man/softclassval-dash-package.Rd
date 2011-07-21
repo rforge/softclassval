@@ -1,4 +1,4 @@
-\name{softclassval-package}
+\name{softclassval-dash-package}
 \alias{softclassval-package}
 \alias{softclassval-package}
 \title{Soft classification performance measures...}

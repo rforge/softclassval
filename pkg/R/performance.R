@@ -127,7 +127,8 @@ sens <- function (r = stop ("missing reference"), p = stop ("missing prediction"
                   op.dev = dev (match.fun (operator)),
                   op.postproc = postproc (match.fun (operator)),
                   eps = 1e-8,
-                  drop = FALSE){
+                  drop = FALSE,
+                  .checked = FALSE){
   force (op.dev)
   force (op.postproc)
 
@@ -137,7 +138,8 @@ sens <- function (r = stop ("missing reference"), p = stop ("missing prediction"
   if (!is.null (op.postproc))
     POSTFUN <- match.fun (op.postproc)
 
-  r <- .checkrp (r, p)                     # do the input checks.
+  if (!.checked)
+    r <- .checkrp (r, p)                     # do the input checks.
   
   res <- confusion (r = r, p = p, groups = groups, operator = operator, drop = FALSE)
   nsmpl <- nsamples (r = r, groups = groups, operator = operator)
@@ -241,11 +243,21 @@ spec <- function (r = stop ("missing reference"), p = stop ("missing prediction"
 ##' @rdname performance
 ##' @export 
 ppv <- function (r = stop ("missing reference"), p = stop ("missing prediction"), ...){
-  sens (r = p, p = r, ...)
+  r <- .checkrp (r, p) 
+  sens (r = p, p = r, ..., .checked = TRUE)
+}
+test (ppv) <- function (){
+  checkEquals (ppv (r = ref, p = pred.array),
+               sens (r = pred.array, p = ref.array))
 }
 
 ##' @rdname performance
 ##' @export 
 npv <- function (r = stop ("missing reference"), p = stop ("missing prediction"), ...){
-  sens (r = 1 - p, p = 1 - r, ...)
+  r <- .checkrp (r, p)
+  sens (r = 1 - p, p = 1 - r, ..., .checked = TRUE)
+}
+test (npv) <- function (){
+  checkEquals (npv (r = ref, p = pred.array),
+               sens (r = 1 - pred.array, p = 1 - ref.array))
 }

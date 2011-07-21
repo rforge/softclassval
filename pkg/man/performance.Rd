@@ -1,14 +1,23 @@
 \name{performance}
 \alias{confusion}
 \title{Performance calculation for soft classification...}
-\usage{confusion(r=stop("missing reference"), p=stop("missing prediction"), groups,
+\usage{confusion(r=stop("missing reference"), p=stop("missing prediction"), groups=NULL,
     operator="prd", drop=FALSE, .checked=FALSE)
-sens(r=stop("missing reference"), p=stop("missing prediction"), groups,
+
+sens(r=stop("missing reference"), p=stop("missing prediction"), groups=NULL,
     operator="prd", op.dev=dev(match.fun(operator)),
-    op.postproc=postproc(match.fun(operator)), eps=1e-08, drop=FALSE)
+    op.postproc=postproc(match.fun(operator)), eps=1e-08, drop=FALSE,
+    .checked=FALSE)
+
+
 spec(r=stop("missing reference"), p=stop("missing prediction"), ...)
+
+
 ppv(r=stop("missing reference"), p=stop("missing prediction"), ...)
+
+
 npv(r=stop("missing reference"), p=stop("missing prediction"), ...)
+
 }
 \description{Performance calculation for soft classification}
 \details{\code{confusion}: These performance measures can be used with prediction and reference being continuous class
