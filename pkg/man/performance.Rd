@@ -13,10 +13,12 @@ sens(r=stop("missing reference"), p=stop("missing prediction"), groups=NULL,
 spec(r=stop("missing reference"), p=stop("missing prediction"), ...)
 
 
-ppv(r=stop("missing reference"), p=stop("missing prediction"), ...)
+ppv(r=stop("missing reference"), p=stop("missing prediction"), ...,
+    .checked=FALSE)
 
 
-npv(r=stop("missing reference"), p=stop("missing prediction"), ...)
+npv(r=stop("missing reference"), p=stop("missing prediction"), ...,
+    .checked=FALSE)
 
 }
 \description{Performance calculation for soft classification}

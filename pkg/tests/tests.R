@@ -1,0 +1,2 @@
+library (softclassval)
+softclassval.unittest ()

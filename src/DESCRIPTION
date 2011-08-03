@@ -5,8 +5,8 @@ Description: Extension of sensitivity, specificity, positive and negative predic
 				 continuous predicted and reference memberships in [0, 1]
 Maintainer: C. Beleites <cbeleites@units.it>
 Author: C. Beleites <cbeleites@units.it>
-Version: 0.5-20110721
-Date: 2011-07-21 
+Version: 0.5-20110803
+Date: 2011-08-03 
 License: GPL
 LazyLoad: yes
 LazyData: yes

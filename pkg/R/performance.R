@@ -242,8 +242,10 @@ spec <- function (r = stop ("missing reference"), p = stop ("missing prediction"
 
 ##' @rdname performance
 ##' @export 
-ppv <- function (r = stop ("missing reference"), p = stop ("missing prediction"), ...){
-  r <- .checkrp (r, p) 
+ppv <- function (r = stop ("missing reference"), p = stop ("missing prediction"), ...,
+                 .checked = FALSE){
+  if (! .checked)
+    r <- .checkrp (r, p) 
   sens (r = p, p = r, ..., .checked = TRUE)
 }
 test (ppv) <- function (){
@@ -253,10 +255,13 @@ test (ppv) <- function (){
 
 ##' @rdname performance
 ##' @export 
-npv <- function (r = stop ("missing reference"), p = stop ("missing prediction"), ...){
-  r <- .checkrp (r, p)
+npv <- function (r = stop ("missing reference"), p = stop ("missing prediction"), ...,
+                 .checked = FALSE){
+  if (! .checked)
+    r <- .checkrp (r, p)
   sens (r = 1 - p, p = 1 - r, ..., .checked = TRUE)
 }
+
 test (npv) <- function (){
   checkEquals (npv (r = ref, p = pred.array),
                sens (r = 1 - pred.array, p = 1 - ref.array))

@@ -4,6 +4,7 @@ roxy: clean DESCRIPTION src/R/*.R
 	rm -f pkg/man/*.Rd
 	Rscript --vanilla -e "library (roxygen); roxygenize (\"src\", \"pkg\", use.Rd2 = TRUE)" 
 	rsync -av --delete src/R/*.R pkg/R/
+	rsync -av --delete src/tests/* pkg/tests/
 	rm -rf pkg/inst
 
 DESCRIPTION: $(shell find src -maxdepth 1 -daystart -not -ctime 0 -name "DESCRIPTION") #only if not modified today
@@ -17,6 +18,7 @@ src/R/*.R:
 
 clean:
 	rm -f src/R/#*.R#
+	rm -f src/R/*.bak
 	rm -f src/R/*.R~
 	cd pkg && rm -rf *.R~	
 	rm -f pkg/*/man/.*.Rd
