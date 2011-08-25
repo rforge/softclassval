@@ -116,7 +116,7 @@ users: do not unzip the archive.
     where <tt><i>pkg-directory</i></tt> is the directory where the svn checkout went (default is ./pkg).
   </li>
 </ol>
-<h1><a name="Presentations about softclassval">Presentations about softclassval</a></h1>
+<h1><a name="About softclassval">About <tt>softclassval</tt></a></h1>
 <ul>
 <?php include ('about-softclassval.html') ?>
 </ul>
