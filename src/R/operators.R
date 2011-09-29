@@ -6,8 +6,8 @@
 ##' The predefined operators are:
 ##' \tabular{llllll}{
 ##' Name         \tab Definition                 \tab \code{\link{dev}}? \tab \code{\link{postproc}}?  \tab \code{\link{hard}}? \tab Explanation                                                           \cr
-##' \code{gdl}   \tab \code{pmin (r, p)}         \tab FALSE              \tab FALSE                    \tab FALSE               \tab the \enc{Gödel}{Goedel}-operator (weak conjunction)                   \cr
-##' \code{luk}   \tab \code{pmax (r + p - 1, 0)} \tab FALSE              \tab FALSE                    \tab FALSE               \tab \enc{Łukasiewicz}{Lukasiewicz}-operator (strong conjunction)          \cr
+##' \code{weak} == \code{gdl}   \tab \code{pmin (r, p)}         \tab FALSE              \tab FALSE                    \tab FALSE               \tab the \enc{Gödel}{Goedel}-operator (weak conjunction)                   \cr
+##' \code{strong} == \code{luk}   \tab \code{pmax (r + p - 1, 0)} \tab FALSE              \tab FALSE                    \tab FALSE               \tab \enc{Łukasiewicz}{Lukasiewicz}-operator (strong conjunction)          \cr
 ##' \code{prd}   \tab \code{r * p}               \tab FALSE              \tab FALSE                    \tab FALSE               \tab product operator                                                      \cr
 ##' \code{and}   \tab \code{r * p}               \tab FALSE              \tab FALSE                    \tab TRUE                \tab Boolean conjunction: accepts only 0 or 1, otherwise yields \code{NA}  \cr
 ##' \code{wMAE}  \tab \code{r * abs (r - p)}     \tab TRUE               \tab FALSE                    \tab FALSE               \tab for weighted mean absolute error                                      \cr
@@ -28,7 +28,7 @@
 ##' @include postproc.R
 ##'
 ##' @examples
-##' ops <- c ("luk", "gdl", "prd", "and", "wMAE", "wMSE", "wRMSE")
+##' ops <- c ("strong", "weak", "prd", "and", "wMAE", "wMSE", "wRMSE")
 ##' 
 ##' ## make a nice table
 ##'
@@ -52,49 +52,58 @@
 ##' 
 ##' ## The behaviour of the operators
 ##' ## op (x, 1)
-##' cbind (x, sapply (c ("luk", "gdl", "prd", "wMAE", "wMSE", "wRMSE"),
+##' cbind (x, sapply (c ("strong", "weak", "prd", "wMAE", "wMSE", "wRMSE"),
 ##'                   function (op, x) get (op) (x, 1), x))
 ##' 
 ##' ## op (x, 0)
-##' cbind (x, sapply (c ("luk", "gdl", "prd", "wMAE", "wMSE", "wRMSE"),
+##' cbind (x, sapply (c ("strong", "weak", "prd", "wMAE", "wMSE", "wRMSE"),
 ##'                   function (op, x) get (op) (x, 0), x))
 ##' 
 ##' ## op (x, x)
-##' cbind (x, sapply (c ("luk", "gdl", "prd", "wMAE", "wMSE", "wRMSE"),
+##' cbind (x, sapply (c ("strong", "weak", "prd", "wMAE", "wMSE", "wRMSE"),
 ##'                   function (op, x) get (op) (x, x), x))
 ##' 
 ##' 
 ##' ## Note that the deviation operators are not commutative
 ##' ## (due to the weighting by reference)
 ##' zapsmall (
-##' cbind (sapply (c ("luk", "gdl", "prd", "wMAE", "wMSE", "wRMSE"),
+##' cbind (sapply (c ("strong", "weak", "prd", "wMAE", "wMSE", "wRMSE"),
 ##'                   function (op, x) get (op) (1, x), x)) -
-##' cbind (sapply (c ("luk", "gdl", "prd", "wMAE", "wMSE", "wRMSE"),
+##' cbind (sapply (c ("strong", "weak", "prd", "wMAE", "wMSE", "wRMSE"),
 ##'                   function (op, x) get (op) (x, 1), x)) 
 ##' )
 ##' 
 ##' 
-luk <- function (r, p)
+strong <- function (r, p)
   pmax (r + p - 1, 0)
-dev (luk) <- FALSE
-hard (luk) <- FALSE
+dev (strong) <- FALSE
+hard (strong) <- FALSE
 
-test (luk) <- function(){
-  checkEqualsNumeric (luk (v, v),       c (a = 0,  b = 0,   c = 0.4, d = 1,   e = NA))
-  checkEqualsNumeric (luk (v, rev (v)), c (a = NA, b = 0.3, c = 0.4, d = 0.3, e = NA))
+test (strong) <- function(){
+  checkEqualsNumeric (strong (v, v),       c (a = 0,  b = 0,   c = 0.4, d = 1,   e = NA))
+  checkEqualsNumeric (strong (v, rev (v)), c (a = NA, b = 0.3, c = 0.4, d = 0.3, e = NA))
 }
 
 ##' @rdname operators
-##' @export 
-gdl <- function (r, p)
-  pmin (p, r)                           # Note: takes attributes from p only
-dev (gdl) <- FALSE
-hard (gdl) <- FALSE
+##' @export
+luk <- strong
 
-test (gdl) <- function(){
-  checkEqualsNumeric (gdl (v, v),       v)
-  checkEqualsNumeric (gdl (v, rev (v)), c (a = NA, b = 0.3, c = 0.7, d = 0.3, e = NA))
+##' @rdname operators
+##' @export 
+weak <- function (r, p)
+  pmin (p, r)                           # Note: takes attributes from p only
+dev (weak) <- FALSE
+hard (weak) <- FALSE
+
+test (weak) <- function(){
+  checkEqualsNumeric (weak (v, v),       v)
+  checkEqualsNumeric (weak (v, rev (v)), c (a = NA, b = 0.3, c = 0.7, d = 0.3, e = NA))
 }
+
+##' @rdname operators
+##' @export
+gdl <- weak
+
 
 ##' @rdname operators
 ##' @export 
@@ -156,7 +165,7 @@ postproc (wRMSE) <- "sqrt"
 
 ##' @nord
 testoperators <- svTest (function (){
-  ops <- c ("luk", "gdl", "prd", "and", "wMAE", "wMSE", "wRMSE")
+  ops <- c ("strong", "weak", "prd", "and", "wMAE", "wMSE", "wRMSE")
 
   ## dev
   for (o in setdiff (ops, c ("wMAE", "wMSE", "wRMSE")))
@@ -200,7 +209,7 @@ testoperators <- svTest (function (){
 
   r <- runif (1000)
   p <- runif (1000)
-  for (o in c ("luk", "gdl", "prd", "wMAE", "wMSE", "wRMSE"))
+  for (o in c ("strong", "weak", "prd", "wMAE", "wMSE", "wRMSE"))
     checkTrue (get (o) (r, p) <= r, msg = sprintf ("op (p, r) <= r: %s", o))
 
   for (o in ops){
@@ -216,7 +225,7 @@ testoperators <- svTest (function (){
   
   tmp <- runif (length (m))
   mostattributes (tmp) <- attributes (m)
-  for (o in c ("luk", "gdl", "prd", "and")){
+  for (o in c ("strong", "weak", "prd", "and")){
     op <- get (o)
     checkEquals (op (m, tmp),
                  op (tmp, m),

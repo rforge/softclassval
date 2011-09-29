@@ -1,9 +1,9 @@
 \name{operators}
-\alias{luk}
+\alias{strong}
 \title{And (conjunction) operators...}
-\usage{luk(r, p)
+\usage{strong(r, p)
 
-gdl(r, p)
+weak(r, p)
 
 
 prd(r, p)
@@ -20,13 +20,13 @@ wMSE(r, p)
 }
 \encoding{UTF8}
 \description{And (conjunction) operators}
-\details{\code{luk}: And operators for the soft performance calculation.
+\details{\code{strong}: And operators for the soft performance calculation.
 
 The predefined operators are:
 \tabular{llllll}{
 Name         \tab Definition                 \tab \code{\link{dev}}? \tab \code{\link{postproc}}?  \tab \code{\link{hard}}? \tab Explanation                                                           \cr
-\code{gdl}   \tab \code{pmin (r, p)}         \tab FALSE              \tab FALSE                    \tab FALSE               \tab the \enc{Gödel}{Goedel}-operator (weak conjunction)                   \cr
-\code{luk}   \tab \code{pmax (r + p - 1, 0)} \tab FALSE              \tab FALSE                    \tab FALSE               \tab \enc{Łukasiewicz}{Lukasiewicz}-operator (strong conjunction)          \cr
+\code{weak} == \code{gdl}   \tab \code{pmin (r, p)}         \tab FALSE              \tab FALSE                    \tab FALSE               \tab the \enc{Gödel}{Goedel}-operator (weak conjunction)                   \cr
+\code{strong} == \code{luk}   \tab \code{pmax (r + p - 1, 0)} \tab FALSE              \tab FALSE                    \tab FALSE               \tab \enc{Łukasiewicz}{Lukasiewicz}-operator (strong conjunction)          \cr
 \code{prd}   \tab \code{r * p}               \tab FALSE              \tab FALSE                    \tab FALSE               \tab product operator                                                      \cr
 \code{and}   \tab \code{r * p}               \tab FALSE              \tab FALSE                    \tab TRUE                \tab Boolean conjunction: accepts only 0 or 1, otherwise yields \code{NA}  \cr
 \code{wMAE}  \tab \code{r * abs (r - p)}     \tab TRUE               \tab FALSE                    \tab FALSE               \tab for weighted mean absolute error                                      \cr
@@ -35,7 +35,7 @@ Name         \tab Definition                 \tab \code{\link{dev}}? \tab \code{
 }
 
 }
-\value{\code{luk}: numeric of the same size as p
+\value{\code{strong}: numeric of the same size as p
 
 }
 \author{Claudia Beleites}
@@ -45,7 +45,7 @@ Name         \tab Definition                 \tab \code{\link{dev}}? \tab \code{
 \item{r}{reference vector, matrix, or array with numeric values in [0, 1], for \code{and} in \{0, 1\}}
 }
 \examples{
-ops <- c ("luk", "gdl", "prd", "and", "wMAE", "wMSE", "wRMSE")
+ops <- c ("strong", "weak", "prd", "and", "wMAE", "wMSE", "wRMSE")
 
 ## make a nice table
 
@@ -69,27 +69,29 @@ luk (0.7, 0.8)
 
 ## The behaviour of the operators
 ## op (x, 1)
-cbind (x, sapply (c ("luk", "gdl", "prd", "wMAE", "wMSE", "wRMSE"),
+cbind (x, sapply (c ("strong", "weak", "prd", "wMAE", "wMSE", "wRMSE"),
 function (op, x) get (op) (x, 1), x))
 
 ## op (x, 0)
-cbind (x, sapply (c ("luk", "gdl", "prd", "wMAE", "wMSE", "wRMSE"),
+cbind (x, sapply (c ("strong", "weak", "prd", "wMAE", "wMSE", "wRMSE"),
 function (op, x) get (op) (x, 0), x))
 
 ## op (x, x)
-cbind (x, sapply (c ("luk", "gdl", "prd", "wMAE", "wMSE", "wRMSE"),
+cbind (x, sapply (c ("strong", "weak", "prd", "wMAE", "wMSE", "wRMSE"),
 function (op, x) get (op) (x, x), x))
 
 
 ## Note that the deviation operators are not commutative
 ## (due to the weighting by reference)
 zapsmall (
-cbind (sapply (c ("luk", "gdl", "prd", "wMAE", "wMSE", "wRMSE"),
+cbind (sapply (c ("strong", "weak", "prd", "wMAE", "wMSE", "wRMSE"),
 function (op, x) get (op) (1, x), x)) -
-cbind (sapply (c ("luk", "gdl", "prd", "wMAE", "wMSE", "wRMSE"),
+cbind (sapply (c ("strong", "weak", "prd", "wMAE", "wMSE", "wRMSE"),
 function (op, x) get (op) (x, 1), x)) 
 )
 }
+\alias{luk}
+\alias{weak}
 \alias{gdl}
 \alias{prd}
 \alias{and}

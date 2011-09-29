@@ -159,7 +159,7 @@ sens <- function (r = stop ("missing reference"), p = stop ("missing prediction"
   res
 }
 test (sens) <- function (){
-  ops <- c ("luk", "gdl", "prd", "and", "wMAE", "wMSE", "wRMSE")
+  ops <- c ("strong", "weak", "prd", "and", "wMAE", "wMSE", "wRMSE")
 
   ## shape & names
   for (o in ops){
@@ -185,10 +185,10 @@ test (sens) <- function (){
   checkEqualsNumeric (sens (r = ref.array, p = pred.array),
                       c (0.6, 0.32, NA, 0.85, 0.4, NA))
   
-  checkEqualsNumeric (sens (r = ref.array, p = pred.array, operator = "gdl"),
+  checkEqualsNumeric (sens (r = ref.array, p = pred.array, operator = "weak"),
                       c (0.675, 0.5, NA, 1, 1, NA))
 
-  checkEqualsNumeric (sens (r = ref.array, p = pred.array, operator = "luk"),
+  checkEqualsNumeric (sens (r = ref.array, p = pred.array, operator = "strong"),
                       c (0.55, 0.2, NA, 0.75, 0, NA))
   
   checkEqualsNumeric (sens (r = ref.array, p = pred.array, operator = "prd"),
@@ -210,10 +210,10 @@ test (sens) <- function (){
   checkEqualsNumeric (sens (r = ref.array, p = pred.array, groups = ref.groups),
                       c (0.6, 0.6, NA, 0.32, NA, NA, 1, 0.6, NA, 0.4, NA, NA))
 
-  checkEqualsNumeric (sens (r = ref.array, p = pred.array, groups = ref.groups, operator = "gdl"),
+  checkEqualsNumeric (sens (r = ref.array, p = pred.array, groups = ref.groups, operator = "weak"),
                       c (0.6, 0.8, NA, 0.5, NA, NA, 1, 1, NA, 1, NA, NA))
 
-  checkEqualsNumeric (sens (r = ref.array, p = pred.array, groups = ref.groups, operator = "luk"),
+  checkEqualsNumeric (sens (r = ref.array, p = pred.array, groups = ref.groups, operator = "strong"),
                       c (0.6, 1.4/3, NA, 0.2, NA, NA, 1, 1/3, NA, 0, NA, NA))
 
   checkEqualsNumeric (sens (r = ref.array, p = pred.array, groups = ref.groups, operator = "prd"),
