@@ -28,7 +28,7 @@
 ##' @include postproc.R
 ##'
 ##' @examples
-##' ops <- c ("strong", "weak", "prd", "and", "wMAE", "wMSE", "wRMSE")
+##' ops <- c ("luk", "gdl", "prd", "and", "wMAE", "wRMAE", "wMSE", "wRMSE")
 ##' 
 ##' ## make a nice table
 ##'
@@ -148,6 +148,11 @@ test (wMAE) <- function(){
   checkEqualsNumeric (wMAE (v, rev (v)), c (a = NA, b = 0.21, c = 0, d = 0.7, e = NA))
 }
 
+##' @rdname operators
+##' @export 
+wRMAE <- wMAE
+postproc (wRMAE) <- "sqrt"
+
 
 ##' @rdname operators
 ##' @export 
@@ -165,13 +170,13 @@ postproc (wRMSE) <- "sqrt"
 
 ##' @nord
 testoperators <- svTest (function (){
-  ops <- c ("strong", "weak", "prd", "and", "wMAE", "wMSE", "wRMSE")
+  ops <- c ("luk", "gdl", "prd", "and", "wMAE", "wRMAE", "wMSE", "wRMSE")
 
   ## dev
-  for (o in setdiff (ops, c ("wMAE", "wMSE", "wRMSE")))
+  for (o in setdiff (ops, c ("wMAE", "wRMAE", "wMSE", "wRMSE")))
     checkTrue (! dev (get (o)),
                msg = sprintf ("dev: %s", o))
-  for (o in c ("wMAE", "wMSE", "wRMSE"))
+  for (o in c ("wMAE", "wRMAE", "wMSE", "wRMSE"))
     checkTrue (dev (get (o)),
                msg = sprintf ("dev: %s", o))
   ## hard
@@ -182,34 +187,36 @@ testoperators <- svTest (function (){
              msg = sprintf ("hard: and"))
 
   ## postproc
-  for (o in setdiff (ops, "wRMSE"))
+  for (o in setdiff (ops, c ("wRMAE", "wRMSE")))
     checkTrue (is.null (postproc (get (o))),
                msg = sprintf ("postproc: %s", o))
-  checkEquals (postproc (wRMSE), "sqrt")
+  for (o in c ("wRMAE", "wRMSE"))
+    checkEquals (postproc (get (o)), "sqrt")
 
   ## against 1
   checkEquals (sapply (ops, function (x) get (x) (1, v)),
-               matrix (c (0,   0,   0,   0,   1,   1,    1,
-                          0.3, 0.3, 0.3, NA,  0.7, 0.49, 0.49, 
-                          0.7, 0.7, 0.7, NA,  0.3, 0.09, 0.09,
-                          1,   1,   1,   1,   0,   0,    0,
-                          NA,  NA,  NA,  NA,  NA,  NA,   NA), byrow = TRUE, nrow = 5,
+               matrix (c (0,   0,   0,   0,   1,   1,   1,    1,
+                          0.3, 0.3, 0.3, NA,  0.7, 0.7, 0.49, 0.49, 
+                          0.7, 0.7, 0.7, NA,  0.3, 0.3, 0.09, 0.09,
+                          1,   1,   1,   1,   0,   0,   0,    0,
+                          NA,  NA,  NA,  NA,  NA,  NA, NA,   NA),
+                       byrow = TRUE, nrow = 5,
                        dimnames = list (names (v), ops))
                )
 
   ## against 0
   checkEquals (sapply (ops, function (x) get (x) (0, v)),
-               matrix (c (0,   0,   0,   0,   0,   0,    0,
-                          0,   0,   0,   NA,  0,   0,    0,
-                          0,   0,   0,   NA,  0,   0,    0,
-                          0,   0,   0,   0,   0,   0,    0,
-                          NA,  NA,  NA,  NA,  NA,  NA,   NA), byrow = TRUE, nrow = 5,
+               matrix (c (0,   0,   0,   0,   0,   0,   0,    0,
+                          0,   0,   0,   NA,  0,   0,   0,    0,
+                          0,   0,   0,   NA,  0,   0,   0,    0,
+                          0,   0,   0,   0,   0,   0,   0,    0,
+                          NA,  NA,  NA,  NA,  NA,  NA,  NA,   NA), byrow = TRUE, nrow = 5,
                        dimnames = list (names (v), ops))
                )
 
   r <- runif (1000)
   p <- runif (1000)
-  for (o in c ("strong", "weak", "prd", "wMAE", "wMSE", "wRMSE"))
+  for (o in setdiff (ops, "and"))
     checkTrue (get (o) (r, p) <= r, msg = sprintf ("op (p, r) <= r: %s", o))
 
   for (o in ops){
