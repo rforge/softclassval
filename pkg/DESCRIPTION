@@ -9,9 +9,9 @@ Author: C. Beleites <cbeleites@units.it>
 Description: Extension of sensitivity, specificity, positive and
     negative predictive value to continuous predicted and reference
     memberships in [0, 1]
-Version: 0.5-20110929
+Version: 0.5-20111005
 URL: http://softclassval.r-forge.r-project.org/
-Date: 2011-09-29
+Date: 2011-10-05
 Depends: svUnit, methods, arrayhelpers
 Collate: 'hardclasses.R' 'init.R' 'softclassval.R' 'dev.R' 'nsamples.R'
     'postproc.R' 'operators.R' 'performance.R' 'validate.R'
