@@ -94,7 +94,7 @@ test (.checkrp) <- function (){
 ##' \code{TRUE}, \code{confusion} omits input checking
 ##' @return numeric of size (ngroups x \code{dim (p) [-1]}) with the respective performance measure
 ##' @author Claudia Beleites
-##' @seealso Performance measures: \code{\link{sens}}
+##' @seealso Operators: \code{\link{prd}}
 ##' @references see the literature in \code{citation ("softclassval")}
 ##' @export
 ##' @include softclassval.R

@@ -39,7 +39,7 @@ described in the article and call \code{sens}.
 
 }
 \author{Claudia Beleites}
-\seealso{Performance measures: \code{\link{sens}}}
+\seealso{Operators: \code{\link{prd}}}
 \references{see the literature in \code{citation ("softclassval")}}
 \arguments{\item{r}{vector, matrix, or array with reference.}
 \item{p}{vector, matrix, or array with predictions}
