@@ -64,6 +64,7 @@ test (hardclasses) <- function (){
   options(warn = 1)
   checkEquals (hardclasses (pred [, 1]),
                factor (rep (c ("1", "0", NA, NA, NA), 2), levels = c ("1", "0")))
+  options (warn = warn)
 }
 
 ## helper for hard "and" operator: sets all values NA that are not within +- tol from 0 or 1.

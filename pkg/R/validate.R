@@ -18,8 +18,12 @@ softclassval.unittest <- function (){
   tests <- sapply (tests, get, envir = getNamespace ("softclassval"))
 
   clearLog ()
+  
+  warnlevel <- options()$warn
+  options (warn = 0)
   for (t in seq_along (tests))
     runTest (tests [[t]], names (tests) [t])
+  options (warn = warnlevel)
   print (stats (Log()))
 
   errorLog (summarize = FALSE)
