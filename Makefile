@@ -2,7 +2,7 @@ all: roxy build check test
 
 roxy: clean DESCRIPTION src/R/*.R 
 	rm -f pkg/man/*.Rd
-	Rscript --vanilla -e "library (roxygen); roxygenize (\"src\", \"pkg\", use.Rd2 = TRUE)" 
+	Rscript --vanilla -e "library (roxygen2); roxygenize (\"pkg\")" 
 	rsync -av --delete src/R/*.R pkg/R/
 	rsync -av --delete src/tests/* pkg/tests/
 	rm -rf pkg/inst
