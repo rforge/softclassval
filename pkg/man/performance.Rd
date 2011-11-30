@@ -1,64 +1,90 @@
-\name{performance}
+\name{confusion}
 \alias{confusion}
-\title{Performance calculation for soft classification...}
-\usage{confusion(r=stop("missing reference"), p=stop("missing prediction"), groups=NULL,
-    operator="prd", drop=FALSE, .checked=FALSE)
-
-sens(r=stop("missing reference"), p=stop("missing prediction"), groups=NULL,
-    operator="prd", op.dev=dev(match.fun(operator)),
-    op.postproc=postproc(match.fun(operator)), eps=1e-08, drop=FALSE,
-    .checked=FALSE)
-
-
-spec(r=stop("missing reference"), p=stop("missing prediction"), ...)
-
-
-ppv(r=stop("missing reference"), p=stop("missing prediction"), ...,
-    .checked=FALSE)
-
-
-npv(r=stop("missing reference"), p=stop("missing prediction"), ...,
-    .checked=FALSE)
-
-}
-\description{Performance calculation for soft classification}
-\details{\code{confusion}: These performance measures can be used with prediction and reference being continuous class
-memberships in [0, 1].
-
-The rows of \code{r} and \code{p} are considered the samples, columns will usually hold the
-classes, and further dimensions are preserved but ignored.
-
-\code{r} must have the same number of rows and columns as \code{p}, all other dimensions may be
-filled by recycling.
-
-\code{spec}, \code{ppv}, and \code{npv} use the symmetry between the performance measures as
-described in the article and call \code{sens}.
-
-}
-\value{\code{confusion}: numeric of size (ngroups x \code{dim (p) [-1]}) with the respective performance measure
-
-}
-\author{Claudia Beleites}
-\seealso{Operators: \code{\link{prd}}}
-\references{see the literature in \code{citation ("softclassval")}}
-\arguments{\item{r}{vector, matrix, or array with reference.}
-\item{p}{vector, matrix, or array with predictions}
-\item{groups}{grouping variable for the averaging by \code{\link[base]{rowsum}}. If \code{NULL},
-all samples (rows) are averaged.}
-\item{operator}{the \code{\link[softclassval]{operators}} to be used}
-\item{drop}{should the results possibly be returned as vector instead of 1d array? (Note that
-levels of \code{groups} are never dropped, you need to do that e.g. by
-\code{\link[base]{factor}}.)}
-\item{.checked}{for internal use: the inputs are guaranteed to be of same size and shape. If
-\code{TRUE}, \code{confusion} omits input checking}
-\item{eps}{limit below which denominator is considered 0}
-\item{op.dev}{does the operator measure deviation?}
-\item{op.postproc}{if a post-processing function is needed after averaging, it can be given
-here. See the example.}
-\item{...}{handed to \code{sens}}
-}
+\alias{npv}
+\alias{ppv}
 \alias{sens}
 \alias{spec}
-\alias{ppv}
-\alias{npv}
+\title{Performance calculation for soft classification}
+\usage{
+  confusion(r = stop("missing reference"),
+    p = stop("missing prediction"), groups = NULL,
+    operator = "prd", drop = FALSE, .checked = FALSE)
+
+  sens(r = stop("missing reference"),
+    p = stop("missing prediction"), groups = NULL,
+    operator = "prd", op.dev = dev(match.fun(operator)),
+    op.postproc = postproc(match.fun(operator)),
+    eps = 1e-08, drop = FALSE, .checked = FALSE)
+
+  spec(r = stop("missing reference"),
+    p = stop("missing prediction"), ...)
+
+  ppv(r = stop("missing reference"),
+    p = stop("missing prediction"), ..., .checked = FALSE)
+
+  npv(r = stop("missing reference"),
+    p = stop("missing prediction"), ..., .checked = FALSE)
+}
+\arguments{
+  \item{r}{vector, matrix, or array with reference.}
+
+  \item{p}{vector, matrix, or array with predictions}
+
+  \item{groups}{grouping variable for the averaging by
+  \code{\link[base]{rowsum}}. If \code{NULL}, all samples
+  (rows) are averaged.}
+
+  \item{operator}{the \code{\link[softclassval]{operators}}
+  to be used}
+
+  \item{drop}{should the results possibly be returned as
+  vector instead of 1d array? (Note that levels of
+  \code{groups} are never dropped, you need to do that e.g.
+  by \code{\link[base]{factor}}.)}
+
+  \item{.checked}{for internal use: the inputs are
+  guaranteed to be of same size and shape. If \code{TRUE},
+  \code{confusion} omits input checking}
+
+  \item{eps}{limit below which denominator is considered 0}
+
+  \item{op.dev}{does the operator measure deviation?}
+
+  \item{op.postproc}{if a post-processing function is
+  needed after averaging, it can be given here. See the
+  example.}
+
+  \item{...}{handed to \code{sens}}
+}
+\value{
+  numeric of size (ngroups x \code{dim (p) [-1]}) with the
+  respective performance measure
+}
+\description{
+  These performance measures can be used with prediction
+  and reference being continuous class memberships in [0,
+  1].
+}
+\details{
+  The rows of \code{r} and \code{p} are considered the
+  samples, columns will usually hold the classes, and
+  further dimensions are preserved but ignored.
+
+  \code{r} must have the same number of rows and columns as
+  \code{p}, all other dimensions may be filled by
+  recycling.
+
+  \code{spec}, \code{ppv}, and \code{npv} use the symmetry
+  between the performance measures as described in the
+  article and call \code{sens}.
+}
+\author{
+  Claudia Beleites
+}
+\references{
+  see the literature in \code{citation ("softclassval")}
+}
+\seealso{
+  Operators: \code{\link{prd}}
+}
 

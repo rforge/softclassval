@@ -9,6 +9,7 @@
 ##' @seealso \code{\link{sens}} \code{\link{post}}
 ##' @export 
 ##' @include softclassval.R
+##' @include validate.R
 ##'
 ##' @examples
 ##'
@@ -32,7 +33,7 @@ dev <- function (op)
   op
 }
 
-test (dev) <- function (){
+.test (dev) <- function (){
   myop <- function (){}
   checkTrue (is.null (dev (myop)))
   dev (myop) <- TRUE

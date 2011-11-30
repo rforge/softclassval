@@ -45,7 +45,7 @@ hardclasses <- function (x, classdim = 2L, soft.name = NA, tol = 1e-5, drop = TR
   drop1d (cl, drop = drop)
 }
 
-test (hardclasses) <- function (){
+.test (hardclasses) <- function (){
   checkEquals (hardclasses (pred),
                factor (rep (letters [c (1, 2, NA, NA, NA)], 2), levels = letters [1 : 3]))
 
@@ -77,7 +77,7 @@ test (hardclasses) <- function (){
 
   tmp
 }
-test (.make01) <- function (){
+.test (.make01) <- function (){
   checkIdentical (.make01 (v), c( a = 0, b = NA, c = NA, d = 1, e = NA))
   checkIdentical (attributes (.make01 (m)), attributes (m))
 }
@@ -116,7 +116,7 @@ hard <- function (op)
   op
 }
 
-test (hard) <- function (){
+.test (hard) <- function (){
   myop <- function (){}
   checkTrue (is.null (hard (myop)))
   hard (myop) <- TRUE

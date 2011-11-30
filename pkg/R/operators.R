@@ -1,8 +1,6 @@
-##' @encoding UTF8
-##' @description And (conjunction) operators
+##' And (conjunction) operators
 ##'
 ##' And operators for the soft performance calculation.
-##'
 ##' The predefined operators are:
 ##' \tabular{llllll}{
 ##' Name         \tab Definition                 \tab \code{\link{dev}}? \tab \code{\link{postproc}}?  \tab \code{\link{hard}}? \tab Explanation                                                           \cr
@@ -17,6 +15,7 @@
 ##'
 ##' @param p prediction vector, matrix, or array with numeric values in [0, 1], for \code{and} in \{0, 1\}
 ##' @param r reference vector, matrix, or array with numeric values in [0, 1], for \code{and} in \{0, 1\}
+##' @encoding UTF8
 ##' @return numeric of the same size as p
 ##' @author Claudia Beleites
 ##' @seealso Performance measures: \code{\link{sens}}
@@ -79,7 +78,7 @@ strong <- function (r, p)
 dev (strong) <- FALSE
 hard (strong) <- FALSE
 
-test (strong) <- function(){
+.test (strong) <- function(){
   checkEqualsNumeric (strong (v, v),       c (a = 0,  b = 0,   c = 0.4, d = 1,   e = NA))
   checkEqualsNumeric (strong (v, rev (v)), c (a = NA, b = 0.3, c = 0.4, d = 0.3, e = NA))
 }
@@ -95,7 +94,7 @@ weak <- function (r, p)
 dev (weak) <- FALSE
 hard (weak) <- FALSE
 
-test (weak) <- function(){
+.test (weak) <- function(){
   checkEqualsNumeric (weak (v, v),       v)
   checkEqualsNumeric (weak (v, rev (v)), c (a = NA, b = 0.3, c = 0.7, d = 0.3, e = NA))
 }
@@ -111,7 +110,7 @@ prd <- function (r, p)  r * p
 dev (prd) <- FALSE
 hard (prd) <- FALSE
 
-test (prd) <- function(){
+.test (prd) <- function(){
   checkEqualsNumeric (prd (v, v),       v^2)
   checkEqualsNumeric (prd (v, rev (v)), c (a = NA, b = 0.3, c = 0.49, d = 0.3, e = NA))
 }
@@ -128,7 +127,7 @@ and <- function (r, p){ # the boolean and: accepts only hard r and p
 dev (and) <- FALSE
 hard (and) <- TRUE
 
-test (and) <- function(){
+.test (and) <- function(){
   checkEqualsNumeric (and (v, v),       c (a = 0 , b = NA, c = NA, d =  1, e = NA))
   checkEqualsNumeric (and (v, rev (v)), c (a = NA_real_, b = NA, c = NA, d = NA, e = NA))
   checkEqualsNumeric (and (0, 1), 0)
@@ -143,7 +142,7 @@ wMAE <- function (r, p) {
 dev (wMAE) <- TRUE
 hard (wMAE) <- FALSE
 
-test (wMAE) <- function(){
+.test (wMAE) <- function(){
   checkEqualsNumeric (wMAE (v, v),       c (a = 0 , b = 0,    c = 0, d = 0,   e = NA))
   checkEqualsNumeric (wMAE (v, rev (v)), c (a = NA, b = 0.21, c = 0, d = 0.7, e = NA))
 }
@@ -167,9 +166,7 @@ hard (wMSE) <- FALSE
 wRMSE <- wMSE
 postproc (wRMSE) <- "sqrt"
 
-
-##' @nord
-testoperators <- svTest (function (){
+.testoperators <- svTest (function (){
   ops <- c ("luk", "gdl", "prd", "and", "wMAE", "wRMAE", "wMSE", "wRMSE")
 
   ## dev

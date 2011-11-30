@@ -8,8 +8,7 @@
 ##' @param p prediction
 ##' @return \code{r}, possibly recycled to length of \code{p} or with dimensions shortened to \code{p}.
 ##' @author Claudia Beleites
-##' @nord
-.checkrp <- function (r, p){
+checkrp <- function (r, p){
   if (is.null (dr <- dim (r))) dr <- length (r)
   if (is.null (dp <- dim (p))) dp <- length (p)
 
@@ -52,19 +51,19 @@
   
   r
 }
-test (.checkrp) <- function (){
-  checkEquals (.checkrp (ref,       pred                    ), ref      )
-  checkEquals (.checkrp (ref.array, pred.array              ), ref.array)
-  checkEquals (.checkrp (ref      , pred.array              ), ref.array, msg = "recycling r")
-  checkEquals (.checkrp (ref.array [,,1, drop = FALSE], pred), ref      , msg = "shortening r")
+.test (checkrp) <- function (){
+  checkEquals (checkrp (ref,       pred                    ), ref      )
+  checkEquals (checkrp (ref.array, pred.array              ), ref.array)
+  checkEquals (checkrp (ref      , pred.array              ), ref.array, msg = "recycling r")
+  checkEquals (checkrp (ref.array [,,1, drop = FALSE], pred), ref      , msg = "shortening r")
 
-  checkException (.checkrp (ref.array, pred                 )           , msg = "length (dim (r)) > length (dim (p))")
-  checkException (.checkrp (1 : 2,     1                    )           , msg = "nrow (r) != nrow (p)")
-  checkException (.checkrp (ref,       pred [, 1 : 2]       )           , msg = "ncol (r) != ncol (p)")
+  checkException (checkrp (ref.array, pred                 )           , msg = "length (dim (r)) > length (dim (p))")
+  checkException (checkrp (1 : 2,     1                    )           , msg = "nrow (r) != nrow (p)")
+  checkException (checkrp (ref,       pred [, 1 : 2]       )           , msg = "ncol (r) != ncol (p)")
   
   tmp <- ref.array
   dim (tmp) <- c (dim(ref.array) [1 : 2], 1, dim (ref.array) [3])
-  checkException (.checkrp (tmp,       pred.array           )           , msg = "Dimension mismatch")
+  checkException (checkrp (tmp,       pred.array           )           , msg = "Dimension mismatch")
 }
 
 ##' Performance calculation for soft classification
@@ -104,13 +103,13 @@ confusion <- function (r = stop ("missing reference"), p = stop ("missing predic
                        drop = FALSE, .checked = FALSE){
   operator <- match.fun (operator)
   if (! .checked)
-    r <- .checkrp (r, p)
+    r <- checkrp (r, p)
   res <- operator (r = r, p = p)
   res <- groupsum (res, group = groups, dim = 1, reorder = FALSE, na.rm = TRUE)
 
   drop1d (res, drop = drop)
 }
-test (confusion) <- function (){
+.test (confusion) <- function (){
   
 }
 ##TODO tests
@@ -139,7 +138,7 @@ sens <- function (r = stop ("missing reference"), p = stop ("missing prediction"
     POSTFUN <- match.fun (op.postproc)
 
   if (!.checked)
-    r <- .checkrp (r, p)                     # do the input checks.
+    r <- checkrp (r, p)                     # do the input checks.
   
   res <- confusion (r = r, p = p, groups = groups, operator = operator, drop = FALSE)
   nsmpl <- nsamples (r = r, groups = groups, operator = operator)
@@ -158,7 +157,7 @@ sens <- function (r = stop ("missing reference"), p = stop ("missing prediction"
 
   res
 }
-test (sens) <- function (){
+.test (sens) <- function (){
   ops <- c ("strong", "weak", "prd", "and", "wMAE", "wMSE", "wRMSE")
 
   ## shape & names
@@ -245,10 +244,10 @@ spec <- function (r = stop ("missing reference"), p = stop ("missing prediction"
 ppv <- function (r = stop ("missing reference"), p = stop ("missing prediction"), ...,
                  .checked = FALSE){
   if (! .checked)
-    r <- .checkrp (r, p) 
+    r <- checkrp (r, p) 
   sens (r = p, p = r, ..., .checked = TRUE)
 }
-test (ppv) <- function (){
+.test (ppv) <- function (){
   checkEquals (ppv (r = ref, p = pred.array),
                sens (r = pred.array, p = ref.array))
 }
@@ -258,11 +257,11 @@ test (ppv) <- function (){
 npv <- function (r = stop ("missing reference"), p = stop ("missing prediction"), ...,
                  .checked = FALSE){
   if (! .checked)
-    r <- .checkrp (r, p)
+    r <- checkrp (r, p)
   sens (r = 1 - p, p = 1 - r, ..., .checked = TRUE)
 }
 
-test (npv) <- function (){
+.test (npv) <- function (){
   checkEquals (npv (r = ref, p = pred.array),
                sens (r = 1 - pred.array, p = 1 - ref.array))
 }
