@@ -4,6 +4,9 @@
 ##' multiple of \code{r}, recycles \code{r} to the size and shape of \code{p}. If \code{r} has
 ##' additional length 1 dimensions (usually because dimensions were dropped from \code{p}), it is
 ##' shortend to the shape of \code{p}.
+##'
+##' In addition, any \code{NA}s in \code{p} are transferred to \code{r} so that these samples are
+##' excluded from counting in \code{\link{nsamples}}.
 ##' @param r reference
 ##' @param p prediction
 ##' @return \code{r}, possibly recycled to length of \code{p} or with dimensions shortened to \code{p}.
@@ -42,12 +45,16 @@ checkrp <- function (r, p){
     }
   }
 
+  ## recycle if necessary
   if (recycle) {
     a <- attributes (r)
     r <- rep (r, length.out = length (p))
     mostattributes (r) <- attributes (p)
     dimnames (r) [seq_along (a$dimnames)] <- a$dimnames
   }
+
+  ## make sure p == NA => r == NA
+  is.na (r) <- is.na (p)
   
   r
 }
@@ -64,6 +71,12 @@ checkrp <- function (r, p){
   tmp <- ref.array
   dim (tmp) <- c (dim(ref.array) [1 : 2], 1, dim (ref.array) [3])
   checkException (checkrp (tmp,       pred.array           )           , msg = "Dimension mismatch")
+
+  ## check NAs are transferred correctly to reference
+  tmp <- pred.array
+  nas <- sample (length (pred.array), 10)
+  tmp [nas] <- NA
+  checkEquals (which (is.na (checkrp (ref,       tmp                    ))), sort (nas))
 }
 
 ##' Performance calculation for soft classification
