@@ -116,6 +116,7 @@ hard (prd) <- FALSE
 }
 
 ##' @rdname operators
+##' @include make01.R
 ##' @export 
 and <- function (r, p){ # the boolean and: accepts only hard r and p
   mostattributes (r) <- attributes (p)  

@@ -67,21 +67,6 @@ hardclasses <- function (x, classdim = 2L, soft.name = NA, tol = 1e-5, drop = TR
   options (warn = warn)
 }
 
-## helper for hard "and" operator: sets all values NA that are not within +- tol from 0 or 1.
-.make01 <- function (x, tol = 1e-6){
-  tmp <- rep (NA_real_, length (x))
-  tmp [x >    -tol & x <     tol] <- 0
-  tmp [x > 1 - tol & x < 1 + tol] <- 1
-  
-  attributes (tmp) <- attributes (x)
-
-  tmp
-}
-.test (.make01) <- function (){
-  checkIdentical (.make01 (v), c( a = 0, b = NA, c = NA, d = 1, e = NA))
-  checkIdentical (attributes (.make01 (m)), attributes (m))
-}
-
 ##' Mark operator as hard measure
 ##'
 ##' The operators may work only for hard classes (see \code{\link[softclassval:operators]{and}}). \code{hard (op)
@@ -93,6 +78,7 @@ hardclasses <- function (x, classdim = 2L, soft.name = NA, tol = 1e-5, drop = TR
 ##' @seealso \code{\link{sens}} \code{\link[softclassval:operators]{and}}
 ##' @export 
 ##' @include softclassval.R
+##' @include make01.R
 ##'
 ##' @examples
 ##'

@@ -12,6 +12,7 @@
 ##' dimensions of ref.
 ##' @author Claudia Beleites
 ##' @export
+##' @include make01.R
 ##' @examples
 ##' ref <- softclassval:::ref
 ##' ref
