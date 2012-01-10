@@ -2,10 +2,12 @@ all: roxy build check test
 
 roxy: clean DESCRIPTION src/R/*.R 
 #	rm -f pkg/man/*.Rd
-	rsync -av --delete src/R/*.R pkg/R/
-	rsync -av --delete src/tests/* pkg/tests/
+	rsync -av --delete --exclude=man src/ pkg/
+#	rsync -av --delete src/R/*.R pkg/R/
+#	rsync -av --delete src/inst/*.R pkg/in/
+#	rsync -av --delete src/tests/* pkg/tests/
 	Rscript --vanilla -e "library (roxygen2); roxygenize (\"pkg\")" 
-	rm -rf pkg/inst
+#	rm -rf pkg/inst
 
 DESCRIPTION: $(shell find src -maxdepth 1 -daystart -not -ctime 0 -name "DESCRIPTION") #only if not modified today
 	@echo update DESCRIPTION

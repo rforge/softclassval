@@ -1,3 +1,0 @@
-* Major changes 
-- <2011-12-13 Di> use NA in prediction to signal "rejected" predictions (these values are excluded
-  from performance calculation)

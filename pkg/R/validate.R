@@ -1,4 +1,5 @@
 ## define some test data
+##' @include make01.R
 ##' @include hardclasses.R
 {
   ## construct some test data:

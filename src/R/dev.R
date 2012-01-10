@@ -1,3 +1,29 @@
+## This file is part of the R package softclassval.
+##
+## softclassval is free software: you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
+##
+## Foobar is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
+##
+## You should have received a copy of the GNU General Public License
+## along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+##
+## In R, you can display the license with
+## > RShowDoc ("GPL-3")
+##
+## In addition to the general terms of the GPL you are required to cite
+## the package appropriately (according to subsec).
+## R's citation command gives the correct citation:
+## > citation ("softclassval")
+##
+## Copyright 2010 - 2011 C. Beleites
+
+
 ##' Mark operator as deviation measure
 ##'
 ##' The operators measure either a performance (i.e. accordance between reference and prediction) or
