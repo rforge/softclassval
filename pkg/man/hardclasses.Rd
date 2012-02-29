@@ -30,4 +30,7 @@
 \author{
   Claudia Beleites
 }
+\seealso{
+  \code{\link[softclassval]{factor2matrix}} for the inverse
+}
 
