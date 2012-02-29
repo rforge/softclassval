@@ -9,6 +9,7 @@
 ##' respective class.
 ##' @param drop see \code{\link[arrayhelpers]{drop1d}}
 ##' @return factor array of shape \code{dim (x) [-classdim]}
+##' @seealso \code{\link[softclassval]{factor2matrix}} for the inverse 
 ##' @author Claudia Beleites
 ##' @export 
 hardclasses <- function (x, classdim = 2L, soft.name = NA, tol = 1e-5, drop = TRUE){
