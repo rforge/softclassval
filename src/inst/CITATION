@@ -9,11 +9,11 @@ citEntry(entry="Article", "softclassval-ChemomIntellLabSyst",
          author = personList(as.person("Claudia Beleites"),
                              as.person("Valter Sergo")),
          year = year,
-#         journal = "Chemometrics and Intelligent Lab Systems",
+         journal = "Chemometrics and Intelligent Lab Systems",
          note = paste ("in preparation", vers),
          URL = 'http://softclassval.r-forge.r-project.org',
          ##DOI = '---doi--',
-     
+     		
          textVersion =
          paste("Claudia Beleites and Valter Sergo: ",
                "`Validation of Soft Classification Models: An Extended Concept of Sensitivity, Specificity, and the Precictive Values', ",
