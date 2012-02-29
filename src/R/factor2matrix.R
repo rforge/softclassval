@@ -17,3 +17,9 @@ factor2matrix <- function (f){
 	
 	res
 }
+
+test (factor2matrix) <- function (){
+  checkEquals (factor2matrix (c ("a", "b", "a", NA)),
+               structure(c(1, 0, 1, 0, 0, 1, 0, 0), .Dim = c(4L, 2L),
+                         .Dimnames = list(NULL, c("a", "b"))))
+}
