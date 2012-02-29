@@ -24,7 +24,7 @@ hardclasses <- function (x, classdim = 2L, soft.name = NA, tol = 1e-5, drop = TR
   x <- makeNd (x, -2)
   olddims <- attr (x, "old")[[1]]
   
-  if (any (abs(1 - rowSums (x)) > tol))
+  if (any (abs(1 - rowSums (x)) > tol, na.rm = TRUE))
     warning ("Found samples with total membership != 1")
   
   if (is.null (classes <- colnames (x)))
@@ -66,6 +66,20 @@ hardclasses <- function (x, classdim = 2L, soft.name = NA, tol = 1e-5, drop = TR
   checkEquals (hardclasses (pred [, 1]),
                factor (rep (c ("1", "0", NA, NA, NA), 2), levels = c ("1", "0")))
   options (warn = warn)
+
+  ## NAs: missing predictions
+  pred [2:3,] <- NA
+  checkEquals (hardclasses (pred),
+               factor (letters [c (1, NA, NA, NA, NA, 1, 2, NA, NA, NA)],
+                       levels = letters [1 : 3]))
+  pred [1,1] <- NA
+  checkEquals (hardclasses (pred),
+               factor (letters [c (NA, NA, NA, NA, NA, 1, 2, NA, NA, NA)],
+                       levels = letters [1 : 3]))
+  pred [6,2] <- NA
+  checkEquals (hardclasses (pred),
+               factor (letters [c (NA, NA, NA, NA, NA, 1, 2, NA, NA, NA)],
+                       levels = letters [1 : 3]))
 }
 
 ##' Mark operator as hard measure

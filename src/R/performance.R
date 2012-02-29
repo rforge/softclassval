@@ -28,6 +28,22 @@ checkrp <- function (r, p){
   if (! is.na (dr [2]) && dr [2] != dp [2]) 
     stop ("p and r do not have the same number of columns (classes).")
 
+  ## check class names if possible
+  if (!is.null (colnames (r)) & ! is.null (colnames (p))){
+  	reorder <- match (colnames (r), colnames (p))
+  	
+  	if (any (is.na (reorder)))
+  		warning ("colnames of r (", paste (colnames (r)), ") and p  (", paste (colnames (p)), 
+  					") do not match.")
+  	else if (any (reorder != seq_len (dp [2])))
+			warning ("Columns of r seem not to be in the same order as colnames of p.\n",
+							 "To reorder them first, consider\n",
+	             deparse (substitute (p)), " <- slice (", deparse (substitute (p)), 
+							 ", j = c (", paste (reorder, collapse = ", "), "))")
+  }
+  	
+    
+
   if (any (is.na (dp)) || any (dr != dp)) { # NA: p is shorter than r
    
     equaldims <- seq_len (min (which (is.na (dp) | dr != dp)) - 1) # first equal dims
@@ -77,6 +93,15 @@ checkrp <- function (r, p){
   nas <- sample (length (pred.array), 10)
   tmp [nas] <- NA
   checkEquals (which (is.na (checkrp (ref,       tmp                    ))), sort (nas))
+ 
+  ## warnings for colnames mismatches
+  warnlevel <- options ()$warn
+  options (warn = -1)
+  checkEquals (checkrp (r = ref,      p = ref [, 3 : 1]       ), ref)
+  options (warn = 2)
+  checkException (checkrp (ref,       pred                    ))
+  checkException (checkrp (r = ref,   p = ref [, 3 : 1]       ))
+  options (warn = warnlevel)
 }
 
 ##' Performance calculation for soft classification
