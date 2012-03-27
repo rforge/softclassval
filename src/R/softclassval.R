@@ -18,6 +18,8 @@
 
     checkEqualAttributes <- function (target, current, ...)
       checkEqualsOrdered (attributes (target), attributes (current), ...) # TODO: exclusion list
+
+    svTest <- function (...){}
   }
 }
 
