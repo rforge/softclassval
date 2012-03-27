@@ -10,11 +10,13 @@
   \item \code{checkrp} tries to find out whether columns in reference
   and prediction are the same, and, if not throws a warning.
 }
+}
 \subsection{Bug fixes}{
-  \item \code{hardclasses} now accepts missing predictions and returns
+  \itemize{
+	 \item \code{hardclasses} now accepts missing predictions and returns
   \code{NA} if no column has membership 1.
 }
 }
-}
+
  
 
