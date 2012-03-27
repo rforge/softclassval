@@ -17,6 +17,6 @@
   \code{NA} if no column has membership 1.
 }
 }
-
+}
  
 
