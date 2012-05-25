@@ -6,8 +6,8 @@ Description: Extension of sensitivity, specificity, positive and negative
     1]
 Maintainer: C. Beleites <cbeleites@units.it>
 Author: C. Beleites <cbeleites@units.it>
-Version: 0.5-20120327
-Date: 2012-03-27
+Version: 0.5-20120525
+Date: 2012-05-25
 License: GPL
 LazyLoad: yes
 LazyData: yes
