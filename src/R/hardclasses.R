@@ -64,7 +64,7 @@ hardclasses <- function (x, classdim = 2L, soft.name = NA, tol = 1e-5, drop = TR
   warn <- options(warn = 2)$warn
   on.exit (options (warn = warn))
   checkException (hardclasses (pred [,1]))
-  options(warn = 1)
+  options(warn = -1)
   checkEquals (hardclasses (pred [, 1]),
                factor (rep (c ("1", "0", NA, NA, NA), 2), levels = c ("1", "0")))
   options (warn = warn)
