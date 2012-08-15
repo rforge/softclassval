@@ -4,10 +4,10 @@ Title: Soft classification performance measures
 Description: Extension of sensitivity, specificity, positive and negative
     predictive value to continuous predicted and reference memberships in [0,
     1]
-Maintainer: C. Beleites <cbeleites@units.it>
-Author: C. Beleites <cbeleites@units.it>
-Version: 0.5-20120525
-Date: 2012-05-25
+Maintainer: C. Beleites <chemometrie@beleites.de>
+Author: C. Beleites <chemometrie@beleites.de>
+Version: 0.5-20120815
+Date: 2012-08-15
 License: GPL
 LazyLoad: yes
 LazyData: yes
