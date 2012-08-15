@@ -147,11 +147,58 @@ confusion <- function (r = stop ("missing reference"), p = stop ("missing predic
 
   drop1d (res, drop = drop)
 }
-.test (confusion) <- function (){
-  
+## testing by .test (sens)
+
+
+##' \code{confmat} calculated the soft confusion matrix
+##' 
+##' @rdname performance
+##' @export
+##' @example
+##' cm <- confmat (r = ref, p = pred) [1,,]
+##' cm
+##' 
+##' ## Sensitivity-Specificity matrix:
+##' cm / rowSums (cm)
+##'
+##' ## Matrix with predictive values:
+##' cm / rep (colSums (cm), each = nrow (cm))
+confmat <- function (r = stop ("missing reference"), p = stop ("missing prediction"), ...){
+	rx <- slice (r, j = rep (seq_len (ncol (r)), ncol (p)), drop = FALSE)
+	colnames (rx) <- NULL
+	
+	px <- slice (p, j = rep (seq_len (ncol (p)), each = ncol (r)), drop = FALSE)
+	colnames (px) <- NULL
+	
+	cm <- confusion (r = rx, p = px, ...)
+	d <- dim (cm)
+	dim (cm) <- c (d [1], ncol (r), ncol (p), d [- (1 : 2)])
+
+	dn <- dimnames (p)
+	if (is.null (dn)) dn <- rep (list (NULL), ndim (p))
+	dn <- c (list (rownames (cm)), list (r = colnames (r)), dn [- 1L])
+	names (dn) [3L] <- "p"
+	dimnames (cm) <- dn
+	cm
 }
-##TODO tests
-##TODO test grouping
+.test (confmat) <- function (){
+  cm <- confmat (r = ref, p = pred)[1,,]
+  warn <- options(warn = -1)$warn
+  onExit (options (warn = warn))
+  for (r in colnames (ref))
+    for (p in colnames (pred))
+      checkEqualsNumeric (cm [r, p], confusion (r = ref [, r], p = pred [, p]))
+  options (warn = warn)
+  
+  ## one sample only
+  checkEquals (confmat (r = ref[1,,drop = FALSE], p = pred[1,,drop = FALSE])[1,,],
+               structure(c(1, 0, 0, 0, 0, 0, 0, 0, 0),
+                         .Dim = c(3L, 3L),
+                         .Dimnames = structure(list(r = c("A", "B", "C"), p = c("a", "b", "c")),
+                           .Names = c("r", "p")))
+               )
+}
+
 
 ##' @param eps limit below which denominator is considered 0
 ##' @param op.dev does the operator measure deviation?
