@@ -64,7 +64,7 @@ hardclasses <- function (x, classdim = 2L, soft.name = NA, tol = 1e-5, drop = TR
   warn <- options(warn = 2)$warn
   on.exit (options (warn = warn))
   checkException (hardclasses (pred [,1]))
-  options(warn = 1)
+  options(warn = -1)
   checkEquals (hardclasses (pred [, 1]),
                factor (rep (c ("1", "0", NA, NA, NA), 2), levels = c ("1", "0")))
   options (warn = warn)
@@ -131,7 +131,7 @@ hard <- function (op)
 }
 
 
-##' @rdname hard
+##' @rdname hardclasses
 ##' @param closed logical indicating whether the system should be treated as closed-world (i.e. all
 ##' memberships add to 1)
 ##' @export harden
@@ -173,7 +173,7 @@ harden <- function (x, classdim = 2L, tol = 1e-6, closed = TRUE){
 	x
 }
 
-.test (harden){
+.test (harden) <- function (){
   checkEquals (harden (as.matrix (v)),
                structure(c(0, NA, NA, 1, NA),
                          .Dim = c(5L, 1L),
@@ -206,12 +206,12 @@ harden <- function (x, classdim = 2L, tol = 1e-6, closed = TRUE){
                )
 
   checkEquals (harden (pred.array, classdim = 3L),
-               structure(c(1, 0, NA, NA, NA, NA, NA, NA, NA, NA,
-                           0, 1, NA, NA, NA, NA, NA, NA, NA, NA,
-                           0, 0,  0, NA, NA,  0,  0,  0, NA, NA,
-                           1, 1, NA, NA, NA, NA, NA, NA, NA, NA,
-                           0, 0, NA, NA, NA, NA, NA, NA, NA, NA,
-                           0, 0,  0, NA, NA,  0,  0,  0, NA, NA),
+               structure(c( 1,  0, NA, NA, NA, NA, NA, NA, NA, NA,
+                           NA,  1, NA, NA, NA, NA, NA, NA, NA, NA,
+                           NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,
+                            1,  1, NA, NA, NA, NA, NA, NA, NA, NA,
+                           NA,  0, NA, NA, NA, NA, NA, NA, NA, NA,
+                           NA, NA, NA, NA, NA, NA, NA, NA, NA, NA),
                          .Dim = c(10L, 3L, 2L),
                          .Dimnames = list(NULL, c("a", "b", "c"), c("1", "2")))
                )

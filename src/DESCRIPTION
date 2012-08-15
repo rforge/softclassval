@@ -6,14 +6,14 @@ Description: Extension of sensitivity, specificity, positive and negative
     1]
 Maintainer: C. Beleites <chemometrie@beleites.de>
 Author: C. Beleites <chemometrie@beleites.de>
-Version: 0.5-20120815
+Version: 0.99-20120815
 Date: 2012-08-15
 License: GPL
 LazyLoad: yes
 LazyData: yes
 Depends:
     methods,
-    arrayhelpers (>= 0.75-20120202)
+    arrayhelpers (>= 0.76)
 Suggests:
     svUnit
 URL: http://softclassval.r-forge.r-project.org/

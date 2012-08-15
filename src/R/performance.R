@@ -135,6 +135,16 @@ checkrp <- function (r, p){
 ##' @references see the literature in \code{citation ("softclassval")}
 ##' @export
 ##' @include softclassval.R
+##' @examples
+##'
+##' ref <- softclassval:::ref
+##' ref
+##'
+##' pred <- softclassval:::pred
+##' pred
+##'
+##' ## Single elements or diagonal of confusion matrix
+##' confusion (r = ref, p = pred)
 confusion <- function (r = stop ("missing reference"), p = stop ("missing prediction"),
                        groups = NULL,
                        operator = "prd",
@@ -154,8 +164,10 @@ confusion <- function (r = stop ("missing reference"), p = stop ("missing predic
 ##' 
 ##' @rdname performance
 ##' @export
-##' @example
-##' cm <- confmat (r = ref, p = pred) [1,,]
+##' @examples
+##'
+##' ## complete confusion matrix
+##' cm <- confmat (r = softclassval:::ref, p = pred) [1,,]
 ##' cm
 ##' 
 ##' ## Sensitivity-Specificity matrix:
@@ -184,7 +196,7 @@ confmat <- function (r = stop ("missing reference"), p = stop ("missing predicti
 .test (confmat) <- function (){
   cm <- confmat (r = ref, p = pred)[1,,]
   warn <- options(warn = -1)$warn
-  onExit (options (warn = warn))
+  on.exit (options (warn = warn))
   for (r in colnames (ref))
     for (p in colnames (pred))
       checkEqualsNumeric (cm [r, p], confusion (r = ref [, r], p = pred [, p]))
@@ -206,6 +218,10 @@ confmat <- function (r = stop ("missing reference"), p = stop ("missing predicti
 ##' here. See the example.
 ##' @rdname performance
 ##' @export
+##' @examples
+##'
+##' ## sensitivities
+##' sens (r = ref, p = pred)
 sens <- function (r = stop ("missing reference"), p = stop ("missing prediction"), groups = NULL,
                   operator = "prd",
                   op.dev = dev (match.fun (operator)),
@@ -320,12 +336,20 @@ sens <- function (r = stop ("missing reference"), p = stop ("missing prediction"
 ##' @param ... handed to \code{sens}
 ##' @rdname performance
 ##' @export 
+##' @examples
+##'
+##' ## specificities
+##' spec (r = ref, p = pred)
 spec <- function (r = stop ("missing reference"), p = stop ("missing prediction"), ...){
   sens (r = 1 - r, p = 1 - p, ...)
 }
 
 ##' @rdname performance
-##' @export 
+##' @export
+##' @examples
+##'
+##' ## predictive values
+##' ppv (r = ref, p = pred)
 ppv <- function (r = stop ("missing reference"), p = stop ("missing prediction"), ...,
                  .checked = FALSE){
   if (! .checked)
@@ -338,7 +362,9 @@ ppv <- function (r = stop ("missing reference"), p = stop ("missing prediction")
 }
 
 ##' @rdname performance
-##' @export 
+##' @export
+##' @examples
+##' npv (r = ref, p = pred)
 npv <- function (r = stop ("missing reference"), p = stop ("missing prediction"), ...,
                  .checked = FALSE){
   if (! .checked)

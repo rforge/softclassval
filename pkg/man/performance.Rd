@@ -1,4 +1,5 @@
 \name{confusion}
+\alias{confmat}
 \alias{confusion}
 \alias{npv}
 \alias{ppv}
@@ -9,6 +10,9 @@
   confusion(r = stop("missing reference"),
     p = stop("missing prediction"), groups = NULL,
     operator = "prd", drop = FALSE, .checked = FALSE)
+
+  confmat(r = stop("missing reference"),
+    p = stop("missing prediction"), ...)
 
   sens(r = stop("missing reference"),
     p = stop("missing prediction"), groups = NULL,
@@ -64,6 +68,8 @@
   These performance measures can be used with prediction
   and reference being continuous class memberships in [0,
   1].
+
+  \code{confmat} calculated the soft confusion matrix
 }
 \details{
   The rows of \code{r} and \code{p} are considered the
@@ -77,6 +83,32 @@
   \code{spec}, \code{ppv}, and \code{npv} use the symmetry
   between the performance measures as described in the
   article and call \code{sens}.
+}
+\examples{
+ref <- softclassval:::ref
+ref
+
+pred <- softclassval:::pred
+pred
+
+## Single elements or diagonal of confusion matrix
+confusion (r = ref, p = pred)
+## complete confusion matrix
+cm <- confmat (r = softclassval:::ref, p = pred) [1,,]
+cm
+
+## Sensitivity-Specificity matrix:
+cm / rowSums (cm)
+
+## Matrix with predictive values:
+cm / rep (colSums (cm), each = nrow (cm))
+## sensitivities
+sens (r = ref, p = pred)
+## specificities
+spec (r = ref, p = pred)
+## predictive values
+ppv (r = ref, p = pred)
+npv (r = ref, p = pred)
 }
 \author{
   Claudia Beleites
