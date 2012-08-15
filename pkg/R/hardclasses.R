@@ -1,7 +1,9 @@
 ##' Convert to hard class labels
 ##'
-##' Converts the soft class labels in \code{x} into a factor with hard class memberships and
-##' \code{NA} for soft samples. 
+##' \code{hardclasses} converts the soft class labels in \code{x} into a factor with hard class memberships and
+##' \code{NA} for soft samples.
+##'
+##' \code{harden} hardens the soft 
 ##' @param x matrix or array holding the class memberships
 ##' @param classdim dimension that holds the classes, default columns
 ##' @param soft.name level for soft samples 
@@ -126,4 +128,91 @@ hard <- function (op)
   checkTrue (!hard (myop))
   checkException (hard (myop) <- NULL)
   checkException (hard (myop) <- NA)
+}
+
+
+##' @rdname hard
+##' @param closed logical indicating whether the system should be treated as closed-world (i.e. all
+##' memberships add to 1)
+##' @export harden
+##' @examples
+##' softclassval:::pred
+##' harden (softclassval:::pred)
+##' harden (softclassval:::pred, closed = FALSE)
+##'
+##' ## classical threshold at 0.5
+##' harden (softclassval:::pred, tol = 0.5)
+##'
+##' ## grey zone: NA for memberships between 0.25 and 0.75
+##' harden (softclassval:::pred, tol = 0.25)
+##'
+##' ## threshold at 0.7 = 0.5 + 0.2:
+##' harden (softclassval:::pred - 0.2, tol = 0.5)
+##' harden (softclassval:::pred - 0.2, tol = 0.5, closed = FALSE)
+
+harden <- function (x, classdim = 2L, tol = 1e-6, closed = TRUE){
+	x <- .make01 (x, tol = tol)
+
+   if (closed && dim (x) [classdim] > 1L){
+     ## in closed-world classification, one NA should "infect"
+     ## all other classes of the same case
+
+     nas <- colSums (aperm (x, c (classdim, seq_len (ndim (x)) [-classdim])))
+     nas <- which (is.na (nas) | nas == 0, arr.ind = TRUE)
+     nas <- as.matrix (nas)
+
+     if (length (nas) > 0L)
+       for (i in seq_len (dim  (x)[classdim])){
+         tmp <- cbind (nas [,seq_len (classdim - 1)],
+                       i,
+                       nas [,seq_len (ncol (nas) - classdim + 1) + classdim - 1])
+         x [tmp] <- NA
+       }
+   }
+		
+	x
+}
+
+.test (harden){
+  checkEquals (harden (as.matrix (v)),
+               structure(c(0, NA, NA, 1, NA),
+                         .Dim = c(5L, 1L),
+                         .Dimnames = list(c("a", "b", "c", "d", "e"), NULL)))
+  checkEquals (harden (m),
+               structure(c(1, NA, NA, NA, 0, NA, NA, NA, 0, NA, NA, NA),
+                         .Dim = c(4L, 3L),
+                         .Dimnames = list(c("a", "b", "c", "d"), c("A", "B", "C")))
+               )
+
+  checkEquals (harden (pred.array),
+               structure(c(1, 0, NA, NA, NA, 1, 0, NA, NA, NA,
+                           0, 1, NA, NA, NA, 0, 1, NA, NA, NA,
+                           0, 0, NA, NA, NA, 0, 0, NA, NA, NA,
+                           1, 1, 1, 1, 1, NA, NA, NA, NA, NA,
+                           0, 0, 0, 0, 0, NA, NA, NA, NA, NA,
+                           0, 0, 0, 0, 0, NA, NA, NA, NA, NA),
+                         .Dim = c(10L, 3L, 2L),
+                         .Dimnames = list(NULL, c("a", "b", "c"), c("1", "2")))
+               )
+  checkEquals (harden (pred.array, closed = FALSE),
+               structure(c(1, 0, NA, NA, NA, 1, 0, NA, NA, NA,
+                           0, 1, NA, NA, NA, 0, 1, NA, NA, NA,
+                           0, 0, 0,  NA, NA, 0, 0, 0,  NA, NA,
+                           1, 1, 1, 1, 1, NA, NA, NA, NA, NA,
+                           0, 0, 0, 0, 0, NA, NA, NA, NA, NA,
+                           0, 0, 0, 0, 0,  0,  0,  0,  0,  0),
+                         .Dim = c(10L, 3L, 2L),
+                         .Dimnames = list(NULL, c("a", "b", "c"), c("1", "2")))
+               )
+
+  checkEquals (harden (pred.array, classdim = 3L),
+               structure(c(1, 0, NA, NA, NA, NA, NA, NA, NA, NA,
+                           0, 1, NA, NA, NA, NA, NA, NA, NA, NA,
+                           0, 0,  0, NA, NA,  0,  0,  0, NA, NA,
+                           1, 1, NA, NA, NA, NA, NA, NA, NA, NA,
+                           0, 0, NA, NA, NA, NA, NA, NA, NA, NA,
+                           0, 0,  0, NA, NA,  0,  0,  0, NA, NA),
+                         .Dim = c(10L, 3L, 2L),
+                         .Dimnames = list(NULL, c("a", "b", "c"), c("1", "2")))
+               )
 }
