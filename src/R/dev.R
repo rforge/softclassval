@@ -35,7 +35,7 @@
 ##' @seealso \code{\link{sens}} \code{\link{post}}
 ##' @export 
 ##' @include softclassval.R
-##' @include validate.R
+##' @include unittestdata.R
 ##'
 ##' @examples
 ##'

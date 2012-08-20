@@ -6,20 +6,22 @@
 ##' @docType package
 ##' 
 {
-  if (!require (svUnit)){
+  if (!require ("svUnit", quietly = TRUE)){
     `.test<-` <- function (f, value) {
+      class (value) <-  c ("svTest", "function")
       attr (f, "test") <- value
       f
     }
   } else {
     `.test<-` <- svUnit::`test<-`
+
     checkEqualsOrdered <- function (target, current, ...)
       checkEquals (target [order (names (target))], current [order (names (current))], ...)
 
     checkEqualAttributes <- function (target, current, ...)
       checkEqualsOrdered (attributes (target), attributes (current), ...) # TODO: exclusion list
 
-    svTest <- function (...){}
+    svTest <- function (...){}          # needed for .testoperators
   }
 }
 
