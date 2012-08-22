@@ -14,8 +14,7 @@ LazyData: yes
 Depends:
     methods,
     arrayhelpers (>= 0.76)
-Suggests:
-    svUnit
+Suggests: svUnit
 URL: http://softclassval.r-forge.r-project.org/
 Collate:
     'softclassval.R'

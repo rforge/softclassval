@@ -20,9 +20,9 @@ URL: http://softclassval.r-forge.r-project.org/
 Collate:
     'softclassval.R'
     'make01.R'
+    'unittestdata.R'
     'hardclasses.R'
     'init.R'
-    'unittestdata.R'
     'dev.R'
     'nsamples.R'
     'postproc.R'

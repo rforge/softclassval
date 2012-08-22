@@ -135,6 +135,7 @@ hard <- function (op)
 ##' @param closed logical indicating whether the system should be treated as closed-world (i.e. all
 ##' memberships add to 1)
 ##' @export harden
+##' @include unittestdata.R
 ##' @examples
 ##' softclassval:::pred
 ##' harden (softclassval:::pred)

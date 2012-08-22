@@ -67,4 +67,4 @@ test(gdl)             OK
 > 
 > proc.time()
        User      System verstrichen 
-      0.660       0.232       0.543 
+      0.672       0.236       0.575 

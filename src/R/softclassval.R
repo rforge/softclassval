@@ -14,14 +14,12 @@
     }
   } else {
     `.test<-` <- svUnit::`test<-`
-
-    checkEqualsOrdered <- function (target, current, ...)
-      checkEquals (target [order (names (target))], current [order (names (current))], ...)
-
-    checkEqualAttributes <- function (target, current, ...)
-      checkEqualsOrdered (attributes (target), attributes (current), ...) # TODO: exclusion list
-
-    svTest <- function (...){}          # needed for .testoperators
   }
+  
+  checkEqualsOrdered <- function (target, current, ...)
+    checkEquals (target [order (names (target))], current [order (names (current))], ...)
+
+  checkEqualAttributes <- function (target, current, ...)
+    checkEqualsOrdered (attributes (target), attributes (current), ...) # TODO: exclusion list
 }
 

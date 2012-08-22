@@ -4,6 +4,7 @@
 ##' predicted and reference memberships in [0, 1].
 ##' @name softclassval-package
 ##' @docType package
+##' @author C. Beleites
 ##' 
 {
   if (!require ("svUnit", quietly = TRUE)){
@@ -14,14 +15,12 @@
     }
   } else {
     `.test<-` <- svUnit::`test<-`
-
-    checkEqualsOrdered <- function (target, current, ...)
-      checkEquals (target [order (names (target))], current [order (names (current))], ...)
-
-    checkEqualAttributes <- function (target, current, ...)
-      checkEqualsOrdered (attributes (target), attributes (current), ...) # TODO: exclusion list
-
-    svTest <- function (...){}          # needed for .testoperators
   }
+  
+  checkEqualsOrdered <- function (target, current, ...)
+    checkEquals (target [order (names (target))], current [order (names (current))], ...)
+
+  checkEqualAttributes <- function (target, current, ...)
+    checkEqualsOrdered (attributes (target), attributes (current), ...) # TODO: exclusion list
 }
 

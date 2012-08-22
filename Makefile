@@ -1,28 +1,30 @@
 all: roxy build check test
 
 roxy: clean DESCRIPTION src/R/*.R 
-	rsync -av --delete --exclude=man src/ pkg/
+#	rsync -av --delete --exclude=man src/ pkg/
 	Rscript --vanilla -e "library (roxygen2); roxygenize ('pkg')" 
 
 DESCRIPTION: $(shell find src -maxdepth 1 -daystart -not -ctime 0 -name "DESCRIPTION") #only if not modified today
 	@echo update DESCRIPTION
-	sed "s/\(^Version: .*-\)20[0-9][0-9][0-1][0-9][0-3][0-9]\(.*\)$$/\1`date +%Y%m%d`\2/" src/DESCRIPTION > .DESCRIPTION
-	sed "s/\(^Date: .*\)20[0-9][0-9]-[0-1][0-9]-[0-3][0-9]\(.*\)$$/\1`date +%F`\2/" .DESCRIPTION > src/DESCRIPTION 
+	sed "s/\(^Version: .*-\)20[0-9][0-9][0-1][0-9][0-3][0-9]\(.*\)$$/\1`date +%Y%m%d`\2/" pkg/DESCRIPTION > .DESCRIPTION
+	sed "s/\(^Date: .*\)20[0-9][0-9]-[0-1][0-9]-[0-3][0-9]\(.*\)$$/\1`date +%F`\2/" .DESCRIPTION > pkg/DESCRIPTION 
 	rm .DESCRIPTION
 
 src/R/*.R: 
 	touch $@
 
 clean:
-	rm -f src/R/#*.R#
-	rm -f src/R/*.bak
-	rm -f src/R/*.R~
+	rm -f softclassval*.tar.gz
+	rm -f pkg/R/#*.R#
+	rm -f pkg/R/*.bak
+	rm -f pkg/R/*.R~
 	cd pkg && rm -rf *.R~	
 	rm -f pkg/*/man/.*.Rd
 	find -maxdepth 4 -name ".Rhistory" -delete
+  rm -rf *.Rcheck
 
 check: 
-	R CMD check pkg --vanilla && rm -rf pkg.Rcheck 
+	R CMD check softclassval_*.tar.gz
 
 install:
 		sudo R CMD INSTALL pkg	
@@ -36,9 +38,9 @@ build: roxy
 devbuild: roxy
 	~/r-devel/bin/R CMD build pkg --vanilla
 
-devcheck: roxy
-	~/r-devel/bin/R CMD check pkg --vanilla
+devcheck: devbuild
+	~/r-devel/bin/R CMD check softclassval_*.tar.gz
 
-devtest: roxy
-	~/r-devel/bin/R CMD INSTALL pkg
+devtest: devbuild
+	~/r-devel/bin/R CMD INSTALL softclassval_*.tar.gz
 	~/r-devel/bin/Rscript --vanilla -e "library (softclassval); softclassval.unittest ()"

@@ -6,6 +6,8 @@
 ##' @author Claudia Beleites
 ##' @seealso  \link[svUnit]{svUnit} 
 ##' @export 
+##' @include softclassval.R
+##' @include unittestdata.R
 softclassval.unittest <- function (){
   if (! require ("svUnit", quietly = TRUE)){
     warning ("svUnit required to run the unit tests.")

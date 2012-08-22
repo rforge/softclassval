@@ -25,6 +25,7 @@
 ##' @include softclassval.R
 ##' @include dev.R
 ##' @include postproc.R
+##' @include unittestdata.R
 ##'
 ##' @examples
 ##' ops <- c ("luk", "gdl", "prd", "and", "wMAE", "wRMAE", "wMSE", "wRMSE")
@@ -167,7 +168,7 @@ hard (wMSE) <- FALSE
 wRMSE <- wMSE
 postproc (wRMSE) <- "sqrt"
 
-.testoperators <- svTest (function (){
+.testoperators <- function (){
   ops <- c ("luk", "gdl", "prd", "and", "wMAE", "wRMAE", "wMSE", "wRMSE")
 
   ## dev
@@ -237,4 +238,5 @@ postproc (wRMSE) <- "sqrt"
                  msg = sprintf ("commutativity: %s", o))
   }
   
-})
+}
+class (.testoperators) <- c ("svTest", "function")
