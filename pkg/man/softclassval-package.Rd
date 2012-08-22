@@ -7,4 +7,7 @@
   negative predictive value to continuous predicted and
   reference memberships in [0, 1].
 }
+\author{
+  C. Beleites
+}
 

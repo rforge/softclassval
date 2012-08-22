@@ -1,16 +1,16 @@
 all: roxy build check test
 
-roxy: clean DESCRIPTION src/R/*.R 
+roxy: clean DESCRIPTION pkg/R/*.R 
 #	rsync -av --delete --exclude=man src/ pkg/
 	Rscript --vanilla -e "library (roxygen2); roxygenize ('pkg')" 
 
-DESCRIPTION: $(shell find src -maxdepth 1 -daystart -not -ctime 0 -name "DESCRIPTION") #only if not modified today
+DESCRIPTION: $(shell find pkg -maxdepth 1 -daystart -not -ctime 0 -name "DESCRIPTION") #only if not modified today
 	@echo update DESCRIPTION
 	sed "s/\(^Version: .*-\)20[0-9][0-9][0-1][0-9][0-3][0-9]\(.*\)$$/\1`date +%Y%m%d`\2/" pkg/DESCRIPTION > .DESCRIPTION
 	sed "s/\(^Date: .*\)20[0-9][0-9]-[0-1][0-9]-[0-3][0-9]\(.*\)$$/\1`date +%F`\2/" .DESCRIPTION > pkg/DESCRIPTION 
 	rm .DESCRIPTION
 
-src/R/*.R: 
+pkg/R/*.R: 
 	touch $@
 
 clean:
@@ -21,7 +21,7 @@ clean:
 	cd pkg && rm -rf *.R~	
 	rm -f pkg/*/man/.*.Rd
 	find -maxdepth 4 -name ".Rhistory" -delete
-  rm -rf *.Rcheck
+	rm -rf *.Rcheck
 
 check: 
 	R CMD check softclassval_*.tar.gz

@@ -19,4 +19,6 @@
 \seealso{
   \link[svUnit]{svUnit}
 }
+\keyword{programming}
+\keyword{utilities}
 
