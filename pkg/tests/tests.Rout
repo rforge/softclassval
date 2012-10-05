@@ -27,7 +27,7 @@ will give you the correct reference.
 The project homepage is http://arrayhelpers.r-forge.r-project.org/
 
 
-Package softclassval, version 0.99-20120820
+Package softclassval, version 0.99-20121005
 
 Use of this package is granted under GPL Version 3 or above.
    RShowDoc ("GPL-3")
@@ -67,4 +67,5 @@ test(gdl)             OK
 > 
 > proc.time()
        User      System verstrichen 
-      0.672       0.236       0.575 
+      0.700       0.252       0.674 
+
