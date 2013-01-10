@@ -4,36 +4,34 @@ body, div#nav a, div.paper h3, li.literature a {
 }
 
 a, a:hover, a:active, a:focus, div.paper h2, span.title { 
-	 color: #050; 
+	 color: #005; 
 }
 
 a:hover, a:active, a:focus {
-	 border-color: #050;
+	 border-color: #005;
 }
 
 div#header {
-	 background:  #050;
+	 background:  #005;
 }
 
 div.post, span#tag, p#footer, div#address {
-	 border-color: #9d9; /*aad*/
+	 border-color: #bac; /*aad*/
 } 
 
 
 div#header {
-	 box-shadow: 0 0 4em #bca;
-	 -webkit-box-shadow: 0 0 4em #bca;
-	 -moz-box-shadow: 0 0 4em #bca;
+	 box-shadow: 0 0 4em #bac;
+	 -webkit-box-shadow: 0 0 4em #bac;
+	 -moz-box-shadow: 0 0 4em #bac;
 }
-pre {
-	 background-color: #ddd;
-}
-div#address, span#tag {
-	 background-color: #dfc;
+
+div#address, span#tag, pre {
+	 background-color: #eef;
 }
 
 body {
-	 background: #f8fff8;
+	 background: #f8f8ff;
 }
 
 div#header, div#header h1 {

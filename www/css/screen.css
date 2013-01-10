@@ -1,11 +1,65 @@
+/* Colors */
+body, div#nav a, div.paper h3, li.literature a {
+	 color: #000;
+}
+
+a, a:hover, a:active, a:focus, div.paper h2, span.title { 
+	 color: #050; 
+}
+
+a:hover, a:active, a:focus {
+	 border-color: #050;
+}
+
+div#header {
+	 background:  #050;
+}
+
+div.post, span#tag, p#footer, div#address {
+	 border-color: #9d9; /*aad*/
+} 
+
+
+div#header {
+	 box-shadow: 0 0 4em #bca;
+	 -webkit-box-shadow: 0 0 4em #bca;
+	 -moz-box-shadow: 0 0 4em #bca;
+}
+pre {
+	 background-color: #ddd;
+}
+div#address, span#tag {
+	 background-color: #dfc;
+}
+
+body {
+	 background: #f8fff8;
+}
+
+div#header, div#header h1 {
+	 color: #fff;
+}
+
+/* font-family */
+body {
+	 font-family: Georgia, "DejaVu Serif", Times, "Times New Roman", serif;
+}
+
+h1, h2, h3, h4, h5, h6, 
+div#nav, div#share, div#address {
+	 font-family: Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", 
+	 "Bitstream Vera Sans", "Liberation Sans", Verdana, "Verdana Ref", sans-serif;
+}
+
+
 /*font-family: Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", Verdana, "Verdana Ref", sans-serif;
 font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace; */
+
+
+
 body {
-	 background: #ffe;
-	 font-family: Georgia, "DejaVu Serif", Times, "Times New Roman", serif;
 	 font-size: 95%; /* Resets UA 16px common default such that 1em = 10px. Kudos to Richard Rutter. */
 	 line-height: 1.5; /* We can use unitless numbers here; they act as multiples of the font-size. */
-	 color: #000;
 	 width: 75em;
 	 line-height: 1.5;
 	 text-align: justify; /* For IE centering. */
@@ -14,6 +68,8 @@ body {
 	 padding-right: 1ex;
 
 }
+
+
 
 div#pagenav {
 }
@@ -24,13 +80,7 @@ div#nav {
 	 float: left;
 }
 div#header {
-	 background:  #050;
-	 color:#fff;
 	 text-align: center;
-
-	 box-shadow: 0 0 4em #bca;
-	 -webkit-box-shadow: 0 0 4em #bca;
-	 -moz-box-shadow: 0 0 4em #bca;
 
 	 border-radius:2em;
 	 -webkit-border-radius:2em;
@@ -64,24 +114,17 @@ align: justify;
 div#share{
 float:right;
 width: 18em;
-font-family: Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", Verdana, "Verdana Ref", sans-serif;
 font-size: 0.9em;
 padding-right: 1em;
 }
-hr { 
-color: #bca; 
-} 
 
 tt {
 	 font-size:140%;
-	 letter-spacing: -0.1em;
+	 letter-spacing: -0.1ex;
 }
 
 code {
 	 font-size:120%;
-}
-pre {
-   background-color: #eee; 
 }
 
 h1 {
@@ -99,8 +142,6 @@ h1 {
 div#container {
 	 margin: 0em 18em 0 auto;
 	 padding: 0;
-/*	 background-color: white; */
-/*	 border-top:  #bca 1px solid;*/
 	 text-align: justify;
 	 width: 43em; /* 960 minus the gutters (48 on each side). */
 }
@@ -108,53 +149,19 @@ div#content {
 	 margin: 0;
 	 padding: 0;
 }
-h1,h2, h3, h4, h5, h6 { 
-	 font-family: "Lucida Grande", Verdana, "DejaVu Sans", sans-serif;
-}
-div#header h1 {color: #FFF}
+
 h1 { font-size: 2em; margin: 0em; margin-bottom: 0.5em; /* 16 */ }
 h2 { font-size: 1.4em; margin: 0; /* 16 */ }
 h3, div.post h2 { font-size: 1.2em; margin: 0; }
-h4, div.post h3  {  font-size: 1em; font-weight: bold; margin: 0em;/* 16 */ }
+h4, div.post h3  {  font-size: 1em; font-weight: bold; margin: 0;/* 16 */ }
 h5, div.post h4  { text-transform: uppercase; letter-spacing: 1px;  margin: 0em;/* 16 */ }
 
-a, a:hover, a:active, a:focus { text-decoration: none; }
-a { color: #050; 
-}
-a:hover, a:active, a:focus {
-color: #050;
-border-bottom: 1px solid #050;
-/*background-color: #d2fbd2;*/
-}
-a.internal {
-        color: #004000;
-        font-family: "Lucida Grande", Verdana, "DejaVu Sans", sans-serif;
-        }
-a.internal:hover, a.internal:active, a.internal:focus { color: #006000; }
-abbr, acronym, .caps {
-	 font-style: normal;
-	 letter-spacing: 0.062em; /* 1; Calculated for the copy at 16 */
-/*	 text-transform: lowercase; */
-	 font-variant: small-caps;
-}
-input[type=submit], label, select, .pointer { cursor: pointer; }
-/*
-h1 a span.italic { font-style: italic; }
-h1 a span.middot { color: #666; }
-h1 a:hover span.hoverline { border-bottom: 1px solid #999; }
-h1 a { color: #006000; }
-h1 a:hover, h1 a:active, h1 a:focus {
-	 color: #008000;
-	 border: none;
-	 background-color: white;
-}*/
-div#nav, div#share {
-	 font-family: "Lucida Grande", Verdana, "DejaVu Sans", sans-serif;
-	 font-size: 85%;
+a, a:hover, a:active, a:focus { 
+	 text-decoration: none; 
 }
 
-div#nav a {
-	 color: black;
+div#nav, div#share {
+	 font-size: 85%;
 }
 
 div#nav ul {
@@ -177,17 +184,13 @@ div#share tt {
 }
 
 div#address {
-	 border: 1px solid #050;
 	 width: 32em;
 	 padding: 1ex;
 	 border-radius:1ex;
 	 -webkit-border-radius:1ex;
 	 -moz-border-radius:1ex;
-	 font-family: "Lucida Grande", Verdana, "DejaVu Sans", sans-serif;
-	 background-color: #efe;
 }
 div.post {
-	 border: 1px solid #ada;
 	 margin: 0em;
 	 margin-bottom: 1em;
 	 padding: 1ex;
@@ -198,8 +201,6 @@ div.post {
 }
 
 span#tag {
-	 border: 1px solid #8a8;
-	 background: #efd;
 	 margin: 0em;
 	 margin-right: 1em;
 	 padding: 1px;
@@ -213,24 +214,36 @@ span#tag {
 }
 
 div.paper h2{
-	 font-size: 1.2em; color: #050; margin: 0em; margin-bottom: 0.5em; /* 16 */ }
+	 font-size: 1.2em; margin: 0em; margin-bottom: 0.5em; /* 16 */ }
 }
-div.paper h3 { font-size: 80%; color: black;margin: 0em; margin-bottom: 0.5em;}
+div.paper h3 { font-size: 80%; margin: 0em; margin-bottom: 0.5em;}
 
 span.title {
-	 color: #050;
 	 font-style: italic;
 }
 li.literature {margin-bottom: 1em;}
 
-li.literature a {color: black;};
-
 
 p { padding: 0; text-align: justify; padding-bottom: 1em;}
 p#footer {
-border-top: 1px solid #ada;
 padding: 0;
 padding-top: 2px;
 margin-top: 0;
 margin-bottom: 0;
+}
+
+/* Borders */
+div#address, div.post, span#tag  {
+	 border-width: 1px;
+	 border-style: solid;
+}
+
+a:hover, a:active, a:focus {
+	 border-bottom-width: 1px;
+	 border-bottom-style: solid;
+}
+
+p#footer {
+	 border-top-width: 1px;
+	 border-top-style: solid;
 }
