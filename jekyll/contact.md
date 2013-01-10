@@ -12,7 +12,7 @@ The project moved with me to [IPHT Jena](www.ipht-jena.de):
 		  Dept. of Spectroscopy &middot; Imaging<br/> 
 		  <a href="http://www.ipht-jena.de">Institute of Photonic Technologies</a><br/>
 		  07743 Jena/Germany<br/>
-		  e-mail: <tt><a href="mailto:claudia dot beleites at ipht minus jena dot de">claudia dot beleites at ipht minus jena dot de</a></tt>
+		  e-mail: <tt><a href="mailto:claudia dot beleites at ipht minus jena dot de?subject=[softclassval]">claudia dot beleites at ipht minus jena dot de</a></tt>
 </div>
 
 
@@ -22,7 +22,7 @@ Claudia Beleites<br/>
 Chemometrische Beratung  <br/>
 Am Eichberg 9  <br/>
 61231 Bad Nauheim/Germany  <br/>
-email:  <tt><a href="mailto:chemometrie at beleites dot de">chemometrie at beleites dot de</a></tt>
+email:  <tt><a href="mailto:chemometrie at beleites dot de?subject=[softclassval]">chemometrie at beleites dot de</a></tt>
 </div>
 
 To get an up-to-date email address of the package maintainer, type in `R`:
