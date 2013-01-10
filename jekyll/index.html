@@ -1,0 +1,13 @@
+---
+layout: default
+title: softclassval
+---
+
+<h2>About <tt>softclassval</tt></h2>
+	<p><tt>softclassval</tt> provides classifier performance measures such as sensitivity and specifictity for soft classification (i.e. reference labels and/or classifier output can take any class membership value between 0 and 1).</p>
+
+<ul class="posts">
+  {% for post in site.posts %}
+  <li><span>{{ post.date | date_to_string }}</span> &raquo; <a href="{{ post.url }}">{{ post.title }}</a></li>
+  {% endfor %}
+</ul>

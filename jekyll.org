@@ -1,0 +1,5 @@
+* Notes for Jekyll
+
+- install jekyll
+
+** install pygments for code highlighting

@@ -1,0 +1,68 @@
+---
+layout: default
+---
+<div class="content">
+<div class="paper">
+  <h2><a href="http://dx.doi.org/{{ page.doi }}">{{ page.title }}</a></h2>
+  {% if page.comment %}
+  <i>{{ page.comment }}</i>
+  {% endif %}
+  <p>
+  {{ page.authors }},<br/>
+  {{ page.journal }}, <strong>{{ page.number }}</strong> ({{ page.year }}), {{ page.pages }}.
+  </p>
+  <p>
+	 <strong>Keywords:</strong>
+	 {{ page.keywords }}
+  </p>
+  
+  <p>
+	 <strong>Download links:</strong><br/>
+  <dl>
+  {% if page.doi %}
+  <dt>DOI: <a href="http://dx.doi.org/{{ page.doi }}">{{ page.doi}}</a></dt>
+  <dd>official version</dd>
+  {% endif %}
+
+  {% if page.pmid %}
+  <dt>Pubmed-ID: <a href="http://www.ncbi.nlm.nih.gov/pubmed/{{ page.pmid }}">{{ page.pmid}}</a></dt>
+  <dd></dd>
+  {% endif %}
+
+  {% if page.arxiv %}
+  <dt>arXiv: <a href="http://arxiv.org/abs/{{ page.arxiv }}">{{ page.arxiv }}</a></dt>
+  <dd>full text of accepted manuscript including supplementary material<br/>
+  <a href="http://arxiv.org/pdf/{{ page.arxiv }}"><img src="/images/pdf.png"/></a>
+  <a href="http://arxiv.org/e-print/{{ page.arxiv }}"><img src="/images/tgz.png"/></a>
+  </dd>
+  {% endif %}
+
+  {% if page.pdf || page.zip %}
+  <dt>Authors' manuscript:</dt>
+  <dd>full text of accepted manuscript including supplementary material<br/>
+	 {% if page.pdf %}
+	 <a href="/blob/{{ page.pdf }}"><img src="/images/pdf.png"/></a>
+	 {% endif %}
+	 {% if page.zip %}
+	 <a href="/blob/{{ page.zip }}"><img src="/images/zip.png"/></a>
+	 {% endif %}
+  </dd>
+  {% endif %}
+
+  </dl>
+  </p>
+  <h4>Abstract:</h4>
+  {{ content }}
+
+  {% if page.tags %}
+  {% for tag in page.tags %}
+  <span id="tag">{{ tag }} </span>
+  {% endfor %}
+  <br/>
+  {% endif %}
+
+  {% if page.date %}
+  <span id="postdate">Published: {{ page.date | date: "%Y-%m-%d"}}</span>
+  {% endif %}
+</div>
+</div>

@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+			 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <title>Unit Tests</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="content-language" content="en" />
+    <link rel="stylesheet" href="/css/screen.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="/css/pygments.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="/css/print.css" type="text/css" media="print" />
+  </head>
+  <body>
+	 <div id="header">
+		<img src="/images/softclassval-logo-inv.png" style="vertical-align:middle; float:left" />
+		<h1><tt>softclassval</tt></h1>
+	 </div>
+      <div id="nav">
+	 <h2>Navigation</h2>
+	 <ul>
+		<li><a href="/index.html">Home</a></li>
+		<li><a href="/news.html">NEWS</a></li>
+		<li><a href="/license.html">License</a></li>
+		<li><a href="/installation.html">Download &amp; Installation</a></li>
+		<li><a href="/literature.html">Literature about softclassval</a></li>
+<!--		<li><a href="/applications.html">Applications/Use Cases</a></li> -->
+		<li>Documentation</li>
+		<li><a href="/faq.html">FAQ</a></li>
+		<li><a href="/contact.html">Contact</a></li>
+		<li><a href="/posts.html">All <tt>softclassval</tt> blog posts</a></li>
+		<li><a href="/credits.html">Credits<a></li>
+	 </ul>
+  </div>
+ 
+ 	 		<div id="share">
+		  <h2>Contact</h2>
+		  Claudia Beleites<br/>
+		  Dept. of Spectroscopy &middot; Imaging<br/> 
+		  <a href="http://www.ipht-jena.de">Institute of Photonic Technologies</a><br/>
+		  07743 Jena/Germany<br/>
+		  e-mail: <tt><a href="mailto:claudia dot beleites at ipht minus jena dot de">claudia dot beleites at ipht minus jena dot de</a></tt>
+		  <hr/>
+		  Claudia Beleites<br/>
+		  Chemometrische Beratung<br/> 
+		  Am Eichberg 9<br/>
+		  61231 Bad Nauheim/Germany<br/>
+		  e-mail: <tt><a href="mailto:chemometrie at beleites dot de">chemometrie at beleites dot de</a></tt>
+		</div>
+  
+	 <div id="container">
+		<div class="content">
+  <h2>Unit Tests</h2>
+  <p>One of the reviewers of the <a href=''>theory paper</a> asks how <code>softclassval</code> ensures computational correctness.</p>
+
+<h2 id='unit_tests'>Unit Tests</h2>
+
+<p><code>softclassval</code> uses <a href='http://cran.r-project.org/web/packages/svUnit/index.html'><code>svUnit</code></a> for <a href='http://en.wikipedia.org/wiki/Unit_testing'>unit testing</a>.</p>
+<!-- end excerpt -->
+<p>This means that to each function a piece of testing code can be attached, additional tests can be stored in separate testing functions. In the tests, the function to be tested is called. If the function&#8217;s results do not meet the expectations, an error occurs.</p>
+
+<p><code>softclassval</code>&#8217;s unit tests consist of ca. twice as many lines of code compared to coding the functionality of the package.</p>
+
+<h2 id='running_the_unit_tests'>Running the Unit Tests</h2>
+
+<p>All unit tests in package <code>softclassval</code> can be executed inside R:</p>
+<div class='highlight'><pre><code class='rconsole'><span class='gp'>&gt; </span>softclassval.unittest <span class='p'>()</span>
+<span class='go'>                    kind timing                time unit msg</span>
+<span class='go'>test(.make01)         OK  0.000 2012-11-01 14:27:23         </span>
+<span class='go'>test(sens)            OK  0.079 2012-11-01 14:27:23         </span>
+<span class='go'>test(checkrp)         OK  0.006 2012-11-01 14:27:23         </span>
+<span class='go'>   [...snip...]</span>
+<span class='go'>test(gdl)             OK  0.000 2012-11-01 14:27:24         </span>
+<span class='go'>Summary statistics on all tests run:</span>
+
+<span class='go'>         OK   **FAILS**   **ERROR** DEACTIVATED </span>
+<span class='go'>         21           0           0           0 </span>
+</code></pre>
+</div>
+<p><code> softclassval.unittest ()</code> is also called during <code>R CMD check</code>. Successful passing of the unit tests is somewhat hidden in the last lines of <code>R CMD check</code>&#8217;s output:</p>
+<div class='highlight'><pre><code class='console'><span class='gp'>$</span> R CMD check softclassval_0.99-20120820.tar.gz 
+<span class='go'>   [...snip...]</span>
+<span class='go'>* checking tests ...</span>
+<span class='go'>  Running ‘tests.R’</span>
+<span class='go'> OK</span>
+<span class='go'>   [...snip...]</span>
+</code></pre>
+</div>
+<h2 id='automatic_check_results'>Automatic Check results</h2>
+
+<p>Because of <code>R CMD check</code> running the unit tests, all unit tests need to be successful during the automatic package building process at <a href='https://r-forge.r-project.org'>R-Forge</a> and <a href='http://www.cran.r-project.org/'>CRAN</a>.</p>
+
+<ul>
+<li><a href='http://www.cran.r-project.org/web/checks/check_summary.html'>summary table of CRAN check results for all packages</a></li>
+
+<li><a href='http://www.cran.r-project.org/web/checks/check_results_softclassval.html'>summary table of CRAN check results for <code>softclassval</code></a></li>
+</ul>
+
+    
+  <span id="postdate">Published: 2012-11-01</span>
+  
+  
+  
+  <span id="tag">faq </span>
+  
+  <br/>
+  
+
+</div>
+
+	 </div>
+  </body>
+</html>

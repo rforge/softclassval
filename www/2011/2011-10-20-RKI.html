@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+			 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <title>Validation of Soft Classifiers for Cells and Tissues</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="content-language" content="en" />
+    <link rel="stylesheet" href="/css/screen.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="/css/pygments.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="/css/print.css" type="text/css" media="print" />
+  </head>
+  <body>
+	 <div id="header">
+		<img src="/images/softclassval-logo-inv.png" style="vertical-align:middle; float:left" />
+		<h1><tt>softclassval</tt></h1>
+	 </div>
+      <div id="nav">
+	 <h2>Navigation</h2>
+	 <ul>
+		<li><a href="/index.html">Home</a></li>
+		<li><a href="/news.html">NEWS</a></li>
+		<li><a href="/license.html">License</a></li>
+		<li><a href="/installation.html">Download &amp; Installation</a></li>
+		<li><a href="/literature.html">Literature about softclassval</a></li>
+<!--		<li><a href="/applications.html">Applications/Use Cases</a></li> -->
+		<li>Documentation</li>
+		<li><a href="/faq.html">FAQ</a></li>
+		<li><a href="/contact.html">Contact</a></li>
+		<li><a href="/posts.html">All <tt>softclassval</tt> blog posts</a></li>
+		<li><a href="/credits.html">Credits<a></li>
+	 </ul>
+  </div>
+ 
+ 	 		<div id="share">
+		  <h2>Contact</h2>
+		  Claudia Beleites<br/>
+		  Dept. of Spectroscopy &middot; Imaging<br/> 
+		  <a href="http://www.ipht-jena.de">Institute of Photonic Technologies</a><br/>
+		  07743 Jena/Germany<br/>
+		  e-mail: <tt><a href="mailto:claudia dot beleites at ipht minus jena dot de">claudia dot beleites at ipht minus jena dot de</a></tt>
+		  <hr/>
+		  Claudia Beleites<br/>
+		  Chemometrische Beratung<br/> 
+		  Am Eichberg 9<br/>
+		  61231 Bad Nauheim/Germany<br/>
+		  e-mail: <tt><a href="mailto:chemometrie at beleites dot de">chemometrie at beleites dot de</a></tt>
+		</div>
+  
+	 <div id="container">
+		<div class="content">
+<div class="paper">
+  <h2>Validation of Soft Classifiers for Cells and Tissues</h2>
+  
+  <p>
+  C. Beleites, C. Krafft, J. Popp and V. Sergo,<br/>
+  FTIR Spectroscopy in Microbiological and Medical Diagnostics,  Robert-Koch-Institute, Berlin/Germany, Oct 20 <strong>2011</strong>. <br/>
+  (poster presentation)
+  </p>
+  
+  <p>
+	 <strong>Keywords:</strong>
+	 spectroscopy, soft classification, validation, brain tumour diagnosis
+  </p>
+  
+  
+  <p>
+	 <strong>Download links:</strong><br/>
+  <dl>
+  <dt></dt>
+  <dd>
+	 
+	 <a href="/blob/Beleites-20111020-RKI.pdf"><img src="/images/pdf.png"/></a>
+	 
+	 
+  </dd>
+  </dl>
+  </p>
+  <h4>Abstract:</h4>
+  <p>Medical diagnosis of cells and tissues is an important aim in biospectroscopy. The data analytical task involved frequently is classification. Classification traditionally assumes both reference and prediction to be <em>hard</em>, i.e. stating exactly one of the defined classes. Like fuzzy cluster analysis, soft classification uses partial memberships rather than hard labels, thus expressing uncertainty or mixed cell populations.</p>
+<!-- end excerpt -->
+<p>Many classification methods produce soft output, e.g. posterior probabilities. Some methods also use partial training labels. Yet, for medical diagnostic applications it is even more important to include soft samples into the model validation. Excluding ambiguous samples means retaining only clear (i.e. easy) cases. Such a test set is not representative of the original unfiltered population, and creates a risk of obtaining overly optimistic estimates of the model performance. While mixed populations and uncertain reference are more common for tissue classification, a second problem concerns cells as well: The classical calculation of performance measures such as sensitivity, specificity, and predictive values often comprises a lossy translation of e.g. posterior probabilities into hard class labels, a practice long criticized in the statistical community (e.g. [1]) which also constitutes a major hindrance for the optimization of classifiers.</p>
+
+<p>We introduce a framework to calculate classifier performance measures for samples with soft reference and prediction which also avoids the dichotomization loss. Briefly, if the partial memberships are interpreted as uncertainty, best and worst case as well as expected performance are obtained via the weak, strong and product conjunction [2]. For the mixture interpretation, weighted versions of well-known regression performance measures like mean absolute and root mean squared errors result. A ready-to-use implementation (R package) is available at <a href='http://softclassval.r-forge.r-project.org'>http://softclassval.r-forge.r-project.org</a>.</p>
+
+<p>As real world example, we classify 37 015 Raman (thereof 55% soft) spectra of 80 brain tumor patients into &#8220;normal&#8221;, &#8220;low grade&#8221;, and &#8220;high grade&#8221; tissue morphologies in order to delineate excision borders during surgical treatment of the tumors. Thus, borderline cases are our actual target samples.</p>
+
+<p>Financial support by the Associazione per i Bambini Chirurgici del Burlo (IRCCS Burlo Garofolo Trieste) and of the European Union via the Europäischer Fonds für Regionale Entwicklung (EFRE) and the &#8220;Thüringer Ministerium für Bildung, Wissenschaft und Kultur&#8221; (Project: B714-07037) is highly acknowledged.</p>
+
+<p>References<br />[1]: J. Cohen: &#8220;The cost of dichotomization&#8221;, Applied Psychological Measurement, 7, 249 – 253 (1983).<br />[2]: Gottwald, S.: &#8220;Many-valued logic&#8221;. In E. N. Zalta (Ed.), The Stanford Encyclopedia of Philosophy (Spring 2010 ed.).</p>
+
+    
+  <span id="postdate">Published: 2011-10-20</span>
+  
+  
+  
+  <span id="tag">literature </span>
+  
+  <span id="tag">reference </span>
+  
+  <span id="tag">presentation </span>
+  
+  <br/>
+  
+
+</div>
+</div>
+
+	 </div>
+  </body>
+</html>

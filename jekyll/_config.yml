@@ -1,0 +1,4 @@
+destination: ../www
+site-url: softclassval.r-forge.r-project.org
+permalink: /:year/:year-:month-:day-:title.html
+pygments: true

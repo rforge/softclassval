@@ -1,0 +1,41 @@
+---
+layout: default
+---
+<div class="content">
+<div class="paper">
+  <h2>{{ page.title }}</h2>
+  {% if page.comment %}
+  <i>{{ page.comment }}</i>
+  {% endif %}
+  <p>
+  {{ page.authors }},<br/>
+  {{ page.meeting }},  {{ page.location }}, {{ page.date  | date: "%b %d <strong>%Y</strong>"}}. <br/>
+  ({{ page.type }} presentation)
+  </p>
+  {% if page.keywords %}
+  <p>
+	 <strong>Keywords:</strong>
+	 {{ page.keywords }}
+  </p>
+  {% endif %}
+  
+  <p>
+	 <strong>Download links:</strong><br/>
+  <dl>
+  <dt></dt>
+  <dd>
+	 {% if page.pdf %}
+	 <a href="/blob/{{ page.pdf }}"><img src="/images/pdf.png"/></a>
+	 {% endif %}
+	 {% if page.zip %}
+	 <a href="/blob/{{ page.zip }}"><img src="/images/zip.png"/></a>
+	 {% endif %}
+  </dd>
+  </dl>
+  </p>
+  <h4>Abstract:</h4>
+  {{ content }}
+
+  {% include postfooter.html %}
+</div>
+</div>

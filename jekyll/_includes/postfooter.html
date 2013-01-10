@@ -1,0 +1,9 @@
+  {% if page.date %}
+  <span id="postdate">Published: {{ page.date | date: "%Y-%m-%d"}}</span>
+  {% endif %}
+  {% if page.tags %}
+  {% for tag in page.tags %}
+  <span id="tag">{{ tag }} </span>
+  {% endfor %}
+  <br/>
+  {% endif %}
