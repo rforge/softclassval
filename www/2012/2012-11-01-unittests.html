@@ -26,6 +26,7 @@
 <!--		<li><a href="/applications.html">Applications/Use Cases</a></li> -->
 <!--		<li>Documentation</li> -->
 		<li><a href="/faq.html">FAQ</a></li>
+      <li><a href="/devel.html">Development</a></li>
 		<li><a href="/contact.html">Contact</a></li>
 		<li><a href="/posts.html">All <tt>softclassval</tt> blog posts</a></li>
 		<li><a href="/credits.html">Credits</a></li>
@@ -74,8 +75,7 @@
 
 <span class='go'>         OK   **FAILS**   **ERROR** DEACTIVATED </span>
 <span class='go'>         21           0           0           0 </span>
-</code></pre>
-</div>
+</code></pre></div>
 <p><code> softclassval.unittest ()</code> is also called during <code>R CMD check</code>. Successful passing of the unit tests is somewhat hidden in the last lines of <code>R CMD check</code>&#8217;s output:</p>
 <div class='highlight'><pre><code class='console'><span class='gp'>$</span> R CMD check softclassval_0.99-20120820.tar.gz 
 <span class='go'>   [...snip...]</span>
@@ -83,8 +83,7 @@
 <span class='go'>  Running ‘tests.R’</span>
 <span class='go'> OK</span>
 <span class='go'>   [...snip...]</span>
-</code></pre>
-</div>
+</code></pre></div>
 <h2 id='automatic_check_results'>Automatic Check results</h2>
 
 <p>Because of <code>R CMD check</code> running the unit tests, all unit tests need to be successful during the automatic package building process at <a href='https://r-forge.r-project.org'>R-Forge</a> and <a href='http://www.cran.r-project.org/'>CRAN</a>.</p>
