@@ -5,20 +5,24 @@ year <- sub("^[^-]*-([[:digit:]]{4}).*$", "\\1", desc$Version)
 vers <- paste("R package version", desc$Version)
 
 citEntry(entry="Article", "softclassval-ChemomIntellLabSyst", 
-         title = "Validation of Soft Classification Models: An Extended Concept of Sensitivity, Specificity, and the Precictive Values",
+         title = "Validation of Soft Classification Models  using Partial Class Memberships: An Extended Concept of Sensitivity & Co. applied to Grading of Astrocytoma Tissues",
          author = personList(as.person("Claudia Beleites"),
+                             as.person("Reiner Salzer"),
                              as.person("Valter Sergo")),
-         year = year,
-         journal = "Chemometrics and Intelligent Lab Systems",
-         note = paste ("in preparation", vers),
+         year = 2013,
+         number = 122,
+         pages = '12 -- 22',
+         journal = "Chemometrics and Intelligent Laboratory Systems",
+         note = vers,
          URL = 'http://softclassval.r-forge.r-project.org',
-         ##DOI = '---doi--',
+         DOI = '10.1016/j.chemolab.2012.12.003',
+         eprint = 'http://arxiv.org/abs/1301.0264',
      		
          textVersion =
-         paste("Claudia Beleites and Valter Sergo: ",
-               "`Validation of Soft Classification Models: An Extended Concept of Sensitivity, Specificity, and the Precictive Values', ",
-               "in preparation, ",
-               ## "(", year, "). ", 
-               vers, ". http://softclassval.r-forge.r-project.org", 
+         paste("Claudia Beleites, Reiner Salzer and Valter Sergo:\n",
+               "'Validation of Soft Classification Models  using Partial Class Memberships: An Extended Concept of Sensitivity & Co. applied to grading of astrocytoma tissues',\n",
+               "Chemometrics and Intelligent Laboratory Systems, 122 (2013), 12 - 22,\n",
+               "DOI: 10.1016/j.chemolab.2012.12.003, arXiv: 1301.0264,\n",
+               vers, ", http://softclassval.r-forge.r-project.org.", 
                sep="")
-         )
+   )

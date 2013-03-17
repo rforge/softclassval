@@ -1,6 +1,6 @@
 \name{checkrp}
 \alias{checkrp}
-\title{Input checks for performance calculation}
+\title{Input checks and reference preparation for performance calculation}
 \usage{
   checkrp(r, p)
 }
@@ -25,6 +25,22 @@
   In addition, any \code{NA}s in \code{p} are transferred
   to \code{r} so that these samples are excluded from
   counting in \code{\link{nsamples}}.
+
+  \code{checkrp} is automatically called by the performance
+  functions, but doing so beforehand and then setting
+  \code{.checked = TRUE} can save time when several
+  performance measures are to be calculated on the same
+  results.
+}
+\examples{
+ref <- softclassval:::ref
+ref
+
+pred <- softclassval:::pred
+pred
+
+ref <- checkrp (r = ref, p = pred)
+sens (r = ref, p = pred, .checked = TRUE)
 }
 \author{
   Claudia Beleites

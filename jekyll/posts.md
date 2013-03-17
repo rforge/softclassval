@@ -4,10 +4,13 @@ title: softclassval Posts
 ---
 # All Posts
 
+<ul>
 {% for post in site.posts %}
-- {{ post.date | date_to_string }} &raquo; <a href="{{ post.url }}">{{ post.title }}</a>
+<li><span>{{ post.date | date_to_string }}</span> &raquo; 
+	 <a href="{{ post.url }}">{{ post.title }}</a>
+    </li>
 {% endfor %}
-
+</ul>
 
 # Excerpts
 {% for post in site.posts %}

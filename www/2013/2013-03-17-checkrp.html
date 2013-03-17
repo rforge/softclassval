@@ -3,7 +3,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <title><tt>softclassval</tt> FAQ</title>
+    <title><code>checkrp</code> exported</title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta http-equiv="content-language" content="en" />
     <link rel="stylesheet" href="/css/screen.css" type="text/css" media="screen" />
@@ -49,99 +49,41 @@
 		</div>
   
 	 <div id="container">
-		<h1 id='news'>NEWS</h1>
-<ul>
-
-
-
-<li><span>17 Mar 2013</span> &raquo; 
-	 <a href='/2013/2013-03-17-softclassval10.html'><tt>softclassval</tt> Version 1.0</a>
-    </li>
-
-
-
-
-
-<li><span>17 Mar 2013</span> &raquo; 
-	 <a href='/2013/2013-03-17-checkrp.html'><code>checkrp</code> exported</a>
-    </li>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</ul>
-<h1 id='excerpts'>Excerpts</h1>
-<div class='post'>
-<h2><a href='/2013/2013-03-17-softclassval10.html' id='/2013/softclassval10'><tt>softclassval</tt> Version 1.0</a></h2>
-
-<p>With the <a href=''>theory paper</a> being printed, <code>softclassval</code> is now mature to gain Version number 1.0.</p>
-<a href='/2013/2013-03-17-softclassval10.html'>... read more ...</a>
-<p id='footer'>
-
-	<span id='tag'> news </span>
-	 
-17 Mar 2013
-<br />
-&raquo; <a href='#all_posts'>top</a>
-</p>
-</div><div class='post'>
-<h2><a href='/2013/2013-03-17-checkrp.html' id='/2013/checkrp'><code>checkrp</code> exported</a></h2>
-
-<p>Function <code>checkrp</code> which does consistency checks and possibly recycles the reference to fit to the predictions is now exported. This saves time if multiple performance measures are to be calculated on the same predictions.</p>
-
-<a href='/2013/2013-03-17-checkrp.html'>... read more ...</a>
-<p id='footer'>
-
-	<span id='tag'> news </span>
-	 
-17 Mar 2013
-<br />
-&raquo; <a href='#all_posts'>top</a>
-</p>
+		<div class="content">
+  <h2><code>checkrp</code> exported</h2>
+  <p>Function <code>checkrp</code> which does consistency checks and possibly recycles the reference to fit to the predictions is now exported. This saves time if multiple performance measures are to be calculated on the same predictions.</p>
+<!-- end excerpt --><div class='highlight'><pre><code class='rconsole'><span class='gp'>&gt; </span>sens <span class='p'>(</span>r <span class='o'>=</span> ref<span class='p'>,</span> p <span class='o'>=</span> pred<span class='p'>)</span>
+<span class='go'>       A    B  C</span>
+<span class='go'>[1,] 0.6 0.32 NA</span>
+<span class='go'>Warnmeldung:</span>
+<span class='go'>In checkrp(r, p) : colnames of r (ABC) and p  (abc) do not match.</span>
+</code></pre>
 </div>
+<p><code>sens</code> automatically calls <code>checkrp</code> as you can see by the warning it throws.</p>
+
+<p>To disable this, execute <code>checkrp</code> beforehand and tell <code>sens</code> that this was done already:</p>
+<div class='highlight'><pre><code class='rconsole'><span class='gp'>&gt; </span>ref <span class='o'>&lt;-</span> checkrp <span class='p'>(</span>r <span class='o'>=</span> ref<span class='p'>,</span> p <span class='o'>=</span> pred<span class='p'>)</span>
+<span class='go'>Warnmeldung:</span>
+<span class='go'>In checkrp(r = ref, p = pred) :</span>
+<span class='go'>  colnames of r (ABC) and p  (abc) do not match.</span>
+<span class='gp'>&gt; </span>sens <span class='p'>(</span>r <span class='o'>=</span> ref<span class='p'>,</span> p <span class='o'>=</span> pred<span class='p'>,</span> <span class='m'>.</span>checked <span class='o'>=</span> <span class='kc'>TRUE</span><span class='p'>)</span>
+<span class='go'>       A    B  C</span>
+<span class='go'>[1,] 0.6 0.32 NA</span>
+</code></pre>
+</div>
+
+    
+  <span id="postdate">Published: 2013-03-17</span>
+  
+  
+  
+  <span id="tag">news </span>
+  
+  <br/>
+  
+
+</div>
+
 	 </div>
   </body>
 </html>

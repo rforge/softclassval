@@ -1,4 +1,4 @@
-##' Input checks for performance calculation
+##' Input checks and reference preparation for performance calculation
 ##'
 ##' Checks whether \code{r} and \code{p} are valid reference and predictions. If \code{p} is a
 ##' multiple of \code{r}, recycles \code{r} to the size and shape of \code{p}. If \code{r} has
@@ -7,10 +7,24 @@
 ##'
 ##' In addition, any \code{NA}s in \code{p} are transferred to \code{r} so that these samples are
 ##' excluded from counting in \code{\link{nsamples}}.
+##'
+##' \code{checkrp} is automatically called by the performance functions, but doing so beforehand and
+##' then setting \code{.checked = TRUE} can save time when several performance measures are to be
+##' calculated on the same results.
 ##' @param r reference
 ##' @param p prediction
 ##' @return \code{r}, possibly recycled to length of \code{p} or with dimensions shortened to \code{p}.
 ##' @author Claudia Beleites
+##' @export
+##' @examples
+##' ref <- softclassval:::ref
+##' ref
+##'
+##' pred <- softclassval:::pred
+##' pred
+##' 
+##' ref <- checkrp (r = ref, p = pred)
+##' sens (r = ref, p = pred, .checked = TRUE)
 checkrp <- function (r, p){
   if (is.null (dr <- dim (r))) dr <- length (r)
   if (is.null (dp <- dim (p))) dp <- length (p)
@@ -132,6 +146,8 @@ checkrp <- function (r, p){
 ##' @return numeric of size (ngroups x \code{dim (p) [-1]}) with the respective performance measure
 ##' @author Claudia Beleites
 ##' @seealso Operators: \code{\link{prd}}
+##'
+##' For the complete confusion matrix, \code{\link{confmat}}
 ##' @references see the literature in \code{citation ("softclassval")}
 ##' @export
 ##' @include softclassval.R
@@ -160,7 +176,7 @@ confusion <- function (r = stop ("missing reference"), p = stop ("missing predic
 ## testing by .test (sens)
 
 
-##' \code{confmat} calculated the soft confusion matrix
+##' Calculate the soft confusion matrix
 ##' 
 ##' @rdname performance
 ##' @export
@@ -241,7 +257,8 @@ sens <- function (r = stop ("missing reference"), p = stop ("missing prediction"
   if (!.checked)
     r <- checkrp (r, p)                     # do the input checks.
   
-  res <- confusion (r = r, p = p, groups = groups, operator = operator, drop = FALSE)
+  res <- confusion (r = r, p = p, groups = groups, operator = operator, drop = FALSE,
+                    .checked = TRUE)
   nsmpl <- nsamples (r = r, groups = groups, operator = operator)
 
   if (any (nsmpl < res))

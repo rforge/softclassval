@@ -8,8 +8,8 @@ tags:
 authors: 'C. Beleites, R. Salzer and V. Sergo'
 journal: Chemom. Intell. Lab. Syst.
 doi: '10.1016/j.chemolab.2012.12.003'
-number: 760
-pages: 25 - 33
+number: 122
+pages: 12 - 22
 year: 2013
 arxiv: 1301.0264
 comment: Paper deriving and explaining the theory behind <tt>softclassval</tt>

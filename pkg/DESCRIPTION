@@ -6,8 +6,8 @@ Description: Extension of sensitivity, specificity, positive and negative
     1]
 Maintainer: C. Beleites <chemometrie@beleites.de>
 Author: C. Beleites <chemometrie@beleites.de>
-Version: 0.99-20120822
-Date: 2012-08-22
+Version: 1.0-20130317
+Date: 2013-03-17
 License: GPL
 LazyLoad: yes
 LazyData: yes
@@ -20,8 +20,8 @@ URL: http://softclassval.r-forge.r-project.org/
 Collate:
     'softclassval.R'
     'make01.R'
-    'unittestdata.R'
     'hardclasses.R'
+    'unittestdata.R'
     'init.R'
     'dev.R'
     'nsamples.R'

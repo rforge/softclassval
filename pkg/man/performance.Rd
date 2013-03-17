@@ -69,7 +69,7 @@
   and reference being continuous class memberships in [0,
   1].
 
-  \code{confmat} calculated the soft confusion matrix
+  Calculate the soft confusion matrix
 }
 \details{
   The rows of \code{r} and \code{p} are considered the
@@ -118,5 +118,7 @@ npv (r = ref, p = pred)
 }
 \seealso{
   Operators: \code{\link{prd}}
+
+  For the complete confusion matrix, \code{\link{confmat}}
 }
 
