@@ -57,8 +57,7 @@
 <span class='go'>[1,] 0.6 0.32 NA</span>
 <span class='go'>Warnmeldung:</span>
 <span class='go'>In checkrp(r, p) : colnames of r (ABC) and p  (abc) do not match.</span>
-</code></pre>
-</div>
+</code></pre></div>
 <p><code>sens</code> automatically calls <code>checkrp</code> as you can see by the warning it throws.</p>
 
 <p>To disable this, execute <code>checkrp</code> beforehand and tell <code>sens</code> that this was done already:</p>
@@ -66,11 +65,10 @@
 <span class='go'>Warnmeldung:</span>
 <span class='go'>In checkrp(r = ref, p = pred) :</span>
 <span class='go'>  colnames of r (ABC) and p  (abc) do not match.</span>
-<span class='gp'>&gt; </span>sens <span class='p'>(</span>r <span class='o'>=</span> ref<span class='p'>,</span> p <span class='o'>=</span> pred<span class='p'>,</span> <span class='m'>.</span>checked <span class='o'>=</span> <span class='kc'>TRUE</span><span class='p'>)</span>
+<span class='gp'>&gt; </span>sens <span class='p'>(</span>r <span class='o'>=</span> ref<span class='p'>,</span> p <span class='o'>=</span> pred<span class='p'>,</span> .checked <span class='o'>=</span> <span class='kc'>TRUE</span><span class='p'>)</span>
 <span class='go'>       A    B  C</span>
 <span class='go'>[1,] 0.6 0.32 NA</span>
-</code></pre>
-</div>
+</code></pre></div>
 
     
   <span id="postdate">Published: 2013-03-17</span>
