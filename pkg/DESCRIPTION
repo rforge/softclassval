@@ -6,8 +6,8 @@ Description: Extension of sensitivity, specificity, positive and negative
     1]
 Maintainer: C. Beleites <chemometrie@beleites.de>
 Author: C. Beleites <chemometrie@beleites.de>
-Version: 1.0-20130317
-Date: 2013-03-17
+Version: 1.0-20131111
+Date: 2013-11-11
 License: GPL
 LazyLoad: yes
 LazyData: yes

@@ -5,12 +5,12 @@ year <- sub("^[^-]*-([[:digit:]]{4}).*$", "\\1", desc$Version)
 vers <- paste("R package version", desc$Version)
 
 citEntry(entry="Article", "softclassval-ChemomIntellLabSyst", 
-         title = "Validation of Soft Classification Models  using Partial Class Memberships: An Extended Concept of Sensitivity & Co. applied to Grading of Astrocytoma Tissues",
+         title = "Validation of Soft Classification Models  using Partial Class Memberships: An Extended Concept of Sensitivity \\& Co. applied to Grading of Astrocytoma Tissues",
          author = personList(as.person("Claudia Beleites"),
                              as.person("Reiner Salzer"),
                              as.person("Valter Sergo")),
          year = 2013,
-         number = 122,
+         volume = 122,
          pages = '12 -- 22',
          journal = "Chemometrics and Intelligent Laboratory Systems",
          note = vers,
