@@ -5,9 +5,9 @@
 ##' @name softclassval-package
 ##' @docType package
 ##' @author C. Beleites
-##' 
+##' @import arrayhelpers
 {
-  if (!require ("svUnit", quietly = TRUE)){
+  if (!requireNamespace ("svUnit", quietly = TRUE)){
     `.test<-` <- function (f, value) {
       class (value) <-  c ("svTest", "function")
       attr (f, "test") <- value

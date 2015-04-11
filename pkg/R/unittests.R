@@ -9,8 +9,9 @@
 ##' @export 
 ##' @include softclassval.R
 ##' @include unittestdata.R
+##' @import svUnit
 softclassval.unittest <- function (){
-  if (! require ("svUnit", quietly = TRUE)){
+  if (! requireNamespace ("svUnit", quietly = TRUE)){
     warning ("svUnit required to run the unit tests.")
     return (NA)
   }
