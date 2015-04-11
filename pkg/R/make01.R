@@ -1,3 +1,4 @@
+##' @include softclassval.R
 ## helper for hard "and" operator: sets all values NA that are not within +- tol from 0 or 1.
 .make01 <- function (x, tol = 1e-6){
   tmp <- rep (NA_real_, length (x))
