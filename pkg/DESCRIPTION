@@ -12,9 +12,8 @@ License: GPL
 LazyLoad: yes
 LazyData: yes
 Depends:
-    methods,
     arrayhelpers (>= 0.76)
-Suggests:
+Imports:
     svUnit
 URL: http://softclassval.r-forge.r-project.org/
 Collate:
