@@ -1,8 +1,7 @@
 citHeader("To cite package 'softclassval' please use:")
      
-desc <- packageDescription("softclassval")
-year <- sub("^[^-]*-([[:digit:]]{4}).*$", "\\1", desc$Version)
-vers <- paste("R package version", desc$Version)
+year <- sub("^[^-]*-([[:digit:]]{4}).*$", "\\1", meta$Version)
+vers <- paste("R package version", meta$Version)
 
 citEntry(entry="Article", "softclassval-ChemomIntellLabSyst", 
          title = "Validation of Soft Classification Models  using Partial Class Memberships: An Extended Concept of Sensitivity \\& Co. applied to Grading of Astrocytoma Tissues",
