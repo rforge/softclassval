@@ -1,9 +1,9 @@
 Package: softclassval
 Type: Package
 Title: Soft classification performance measures
-Description: Extension of sensitivity, specificity, positive and negative
-    predictive value to continuous predicted and reference memberships in [0,
-    1]
+Description: An extension of sensitivity, specificity, positive and negative
+    predictive value to continuous predicted and reference memberships in
+    [0, 1].
 Maintainer: C. Beleites <chemometrie@beleites.de>
 Author: C. Beleites <chemometrie@beleites.de>
 Version: 1.0-20150411
