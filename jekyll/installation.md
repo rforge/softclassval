@@ -92,11 +92,4 @@ $ R CMD INSTALL softclassval_0.xx-yyyymmdd.tar.gz
 </p>
 &raquo; <a href="#download__installation">top</a>
 </div>
-<!---
-<div class = "post">
-<h2><a name=""></a></h2>
-<p>
 
-</p>&raquo; <a href="#download__installation">top</a>
-</div>
---->
