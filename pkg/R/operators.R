@@ -34,9 +34,9 @@
 ##'
 ##' 
 ##' lastline <- function (f){
-##'   body <- deparse (body (get (f))) ## function body
-##'   body <- body [!grepl ("^[ \t]*[}][ \t]*$", body)]
-##'   gsub ("^[ \t]+([^ \t].*[^ \t])[ \t]*$", "\\1", tail (body, 1))
+##'   body <- body (get (f))    ## function body
+##'   body <- deparse (body) 
+##'   body [length (body) - 1]  ## last line is closing brace
 ##' }
 ##' 
 ##' data.frame (source = sapply (ops, lastline),
@@ -53,11 +53,11 @@
 ##' ## The behaviour of the operators
 ##' ## op (x, 1)
 ##' cbind (x, sapply (c ("luk", "gdl", "prd", "wMAE", "wRMAE", "wMSE", "wRMSE"),
-##'                   function (op, x) get (op) (x, 1), x))
+##'                   function (op, x) get (op) (x, 1), x)) 
 ##' 
 ##' ## op (x, 0)
 ##' cbind (x, sapply (c ("luk", "gdl", "prd", "wMAE", "wRMAE", "wMSE", "wRMSE"),
-##'                   function (op, x) get (op) (x, 0), x))
+##'                   function (op, x) get (op) (x, 0), x)) 
 ##' 
 ##' ## op (x, x)
 ##' cbind (x, sapply (c ("luk", "gdl", "prd", "wMAE", "wRMAE", "wMSE", "wRMSE"),
@@ -74,8 +74,9 @@
 ##' )
 ##' 
 ##' 
-strong <- function (r, p)
+strong <- function (r, p){
   pmax (r + p - 1, 0)
+}
 dev (strong) <- FALSE
 hard (strong) <- FALSE
 
@@ -90,8 +91,9 @@ luk <- strong
 
 ##' @rdname operators
 ##' @export 
-weak <- function (r, p)
+weak <- function (r, p){
   pmin (p, r)                           # Note: takes attributes from p only
+}
 dev (weak) <- FALSE
 hard (weak) <- FALSE
 
@@ -107,7 +109,9 @@ gdl <- weak
 
 ##' @rdname operators
 ##' @export 
-prd <- function (r, p)  r * p
+prd <- function (r, p){
+	r * p
+}
 dev (prd) <- FALSE
 hard (prd) <- FALSE
 
@@ -157,9 +161,9 @@ postproc (wRMAE) <- "sqrt"
 
 ##' @rdname operators
 ##' @export 
-wMSE <- function (r, p)
+wMSE <- function (r, p){
   r * (p - r)^2
-
+}
 dev (wMSE) <- TRUE
 hard (wMSE) <- FALSE
 
