@@ -1,0 +1,69 @@
+
+R version 3.3.0 (2016-05-03) -- "Supposedly Educational"
+Copyright (C) 2016 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> library (softclassval)
+Loading required package: arrayhelpers
+Package arrayhelpers, version 1.0-20160527
+
+If you use this package please cite it appropriately.
+   citation("arrayhelpers")
+will give you the correct reference.
+
+The project homepage is http://arrayhelpers.r-forge.r-project.org/
+
+
+Package softclassval, version 1.0-20160527
+
+Use of this package is granted under GPL Version 3 or above.
+   RShowDoc ("GPL-3")
+will display the license.
+
+In addition, the use of softclassval must be cited appropriately.
+   citation("softclassval")
+will give you the correct reference.
+
+The project homepage is http://softclassval.r-forge.r-project.org/.
+
+
+> softclassval.unittest ()
+                    kind msg
+test(.make01)         OK    
+test(sens)            OK    
+test(checkrp)         OK    
+test(prd)             OK    
+test(ppv)             OK    
+test(harden)          OK    
+test(confmat)         OK    
+test(wRMAE)           OK    
+test(dev)             OK    
+test(strong)          OK    
+test(npv)             OK    
+test(nsamples)        OK    
+test(and)             OK    
+test(weak)            OK    
+test(postproc)        OK    
+test(factor2matrix)   OK    
+test(luk)             OK    
+test(gdl)             OK    
+test(wMAE)            OK    
+test(hard)            OK    
+test(hardclasses)     OK    
+> 
+> 
+> proc.time()
+   user  system elapsed 
+  0.468   0.104   0.509 
