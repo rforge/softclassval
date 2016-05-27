@@ -3,3 +3,5 @@
 *.Rcheck
 #*#
 .Rproj.user
+*.Rproj
+*.tar.gz
