@@ -4,10 +4,10 @@ Title: Soft Classification Performance Measures
 Description: An extension of sensitivity, specificity, positive and negative
     predictive value to continuous predicted and reference memberships in
     [0, 1].
-Maintainer: C. Beleites <chemometrie@beleites.de>
-Author: C. Beleites <chemometrie@beleites.de>
-Version: 1.0-20150416
-Date: 2015-04-16
+Maintainer: C. Beleites <claudia.beleites@chemometrix.eu>
+Author: C. Beleites <claudia.beleites@chemometrix.eu>
+Version: 1.0-20160527
+Date: 2016-05-27
 License: GPL
 Encoding: UTF-8
 LazyLoad: yes
@@ -30,3 +30,4 @@ Collate:
     'operators.R'
     'performance.R'
     'unittests.R'
+RoxygenNote: 5.0.1
