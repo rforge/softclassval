@@ -3,39 +3,40 @@
 ##' \code{hardclasses} converts the soft class labels in \code{x} into a factor with hard class memberships and
 ##' \code{NA} for soft samples.
 ##'
-##' \code{harden} hardens the soft 
+##' \code{harden} hardens the soft
 ##' @param x matrix or array holding the class memberships
 ##' @param classdim dimension that holds the classes, default columns
-##' @param soft.name level for soft samples 
+##' @param soft.name level for soft samples
 ##' @param tol tolerance: samples with membership >= 1 - tol are considered to be hard samples of the
 ##' respective class.
 ##' @param drop see \code{\link[arrayhelpers]{drop1d}}
 ##' @return factor array of shape \code{dim (x) [-classdim]}
-##' @seealso \code{\link[softclassval]{factor2matrix}} for the inverse 
+##' @seealso \code{\link[softclassval]{factor2matrix}} for the inverse
 ##' @author Claudia Beleites
-##' @export 
+##' @export
+##' @importFrom utils head
 hardclasses <- function (x, classdim = 2L, soft.name = NA, tol = 1e-5, drop = TRUE){
   if (ndim (x) == 0) {                 # vector
     warning ("Using hardclasses (cbind (x, 1 - x)) instead.")
     x <- cbind (x, 1 - x)
     colnames (x) <- 1 : 0
   }
-  
+
   classdim <- numericindex (x = dim (x), i = classdim, n = names (dimnames (x)))
   x <- aperm (x, c(seq_len (ndim (x))[-classdim], classdim))
   x <- makeNd (x, -2)
   olddims <- attr (x, "old")[[1]]
-  
+
   if (any (abs(1 - rowSums (x)) > tol, na.rm = TRUE))
     warning ("Found samples with total membership != 1")
-  
+
   if (is.null (classes <- colnames (x)))
       classes <- paste ("class", seq_len (ncol (x)), sep = "")
-  
+
   x <- x >= 1 - tol                     # looses attributes!
 
   cl <- apply (x, 1, function (x) match (TRUE, x))
-  
+
   if (! is.na (soft.name)){
     classes <- c (classes, soft.name)
     cl [is.na (cl)] <- length (classes)
@@ -59,7 +60,7 @@ hardclasses <- function (x, classdim = 2L, soft.name = NA, tol = 1e-5, drop = TR
   checkEquals (hardclasses (tmp, 3),
          structure (c (1L, 2L, NA, NA, NA, 1L, 2L, NA, NA, NA), .Dim = c(5L, 2L),
                     .Label = c("class1", "class2", "class3"), class = "factor"))
-  
+
   ## vectors
   warn <- options(warn = 2)$warn
   on.exit (options (warn = warn))
@@ -88,12 +89,12 @@ hardclasses <- function (x, classdim = 2L, soft.name = NA, tol = 1e-5, drop = TR
 ##'
 ##' The operators may work only for hard classes (see \code{\link[softclassval:operators]{and}}). \code{hard (op)
 ##' == TRUE} marks hard operators.
-##' 
+##'
 ##' @param op the operator (function)
 ##' @return logical indicating the type of operator. \code{NULL} if the attribute is missing.
 ##' @author Claudia Beleites
 ##' @seealso \code{\link{sens}} \code{\link[softclassval:operators]{and}}
-##' @export 
+##' @export
 ##' @include softclassval.R
 ##' @include make01.R
 ##'
@@ -102,7 +103,7 @@ hardclasses <- function (x, classdim = 2L, soft.name = NA, tol = 1e-5, drop = TR
 ##' hard (and)
 ##' myop <- function (r, p) p * (r == 1)
 ##' hard (myop) <- TRUE
-##' 
+##'
 
 hard <- function (op)
   attr (op, "hard")
@@ -170,7 +171,7 @@ harden <- function (x, classdim = 2L, tol = 1e-6, closed = TRUE){
          x [tmp] <- NA
        }
    }
-		
+
 	x
 }
 

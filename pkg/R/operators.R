@@ -29,51 +29,51 @@
 ##'
 ##' @examples
 ##' ops <- c ("luk", "gdl", "prd", "and", "wMAE", "wRMAE", "wMSE", "wRMSE")
-##' 
+##'
 ##' ## make a nice table
 ##'
-##' 
+##'
 ##' lastline <- function (f){
 ##'   body <- body (get (f))    ## function body
-##'   body <- deparse (body) 
+##'   body <- deparse (body)
 ##'   body [length (body) - 1]  ## last line is closing brace
 ##' }
-##' 
+##'
 ##' data.frame (source = sapply (ops, lastline),
 ##'             dev = sapply (ops, function (f) dev (get (f))),
 ##'             hard = sapply (ops, function (f) hard (get (f))),
 ##'             postproc = I (lapply (ops, function (f) postproc (get (f))))
 ##'             )
-##' 
+##'
 ##' x <- softclassval:::v
 ##' x
-##' 
+##'
 ##' luk (0.7, 0.8)
-##' 
+##'
 ##' ## The behaviour of the operators
 ##' ## op (x, 1)
 ##' cbind (x, sapply (c ("luk", "gdl", "prd", "wMAE", "wRMAE", "wMSE", "wRMSE"),
-##'                   function (op, x) get (op) (x, 1), x)) 
-##' 
+##'                   function (op, x) get (op) (x, 1), x))
+##'
 ##' ## op (x, 0)
 ##' cbind (x, sapply (c ("luk", "gdl", "prd", "wMAE", "wRMAE", "wMSE", "wRMSE"),
-##'                   function (op, x) get (op) (x, 0), x)) 
-##' 
+##'                   function (op, x) get (op) (x, 0), x))
+##'
 ##' ## op (x, x)
 ##' cbind (x, sapply (c ("luk", "gdl", "prd", "wMAE", "wRMAE", "wMSE", "wRMSE"),
 ##'                   function (op, x) get (op) (x, x), x))
-##' 
-##' 
+##'
+##'
 ##' ## Note that the deviation operators are not commutative
 ##' ## (due to the weighting by reference)
 ##' zapsmall (
 ##' cbind (sapply (c ("luk", "gdl", "prd", "wMAE", "wRMAE", "wMSE", "wRMSE"),
 ##'                   function (op, x) get (op) (1, x), x)) -
 ##' cbind (sapply (c ("luk", "gdl", "prd", "wMAE", "wRMAE", "wMSE", "wRMSE"),
-##'                   function (op, x) get (op) (x, 1), x)) 
+##'                   function (op, x) get (op) (x, 1), x))
 ##' )
-##' 
-##' 
+##'
+##'
 strong <- function (r, p){
   pmax (r + p - 1, 0)
 }
@@ -90,7 +90,7 @@ hard (strong) <- FALSE
 luk <- strong
 
 ##' @rdname operators
-##' @export 
+##' @export
 weak <- function (r, p){
   pmin (p, r)                           # Note: takes attributes from p only
 }
@@ -108,7 +108,7 @@ gdl <- weak
 
 
 ##' @rdname operators
-##' @export 
+##' @export
 prd <- function (r, p){
 	r * p
 }
@@ -122,12 +122,12 @@ hard (prd) <- FALSE
 
 ##' @rdname operators
 ##' @include make01.R
-##' @export 
+##' @export
 and <- function (r, p){ # the boolean and: accepts only hard r and p
-  mostattributes (r) <- attributes (p)  
+  mostattributes (r) <- attributes (p)
   p <- .make01 (p)
   r <- .make01 (r)
-    
+
   r * p ## fastest
 }
 dev (and) <- FALSE
@@ -140,7 +140,7 @@ hard (and) <- TRUE
 }
 
 ##' @rdname operators
-##' @export 
+##' @export
 wMAE <- function (r, p) {
   mostattributes (r) <- attributes (p)
   r * abs (p - r)
@@ -154,13 +154,13 @@ hard (wMAE) <- FALSE
 }
 
 ##' @rdname operators
-##' @export 
+##' @export
 wRMAE <- wMAE
 postproc (wRMAE) <- "sqrt"
 
 
 ##' @rdname operators
-##' @export 
+##' @export
 wMSE <- function (r, p){
   r * (p - r)^2
 }
@@ -168,10 +168,11 @@ dev (wMSE) <- TRUE
 hard (wMSE) <- FALSE
 
 ##' @rdname operators
-##' @export 
+##' @export
 wRMSE <- wMSE
 postproc (wRMSE) <- "sqrt"
 
+##' @importFrom stats runif
 .testoperators <- function (){
   ops <- c ("luk", "gdl", "prd", "and", "wMAE", "wRMAE", "wMSE", "wRMSE")
 
@@ -199,7 +200,7 @@ postproc (wRMSE) <- "sqrt"
   ## against 1
   checkEquals (sapply (ops, function (x) get (x) (1, v)),
                matrix (c (0,   0,   0,   0,   1,   1,   1,    1,
-                          0.3, 0.3, 0.3, NA,  0.7, 0.7, 0.49, 0.49, 
+                          0.3, 0.3, 0.3, NA,  0.7, 0.7, 0.49, 0.49,
                           0.7, 0.7, 0.7, NA,  0.3, 0.3, 0.09, 0.09,
                           1,   1,   1,   1,   0,   0,   0,    0,
                           NA,  NA,  NA,  NA,  NA,  NA, NA,   NA),
@@ -232,7 +233,7 @@ postproc (wRMSE) <- "sqrt"
                         op (m [, rep (1, ncol(m))], m),
                         msg = sprintf ("recycling: %s", o))
   }
-  
+
   tmp <- runif (length (m))
   mostattributes (tmp) <- attributes (m)
   for (o in c ("strong", "weak", "prd", "and")){
@@ -241,6 +242,6 @@ postproc (wRMSE) <- "sqrt"
                  op (tmp, m),
                  msg = sprintf ("commutativity: %s", o))
   }
-  
+
 }
 class (.testoperators) <- c ("svTest", "function")
